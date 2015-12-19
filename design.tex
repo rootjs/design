@@ -1,0 +1,41 @@
+\documentclass[oneside,a4paper]{report}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ulem}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[headheight=25pt,margin=0.7in,top=1.5in,bottom=1in,right=1in,left=1in]{geometry}
+
+\hypersetup{colorlinks=true,linktoc=none,citecolor=black,urlcolor=blue}
+\hypersetup{linktocpage=false,linkcolor=black}
+
+\pagestyle{fancy}
+\fancyhead[R]{\includegraphics[width=2cm]{./latex/resources/kitlogo.png}}
+\fancyhead[L]{\leftmark}
+
+\fancypagestyle{plain}{
+        \rhead{\includegraphics[width=2cm]{./latex/resources/kitlogo.png}}
+        \lhead{\leftmark}
+}
+
+
+\renewcommand{\arraystretch}{2}
+
+\titleformat{\chapter}[hang]
+ {\normalfont\bfseries\LARGE}{\thechapter. }{0pt}{\LARGE}
+\titleformat{\section}[hang]
+ {\normalfont\bfseries\Large}{\thesection. }{0pt}{\Large}
+\titleformat{\paragraph}[hang]
+ {\normalfont\bfseries\normalsize}{}{}{}
+
+\titlespacing*{\chapter}{0pt}{-20pt}{10pt}
+
+\begin{document}
+  \input{./latex/title.tex}
+  \tableofcontents
+  \clearpage
+  %\input{./latex/purpose.tex}
+  \input{./latex/appendix.tex}
+\end{document}
