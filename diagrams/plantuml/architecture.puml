@@ -1,0 +1,44 @@
+@startuml
+
+!include ./config/diagramsConfig.puml
+!include ./config/classConfig.puml
+
+title rootJS Architecture
+
+interface V8
+
+class ROOTPrototype {
+ --
+ +init()
+ -methodProxy(args: const v8::FunctionCallbackInfo<v8::Value>&)
+ -classProxy(args: const v8::FunctionCallbackInfo<v8::Value>&)
+ -globalsGetter(args: const v8::FunctionCallbackInfo<v8::Value>&)
+ -globalsSetter(args: const v8::FunctionCallbackInfo<v8::Value>&)
+}
+
+class ProxyObjectFactory {
+  --
+  +createProxyObject(obj: void*, type: std::string): ProxyObject
+}
+
+abstract class ProxyObject {
+  - obj: void *
+  --
+ {abstract} +isScalar(): bool
+ {abstract} +getV8Handle(): v8::Handle
+}
+
+class ProxyObjectCache {
+  -cache: std::map
+  --
+  -isValid(address: void*): bool
+  +getFromCache(address: void*): v8::Handle
+  +storeObject(h: v8::Handle, address: void*)
+}
+
+ROOTPrototype ..> V8 : uses
+ROOTPrototype ..> ProxyObjectFactory : uses
+ProxyObjectFactory ..> ProxyObject : creates
+ProxyObjectFactory ..> ProxyObjectCache : uses
+
+@enduml

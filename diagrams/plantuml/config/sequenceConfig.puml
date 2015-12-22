@@ -1,0 +1,19 @@
+@startuml
+
+hide footbox
+
+!definelong call(x,m,y)
+x -> y : m
+activate y
+y --> x
+deactivate y
+!enddefinelong
+
+!definelong acall(x,m,y)
+x ->> y : m
+activate y
+y --> x
+deactivate y
+!enddefinelong
+
+@enduml

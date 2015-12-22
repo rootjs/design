@@ -1,0 +1,16 @@
+@startuml
+
+!include ./config/diagramsConfig.puml
+!include ./config/sequenceConfig.puml
+
+participant rootJS
+participant V8
+participant ROOT
+
+[-> rootJS: require()
+
+activate rootJS
+
+deactivate rootJS
+
+@enduml
