@@ -1,5 +1,5 @@
 @startuml
  skinparam shadowing false
- skinparam monochrome true
+ ' skinparam monochrome true
 
 @enduml
