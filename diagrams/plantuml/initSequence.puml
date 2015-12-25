@@ -3,14 +3,102 @@
 !include ./config/diagramsConfig.puml
 !include ./config/sequenceConfig.puml
 
-participant rootJS
-participant V8
-participant ROOT
+title rootJS initialization sequence
 
-[-> rootJS: require()
+actor "Client Application" as client
+participant "<u>rootJS:ROOTPrototype</u>" as rootJS
+participant "<u>:V8</u>" as v8
+participant "<u>gROOT:TROOT</u>" as gROOT
+participant "<u>gClassTable:TClassTable</u>" as gClassTable
+participant "<u>:TClass</u>" as clazz
+
+activate client
+client -> v8: require(rootJS.node)
+
+activate v8
+create rootJS
+v8 --> rootJS : <<create>>
+deactivate v8
 
 activate rootJS
 
+== expose global functions ==
+
+rootJS -> gROOT : getListOfGlobalFunctions(kTrue)
+activate gROOT
+rootJS <-- gROOT : functions
+deactivate gROOT
+
+loop foreach TFunction f in functions
+  rootJS -> v8 : NODE_SET_METHOD(exports, f, createMethodProxy)
+  activate v8
+  rootJS <-- v8
+  deactivate v8
+end
+
+== expose global variables ==
+
+rootJS -> gROOT : getListOfGlobals()
+activate gROOT
+rootJS <-- gROOT : globals
+deactivate gROOT
+
+loop foreach TGlobal g in globals
+  |||
+  ref over rootJS, v8, gROOT
+    TODO: encapsulate global variable g
+  end ref
+  |||
+end
+
+== expose macros ==
+
+ref over rootJS, v8, gROOT
+    TODO: encapsulate macros like gROOT, gInterpreter, ...
+end ref
+
+== expose classes ==
+
+/'
+rootJS -> gClassTable : Init()
+activate gClassTable
+gClassTable --> rootJS
+deactivate gClassTable
+'/
+
+rootJS -> gClassTable : Classes()
+activate gClassTable
+rootJS <-- gClassTable : numberOfClasses
+deactivate gClassTable
+
+loop for i = 0; i < numberOfClasses; i++
+  ' Retrive class name
+  rootJS -> gClassTable : At(i)
+  activate gClassTable
+  rootJS <-- gClassTable : className
+  deactivate gClassTable
+
+  ' Get pointer to dictionary function of clazz
+  rootJS -> gClassTable : getDict(className)
+  activate gClassTable
+  rootJS <-- gClassTable : (dictionaryFunction)()
+  deactivate gClassTable
+
+  ' Call dictionary function on clazz
+  rootJS -> clazz : dictionaryFunction()
+  activate clazz
+  rootJS <-- clazz : tClass
+  deactivate clazz
+
+  |||
+  ref over rootJS, clazz
+      TODO: NODE_SET_PROTOTYPE_METHOD(...)
+  end ref
+  |||
+end
+
+client <-- rootJS : rootJS
 deactivate rootJS
 
+deactivate client
 @enduml
