@@ -100,11 +100,7 @@ All constructors are now available using the exports object.
   Exceptions from ROOT will be forwarded
   \hline
 \end{longtable}
-We only use one proxy for every class to minimize overhead. This is possible because
-\begin{verbatim}
-  v8::Handle<v8::String> className = args.Callee()->GetName();
-\end{verbatim}
-will provide the name of the function as it has been called via JavaScript.
+We only use one proxy for every class to minimize overhead. This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the constructor call.
 The other option would be to have a proxy class, containing the proxy method and meta information (like the class name or a TClass reference).
 The proxy method of a concrete object would then be exported to JavaScript.
 
@@ -170,11 +166,7 @@ All functions are now available using the exports object.
   Exceptions from ROOT will be forwarded
   \hline
 \end{longtable}
-We only use one proxy for every function to minimize overhead. This is possible because
-\begin{verbatim}
-  v8::Handle<v8::String> functionName = args.Callee()->GetName();
-\end{verbatim}
-will provide the name of the function as it has been called via JavaScript.
+This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the function call.
 \newpage
 \section{getListOfVariables}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -207,19 +199,9 @@ This method will more or less bypass the results of \textit{gROOT->GetListOfGlob
   \hline
 \end{longtable}
 
-For every global variable we run
-\begin{verbatim}
-NODE_SET_METHOD(exports, createGetterName(variableName), getterProxy)
-NODE_SET_METHOD(exports, createSetterName(variableName), setterProxy)
-\end{verbatim}
+For every global variable we create an ObjectTemplate and use v8::Template::SetNativeDataProperty to set getters and setters for the variable (see getterProxy and setterProxy).
+The Object generated from the ObjectTemplate is beeing attached to the exports object.
 
-\textbf{exports} is the JavaScript object which we can use to pass methods and data to node \\
-\textbf{createGetterName(variableName)} is the name of the get-function in the current iteration (e.g. when the variable is called app, the getter method will be getApp)\\
-\textbf{createSetterName(variableName)} is the name of the set-function in the current iteration (e.g. when the variable is called app, the getter method will be setApp)\\
-\textbf{getterProxy} is the function that should be called everytime a variable is requested via JavaScript\\
-\textbf{setterProxy} is the function that should be called everytime a variable is changed via JavaScript\\
-\\
-All functions are now available using the exports object.
 \newpage
 \section{getterProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -237,11 +219,7 @@ All functions are now available using the exports object.
   \textit{Exceptions} & In case the variable is not readable (e.g. not initialized), null will be returned
   \hline
 \end{longtable}
-We only use one proxy for every getter to minimize overhead. This is possible because
-\begin{verbatim}
-  v8::Handle<v8::String> functionName = args.Callee()->GetName();
-\end{verbatim}
-will provide the name of the function as it has been called via JavaScript.
+We only use one proxy for every setter to minimize overhead. This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the getter call.
 \newpage
 \section{setterProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -259,11 +237,7 @@ will provide the name of the function as it has been called via JavaScript.
   \textit{Exceptions} & In case the variable has a wrong type an Exception will be thrown
   \hline
 \end{longtable}
-We only use one proxy for every setter to minimize overhead. This is possible because
-\begin{verbatim}
-  v8::Handle<v8::String> functionName = args.Callee()->GetName();
-\end{verbatim}
-will provide the name of the function as it has been called via JavaScript.
+We only use one proxy for every setter to minimize overhead. This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the setter call.
 \newpage
 \section{additional private methods}
 \begin{itemize}
