@@ -1,0 +1,53 @@
+\chapter{ProxyObjectCache}
+The ProxyObjectCache is a key value store, mapping memory addresses to V8 or ROOT objects.
+
+Some sort of cache is essential in this case, because we might need to deal with cyclic dependencies which would lead to an endless recursion in the ProxyObjectFactory.
+Using a cache would make cyclic references easy to handle. During conversion of an object it's content must not change so that the cache is valid, after the conversion, the whole cache should be considered dirty because we cannot monitor all changes in either ROOT's nor node's data.
+
+Invalidating the cache after each conversion means that there is more or less no performance gain, in most cases, when we only have linear references, there are only objects written to the cache without any cache hit before invalidation.
+\\
+\textbf{IDEA:} Make the cache locally instead of globally available, so that instead of invalidate it, we reinitialize it.
+\section{invalidate}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+  \hline
+  \textit{Name} & \texttt{ProxyObjectCache::invalidate()} \\
+  \hline
+  \textit{Visibility} & Public \\
+  \hline
+  \textit{Parameters} & \textit{none} \\
+  \hline
+  \textit{Return value} & \textit{none} \\
+  \hline
+  \textit{behavior} & Clears (or invalidates) the whole cache, so that a cache query does not have a hit, even if it has been mapped before the invalidate call \\
+  \hline
+\end{longtable}
+\newpage
+\section{put}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+  \hline
+  \textit{Name} & \texttt{ProxyObjectCache::put(long key, void value)} \\
+  \hline
+  \textit{Visibility} & Public \\
+  \hline
+  \textit{Parameters} & \textbf{key}: is the key which should refer to value, \textbf{value}: is the value to be cached\\
+  \hline
+  \textit{Return value} & \textit{none} \\
+  \hline
+  \textit{behavior} & Stores the value in the cache and makes it available so that value == cache->get(key) is true after this call \\
+  \hline
+\end{longtable}
+\newpage
+\section{get}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+  \hline
+  \textit{Name} & \texttt{ProxyObjectCache::get(long key)} \\
+  \hline
+  \textit{Visibility} & Public \\
+  \hline
+  \textit{Parameters} & \textit{none} \\
+  \hline
+  \textit{Return value} & \textbf{void}: the value mapped to the given key \\
+  \hline
+  \textit{behavior} & Returns the value that is related to the given key, if the entry is still valid \\
+  \hline
+\end{longtable}
