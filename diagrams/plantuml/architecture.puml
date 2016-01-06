@@ -3,42 +3,111 @@
 !include ./config/diagramsConfig.puml
 !include ./config/classConfig.puml
 
-title rootJS Architecture
+title
+rootJS Architecture
+
+end title
 
 interface V8
+interface ROOT
 
-class ROOTPrototype {
+class CallbackType {
+
+  --
+  +register(T handlerFunction, Local<Object> object);
+}
+
+abstract class CallbackHandler {
+  --
+  +setCallback(CallbackType callback, Local<Object> object);
+
+  {abstract}#ctorCallback();
+
+  {abstract}#memberGetterCallback();
+  {abstract}#memberSetterCallback();
+  {abstract}#memberFunctionCallback(args: FunctionCallbackInfo<Value>);
+
+  {abstract}#staticGetterCallback();
+  {abstract}#staticSetterCallback();
+  {abstract}#staticFunctionCallback(args: FunctionCallbackInfo<Value>);
+}
+
+class ROOTAdapter {
+  Persistent<Object> rootJS;
  --
- +init()
- -methodProxy(args: const v8::FunctionCallbackInfo<v8::Value>&)
- -classProxy(args: const v8::FunctionCallbackInfo<v8::Value>&)
- -globalsGetter(args: const v8::FunctionCallbackInfo<v8::Value>&)
- -globalsSetter(args: const v8::FunctionCallbackInfo<v8::Value>&)
+ +init(exports: Local<Object>, module: Local<Object>)
+ --
+ -exposeClasses()
+ -exposeClass(clazz: TClass)
+ -onConstructorCall(args: FunctionCallbackInfo<Value>)
+ -exposeNamespace()
+}
+
+class ROOTJS {
+  --
+  +callFunction(func: TFunction*, args: char*): CallFunc_t*
+  +callConstructor(clazz: TClassRef const&, args: char*): CallFunc_t*
+
+  +isConstructor(func: TMethod*): bool
+  ...
 }
 
 class ProxyObjectFactory {
   --
-  +createProxyObject(obj: void*, type: std::string): ProxyObject
+  +createProxy(obj: void*, ctor: TMethod*): ProxyObject
 }
+
+abstract class "node::ObjectWrap" as ObjectWrap
 
 abstract class ProxyObject {
-  - obj: void *
+  - adress: void *
   --
- {abstract} +isScalar(): bool
- {abstract} +getV8Handle(): v8::Handle
+ {abstract} +set(Local<Value>): bool
+ {abstract} +get(): Local<Value>
+ {abstract} +isPrimitive(): bool
 }
 
-class ProxyObjectCache {
-  -cache: std::map
+
+'class ProxyObjectCache {
+'  -cache: std::map
+'  --
+'  -isValid(address: void*): bool
+'  +getFromCache(address: void*): v8::Handle
+'  +storeObject(h: v8::Handle, address: void*)
+'}
+
+'class TemplateFactory << (S,#FF7700) Singleton >> {
+'  --
+'  +TemplateFactory(capsule: ROOTModule) <<constructor>>
+'  +createTemplate(clazz: TClassRef const&): Local<ObjectTemplate>
+'  +templateToCtor(instanceTemplate: Local<ObjectTemplate>&): Local<FunctionTemplate>
+'}
+
+class TemplateCache {
+  -cache: std::map<string, Persistent<FunctionTemplate>>
   --
-  -isValid(address: void*): bool
-  +getFromCache(address: void*): v8::Handle
-  +storeObject(h: v8::Handle, address: void*)
+  +contains(type: TClassRef const&): bool
+  +get(type: TClassRef const&): Local<FunctionTemplate>
+  +store(type: TClassRef const&, tpl: Local<FunctionTemplate>)
 }
 
-ROOTPrototype ..> V8 : uses
-ROOTPrototype ..> ProxyObjectFactory : uses
-ProxyObjectFactory ..> ProxyObject : creates
-ProxyObjectFactory ..> ProxyObjectCache : uses
+class PrimitiveProxy {
+
+}
+
+CallbackHandler .left.> V8 : uses
+CallbackHandler <|-down- ROOTAdapter
+
+
+ROOTJS .up.> ROOT : uses
+ROOTAdapter -down-> "1" ProxyObjectFactory
+
+ProxyObjectFactory .right.> ProxyObject : creates
+ProxyObjectFactory .left.> ROOTJS : uses
+' ProxyObjectFactory -down-> "1" ProxyObjectCache
+ProxyObjectFactory -down-> "1" TemplateCache : access
+
+ObjectWrap <|-down- ProxyObject
+ProxyObject <|-- PrimitiveProxy
 
 @enduml
