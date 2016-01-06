@@ -32,7 +32,7 @@ abstract class CallbackHandler {
   {abstract}#staticFunctionCallback(args: FunctionCallbackInfo<Value>);
 }
 
-class ROOTAdapter {
+class NodeApplication {
   Persistent<Object> rootJS;
  --
  +init(exports: Local<Object>, module: Local<Object>)
@@ -67,6 +67,14 @@ abstract class ProxyObject {
  {abstract} +isPrimitive(): bool
 }
 
+class ProxyMethod {
+  -adress: CallFunc_t*
+  -info: TFunction
+  --
+  +validateParams(args: FunctionCallbackInfo);
+  +call(params: ProxyObject[]):
+}
+
 
 'class ProxyObjectCache {
 '  -cache: std::map
@@ -96,11 +104,11 @@ class PrimitiveProxy {
 }
 
 CallbackHandler .left.> V8 : uses
-CallbackHandler <|-down- ROOTAdapter
+CallbackHandler <|-down- NodeApplication
 
 
 ROOTJS .up.> ROOT : uses
-ROOTAdapter -down-> "1" ProxyObjectFactory
+NodeApplication -down-> "1" ProxyObjectFactory
 
 ProxyObjectFactory .right.> ProxyObject : creates
 ProxyObjectFactory .left.> ROOTJS : uses
@@ -108,6 +116,8 @@ ProxyObjectFactory .left.> ROOTJS : uses
 ProxyObjectFactory -down-> "1" TemplateCache : access
 
 ObjectWrap <|-down- ProxyObject
+ObjectWrap <|-down- ProxyMethod
+
 ProxyObject <|-- PrimitiveProxy
 
 @enduml
