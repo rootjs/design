@@ -97,7 +97,7 @@ All constructors are now available using the exports object.
   Results will be converted to JavaScript objects or natives. \\
   \hline
   \textit{Exceptions} & In case there is no matching constructor, an exception will be thrown.
-  Exceptions from ROOT will be forwarded
+  Exceptions from ROOT will be forwarded \\
   \hline
 \end{longtable}
 We only use one proxy for every class to minimize overhead. This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the constructor call.
@@ -159,11 +159,11 @@ All functions are now available using the exports object.
   \hline
   \textit{Return value} & \textit{none}, return value will be passed via the \textbf{args} object \\
   \hline
-  \textit{behavior} & The passed arguments will be converted to C++ native arguments or root objects, the list of all functions will be checked for a function with the given name.
+  \textit{behavior} & The passed arguments will be converted to C++ native arguments or root objects, the list of all functions will be checked for a function with the given name. 
   A overloaded version of the function with correct parameters will be searched, and called. The results will be converted to JavaScript objects. \\
   \hline
   \textit{Exceptions} & In case there is no function with a matching signature, an exception will be thrown.
-  Exceptions from ROOT will be forwarded
+  Exceptions from ROOT will be forwarded \\
   \hline
 \end{longtable}
 This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the function call.
@@ -216,7 +216,7 @@ The Object generated from the ObjectTemplate is beeing attached to the exports o
   \hline
   \textit{behavior} & The global variable will be read and converted to a JavaScript object\\
   \hline
-  \textit{Exceptions} & In case the variable is not readable (e.g. not initialized), null will be returned
+  \textit{Exceptions} & In case the variable is not readable (e.g. not initialized), null will be returned \\
   \hline
 \end{longtable}
 We only use one proxy for every setter to minimize overhead. This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the getter call.
@@ -234,7 +234,7 @@ We only use one proxy for every setter to minimize overhead. This is possible be
   \hline
   \textit{behavior} & The parameter in the args object will be converted to a C++ variable, it will be saved in the global variable\\
   \hline
-  \textit{Exceptions} & In case the variable has a wrong type an Exception will be thrown
+  \textit{Exceptions} & In case the variable has a wrong type an Exception will be thrown \\
   \hline
 \end{longtable}
 We only use one proxy for every setter to minimize overhead. This is possible because we can store data in a secret area that is not visible via JavaScript, in there we will store data describing the setter call.
