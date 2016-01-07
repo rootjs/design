@@ -8,41 +8,163 @@ rootJS Architecture
 
 end title
 
+/' ----------------------------------------------------------------------- '/
+
+/' Interfaces '/
 interface V8
 interface ROOT
 
-class CallbackType {
+/' Environment '/
+class "ROOT::TApplication" as TApplication
+class NodeApplication << (S,#FF7700) Singleton >>
 
-  --
-  +register(T handlerFunction, Local<Object> object);
-}
+/' Javascript Prototypes '/
+class TemplateFactory
+class TemplateCache
 
-abstract class CallbackHandler {
-  --
-  +setCallback(CallbackType callback, Local<Object> object);
+/' Encapsulation of ROOT functions '/
+class ProxyFunctionFactory
+class ProxyFunction
 
-  {abstract}#ctorCallback();
+/' Encapsulation of ROOT objects and primitives '/
+class "node::ObjectWrap" as ObjectWrap
 
-  {abstract}#memberGetterCallback();
-  {abstract}#memberSetterCallback();
-  {abstract}#memberFunctionCallback(args: FunctionCallbackInfo<Value>);
+class ProxyObjectFactory
+class ProxyObject
 
-  {abstract}#staticGetterCallback();
-  {abstract}#staticSetterCallback();
-  {abstract}#staticFunctionCallback(args: FunctionCallbackInfo<Value>);
-}
+class TemplateProxy
+class EnumProxy
+class StructProxy
+class ArrayProxy
+class PointerProxy
+class ReferenceProxy
 
+abstract class PrimitiveProxy
+class NumberProxy
+class StringProxy
+class BooleanProxy
+
+/' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
+class ROOTJS
+
+/' ----------------------------------------------------------------------- '/
+
+/' Relations '/
+TApplication <|-down- NodeApplication
+
+NodeApplication -down-> "1" TemplateFactory
+
+TemplateFactory .left.> V8 : uses
+TemplateFactory -down-> "1" TemplateCache : access
+
+ROOTJS .up.> ROOT : uses
+ROOTJS <-left ProxyFunctionFactory
+ROOTJS <-right- ProxyObjectFactory
+
+ProxyFunctionFactory .down.> ProxyFunction : creates
+
+ObjectWrap <|-left- ProxyObject
+
+ProxyObjectFactory .down.> ProxyObject : creates
+ProxyObject <|-- TemplateProxy
+ProxyObject <|-- EnumProxy
+ProxyObject <|-- StructProxy
+ProxyObject <|-- ArrayProxy
+ProxyObject <|-- PointerProxy
+ProxyObject <|-- ReferenceProxy
+
+ProxyObject <|-- PrimitiveProxy
+PrimitiveProxy <|-- NumberProxy
+PrimitiveProxy <|-- StringProxy
+PrimitiveProxy <|-- BooleanProxy
+
+/' ----------------------------------------------------------------------- '/
+
+/' Environment '/
 class NodeApplication {
-  Persistent<Object> rootJS;
+  -instance: NodeApplication
+  -rootJS: Persistent<Object>
  --
+ {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
+ {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
+
+ {static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+ {static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+ {static} +memberFunctionCallback(args: FunctionCallbackInfo<Value>)
+
+ {static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+ {static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+ {static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
+
+ {static} +Instance(): NodeApplication
+
+ -NodeApplication() <<constructor>>
  +init(exports: Local<Object>, module: Local<Object>)
- --
+
+ -exposeMacros()
  -exposeClasses()
- -exposeClass(clazz: TClass)
- -onConstructorCall(args: FunctionCallbackInfo<Value>)
- -exposeNamespace()
+ -exposeClass(clazz: TClassRef)
 }
 
+/' ----------------------------------------------------------------------- '/
+
+/' Javascript Prototypes '/
+class TemplateFactory {
+  --
+  +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
+}
+
+class TemplateCache {
+  -cache: std::map<string, Persistent<FunctionTemplate>>
+  --
+  +contains(type: TClassRef): bool
+  +get(type: TClassRef): Local<FunctionTemplate>
+  +store(type: TClassRef, tpl: Local<FunctionTemplate>)
+}
+
+
+/' ----------------------------------------------------------------------- '/
+
+/' Encapsulation of ROOT functions '/
+class ProxyFunctionFactory {
+  +createProxyFunction(info: TMethod): ProxyFunciton
+  +fromArgs(name: string, clazz: TClassRef, args: FunctionCallbackInfo): ProxyFunction
+}
+
+class ProxyFunction {
+  -address: void*
+  -info: TFunction
+  --
+  +ProxyFunction(address: void*, info: TFunction) <<constructor>>
+  +convertArgs(args: FunctionCallbackInfo): ProxyObject[]
+  +call(args: ProxyObject[]): ProxyObject
+  +isTemplateFunction(): bool
+}
+
+/' ----------------------------------------------------------------------- '/
+
+/' Encapsulation of ROOT objects and primitives '/
+class ProxyObjectFactory {
+  ' {static} -primitives: map<string, ...>
+  --
+  +createProxyObject(type: TDataMember, holder: ProxyObject): ProxyObject
+}
+
+abstract class ProxyObject {
+  #address: void*
+  #type: TDataMember
+  --
+  #ProxyObject(address: void*, type: TDataMember) <<constructor>>
+  +getAddress(): void*
+  +getType(): TDataMember
+  {abstract} +set(value: ProxyObject)
+  {abstract} +get(): Local<Value>
+  {abstract} +isPrimitive(): bool
+}
+
+/' ----------------------------------------------------------------------- '/
+
+/' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
 class ROOTJS {
   --
   +callFunction(func: TFunction*, args: char*): CallFunc_t*
@@ -51,73 +173,5 @@ class ROOTJS {
   +isConstructor(func: TMethod*): bool
   ...
 }
-
-class ProxyObjectFactory {
-  --
-  +createProxy(obj: void*, ctor: TMethod*): ProxyObject
-}
-
-abstract class "node::ObjectWrap" as ObjectWrap
-
-abstract class ProxyObject {
-  - adress: void *
-  --
- {abstract} +set(Local<Value>): bool
- {abstract} +get(): Local<Value>
- {abstract} +isPrimitive(): bool
-}
-
-class ProxyMethod {
-  -adress: CallFunc_t*
-  -info: TFunction
-  --
-  +validateParams(args: FunctionCallbackInfo);
-  +call(params: ProxyObject[]):
-}
-
-
-'class ProxyObjectCache {
-'  -cache: std::map
-'  --
-'  -isValid(address: void*): bool
-'  +getFromCache(address: void*): v8::Handle
-'  +storeObject(h: v8::Handle, address: void*)
-'}
-
-'class TemplateFactory << (S,#FF7700) Singleton >> {
-'  --
-'  +TemplateFactory(capsule: ROOTModule) <<constructor>>
-'  +createTemplate(clazz: TClassRef const&): Local<ObjectTemplate>
-'  +templateToCtor(instanceTemplate: Local<ObjectTemplate>&): Local<FunctionTemplate>
-'}
-
-class TemplateCache {
-  -cache: std::map<string, Persistent<FunctionTemplate>>
-  --
-  +contains(type: TClassRef const&): bool
-  +get(type: TClassRef const&): Local<FunctionTemplate>
-  +store(type: TClassRef const&, tpl: Local<FunctionTemplate>)
-}
-
-class PrimitiveProxy {
-
-}
-
-CallbackHandler .left.> V8 : uses
-CallbackHandler <|-down- NodeApplication
-
-
-ROOTJS .up.> ROOT : uses
-NodeApplication -down-> "1" ProxyObjectFactory
-
-ProxyObjectFactory .right.> ProxyObject : creates
-ProxyObjectFactory .left.> ROOTJS : uses
-' ProxyObjectFactory -down-> "1" ProxyObjectCache
-ProxyObjectFactory -down-> "1" TemplateCache : access
-
-ObjectWrap <|-down- ProxyObject
-ObjectWrap <|-down- ProxyMethod
-
-ProxyObject <|-- PrimitiveProxy
 
 @enduml
