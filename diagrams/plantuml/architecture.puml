@@ -167,11 +167,95 @@ abstract class ProxyObject {
 /' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
 class ROOTJS {
   --
-  +callFunction(func: TFunction*, args: char*): CallFunc_t*
-  +callConstructor(clazz: TClassRef const&, args: char*): CallFunc_t*
+  +type_from_handle(scope: TCppScope_t): TClassRef&
+  +type_get_method(klass: TCppType_t, idx: TCppIndex_t): TFunction*
+  +declaring_scope(method: TCppMethod_t): TCppScope_t
 
-  +isConstructor(func: TMethod*): bool
-  ...
+  +GetNumScopes(scope: TCppScope_t): TCppIndex_t
+  +GetScopeName(parent: TCppScope_t, iscope: TCppIndex_t): std::string
+  +ResolveName(cppitem_name: conSTstd::string&): std::string
+
+  +GetScope(sname: conSTstd::string&): TCppScope_t
+  +GetTemplate(template_name: conSTstd::string&): TCppType_t
+  +GetActualClass(klass: TCppType_t, obj: TCppObject_t): TCppType_t
+
+  +SizeOf(klass: TCppType_t): size_t
+  +IsBuiltin(type_name: conSTstd::string&): Bool_t
+  +IsComplete(type_name: conSTstd::string&): Bool_t
+
+  +Allocate(type: TCppType_t): TCppObject_t
+  +Deallocate(type: TCppType_t, instance: TCppObject_t): void
+  +Construct(type: TCppType_t): TCppObject_t
+  +Destruct(type: TCppType_t, instance: TCppObject_t): void
+
+  +GetGlobalNamespaceInfo(): ClassInfo_t*
+
+  +GetCallFunc(method: TCppMethod_t): CallFunc_t*
+  +copy_args(args_: void*, vargs: void**): void
+  +FastCall(method: TCppMethod_t, args_: void*, self: void*, result: void*): Bool_t
+
+  +CallV(method: TCppMethod_t, self: TCppObject_t, args: void*): void
+  +CallR(method: TCppMethod_t, self: TCppObject_t, args: void*): void*
+  +CallS(method: TCppMethod_t, self: TCppObject_t, args: void*): Char_t*
+  +CallO(method: TCppMethod_t, self: TCppObject_t, args: void*, result_type: TCppType_t): TCppObject_t
+
+  +CallConstructor(method: TCppMethod_t, klass: TCppType_t, args: void*): TCppObject_t
+  +CallDestructor(type: TCppType_t, self: TCppObject_t): void
+
+  +GetMethPtrGetter(scope: TCppScope_t, imeth: TCppIndex_t): TCppMethPtrGetter_t
+  +AllocateFunctionArgs(nargs: size_t): void*
+  +DeallocateFunctionArgs(args: void*): void
+  +GetFunctionArgSizeof(): size_t
+  +GetFunctionArgTypeoffset()\: size_t
+
+  +IsNamespace(scope: TCppScope_t): Bool_t
+  +IsAbstract(klass: TCppType_t): Bool_t
+  +IsEnum(type_name: conSTstd::string&): Bool_t
+
+  +GetFinalName(klass: TCppType_t): std::string
+  +GetScopedFinalName(klass: TCppType_t): std::string
+
+  +GetNumBases(klass: TCppType_t): TCppIndex_t
+  +GetBaseName(klass: TCppType_t, ibase: TCppIndex_t): std::string
+  +IsSubtype(derived: TCppType_t, base: TCppType_t): Bool_t
+
+  +GetBaseOffset(derived: TCppType_t, base: TCppType_t, address: TCppObject_t, direction: int, rerror: bool): ptrdiff_t
+  +GetNumMethods(scope: TCppScope_t): TCppIndex_t
+  +GetMethodIndexAt(scope: TCppScope_t, imeth: TCppIndex_t): TCppIndex_t
+  +GetMethodsFromName(scope: TCppScope_t, name: conSTstd::string&): std::vector<TCppMethod_t>
+  +GetMethod(scope: TCppScope_t, imeth: TCppIndex_t): TCppMethod_t
+  +GetMethodName(method: TCppMethod_t): std::string
+  +GetMethodResultType(method: TCppMethod_t): std::string
+  +GetMethodNumArgs(method: TCppMethod_t): TCppIndex_t
+  +GetMethodReqArgs(method: TCppMethod_t): TCppIndex_t
+  +GetMethodArgName(method: TCppMethod_t, iarg: int): std::string
+  +GetMethodArgType(method: TCppMethod_t, iarg: int): std::string
+  +GetMethodArgDefault(method: TCppMethod_t, iarg: int): std::string
+  +GetMethodSignature(scope: TCppScope_t, imeth: TCppIndex_t): std::string
+
+  +IsConstMethod(method: TCppMethod_t): Bool_t
+  +IsMethodTemplate(method: TCppMethod_t): Bool_t
+  +GetMethodNumTemplateArgs(scope: TCppScope_t, imeth: TCppIndex_t): TCppIndex_t
+  +GetMethodTemplateArgName(scope: TCppScope_t, imeth: TCppIndex_t, iarg: TCppIndex_t): std::string
+
+  +GetGlobalOperator(scope: TCppScope_t, lc: TCppType_t, rc: TCppType_t, op: conSTstd::string&): TCppIndex_t
+
+  +IsConstructor(method: TCppMethod_t): Bool_t
+  +IsPublicMethod(method: TCppMethod_t): Bool_t
+  +IsStaticMethod(method: TCppMethod_t): Bool_t
+
+  +GetNumDatamembers(scope: TCppScope_t): TCppIndex_t
+  +GetDatamemberName(scope: TCppScope_t, idata: TCppIndex_t): std::string
+  +GetDatamemberType(scope: TCppScope_t, idata: TCppIndex_t): std::string
+  +GetDatamemberOffset(scope: TCppScope_t, idata: TCppIndex_t): ptrdiff_t
+  +GetDatamemberIndex(scope: TCppScope_t, name: conSTstd::string&): TCppIndex_t
+
+  +IsPublicData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
+  +IsStaticData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
+  +IsConstData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
+  +IsEnumData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
+
+  +GetDimensionSize(scope: TCppScope_t, idata: TCppIndex_t, dimension: int): Int_t
 }
 
 @enduml
