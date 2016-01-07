@@ -80,7 +80,7 @@ PrimitiveProxy <|-- BooleanProxy
 
 /' ----------------------------------------------------------------------- '/
 
-/' Environment '/
+/' Facade '/
 class NodeApplication {
   -instance: NodeApplication
   -rootJS: Persistent<Object>
