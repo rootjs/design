@@ -20,7 +20,6 @@ class CallbackType {
 abstract class CallbackHandler {
   --
   +setCallback(CallbackType callback, Local<Object> object);
-
   {abstract}#ctorCallback();
 
   {abstract}#memberGetterCallback();
