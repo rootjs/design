@@ -1,9 +1,9 @@
-\chapter{ROOTPrototype}
-The \textit{ROOTPrototype} class is the main entry point of the bindings, during the initialisation phase it exposes all functions, classes and variables to node, further it contains the proxy methods called by node
+\chapter{NodeApplication}
+The \textit{NodeApplication} class is the main entry point of the bindings, during the initialisation phase it exposes all functions, classes and variables to node, further it contains the proxy methods called by node
 \section{initialize}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::initialize(Local<Object> exports))} \\
+  \textit{Name} & \texttt{NodeApplication::initialize(Local<Object> exports))} \\
   \hline
   \textit{Visibility} & Public \\
   \hline
@@ -24,7 +24,7 @@ Where rootJS is the name of the node module and initialize is a pointer to the f
 \section{getListOfClasses}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::getListOfClasses()} \\
+  \textit{Name} & \texttt{NodeApplication::getListOfClasses()} \\
   \hline
   \textit{Visibility} & Private \\
   \hline
@@ -57,7 +57,7 @@ With this approach we have access to all classes that can be accessed by Cling -
 \section{exposeClasses}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::exposeClasses(Local<Object> exports)} \\
+  \textit{Name} & \texttt{NodeApplication::exposeClasses(Local<Object> exports)} \\
   \hline
   \textit{Visibility} & Private \\
   \hline
@@ -84,7 +84,7 @@ All constructors are now available using the exports object.
 \section{classProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::classProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
+  \textit{Name} & \texttt{NodeApplication::classProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
   \hline
   \textit{Visibility} & Public \\
   \hline
@@ -109,7 +109,7 @@ This would not be faster as we use hashing to find classes, but would consume mo
 \section{getListOfFunctions}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::getListOfFunctions()} \\
+  \textit{Name} & \texttt{NodeApplication::getListOfFunctions()} \\
   \hline
   \textit{Visibility} & Private \\
   \hline
@@ -125,7 +125,7 @@ This method will more or less bypass the results of \textit{gROOT->GetListOfGlob
 \section{exposeFunctions}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::exposeFunctions(Local<Object> exports)} \\
+  \textit{Name} & \texttt{NodeApplication::exposeFunctions(Local<Object> exports)} \\
   \hline
   \textit{Visibility} & Private \\
   \hline
@@ -151,7 +151,7 @@ All functions are now available using the exports object.
 \section{functionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::functionProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
+  \textit{Name} & \texttt{NodeApplication::functionProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
   \hline
   \textit{Visibility} & Public \\
   \hline
@@ -159,7 +159,7 @@ All functions are now available using the exports object.
   \hline
   \textit{Return value} & \textit{none}, return value will be passed via the \textbf{args} object \\
   \hline
-  \textit{behavior} & The passed arguments will be converted to C++ native arguments or root objects, the list of all functions will be checked for a function with the given name. 
+  \textit{behavior} & The passed arguments will be converted to C++ native arguments or root objects, the list of all functions will be checked for a function with the given name.
   A overloaded version of the function with correct parameters will be searched, and called. The results will be converted to JavaScript objects. \\
   \hline
   \textit{Exceptions} & In case there is no function with a matching signature, an exception will be thrown.
@@ -171,7 +171,7 @@ This is possible because we can store data in a secret area that is not visible 
 \section{getListOfVariables}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::getListOfVariables()} \\
+  \textit{Name} & \texttt{NodeApplication::getListOfVariables()} \\
   \hline
   \textit{Visibility} & Private \\
   \hline
@@ -187,7 +187,7 @@ This method will more or less bypass the results of \textit{gROOT->GetListOfGlob
 \section{exposeVariables}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::exposeVariables(Local<Object> exports)} \\
+  \textit{Name} & \texttt{NodeApplication::exposeVariables(Local<Object> exports)} \\
   \hline
   \textit{Visibility} & Private \\
   \hline
@@ -206,7 +206,7 @@ The Object generated from the ObjectTemplate is beeing attached to the exports o
 \section{getterProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::getterProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
+  \textit{Name} & \texttt{NodeApplication::getterProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
   \hline
   \textit{Visibility} & Public \\
   \hline
@@ -224,7 +224,7 @@ We only use one proxy for every setter to minimize overhead. This is possible be
 \section{setterProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
   \hline
-  \textit{Name} & \texttt{ROOTPrototype::setterProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
+  \textit{Name} & \texttt{NodeApplication::setterProxy(const v8::FunctionCallbackInfo<v8::Value>\& args)} \\
   \hline
   \textit{Visibility} & Public \\
   \hline
