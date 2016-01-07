@@ -20,9 +20,7 @@ Cppyy::TCppObject_t Cppyy::Construct( TCppType_t type )
 void Cppyy::Destruct( TCppType_t type, TCppObject_t instance )
 static inline ClassInfo_t* GetGlobalNamespaceInfo()
 static CallFunc_t* GetCallFunc( Cppyy::TCppMethod_t method )
-static inline void copy_args( void* args_, void** vargs ) {
-   std::vector<TParameter>& args = *(std::vector<TParameter>*)args_;
-   for ( std::vector<TParameter>::size_type i = 0; i < args.size(); ++i ) 
+static inline void copy_args( void* args_, void** vargs ) 
 Bool_t FastCall(
       Cppyy::TCppMethod_t method, void* args_, void* self, void* result )
 template< typename T >
