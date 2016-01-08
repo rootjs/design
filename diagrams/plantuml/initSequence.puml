@@ -5,100 +5,55 @@
 
 title rootJS initialization sequence
 
-actor "Client Application" as client
-participant "<u>rootJS:ROOTPrototype</u>" as rootJS
-participant "<u>:V8</u>" as v8
-participant "<u>gROOT:TROOT</u>" as gROOT
-participant "<u>gClassTable:TClassTable</u>" as gClassTable
-participant "<u>:TClass</u>" as clazz
+actor "Client Application" as Client
+participant "NodeApplication" as NodeApp
+participant "<u>instance:NodeApplication</u>" as Instance
+participant "<u>:Node</u>" as V8
 
-activate client
-client -> v8: require(rootJS.node)
+activate Client
+Client -> V8: require(rootJS.node)
 
-activate v8
-create rootJS
-v8 --> rootJS : <<create>>
-deactivate v8
+activate V8
+V8 ->> NodeApp : <u>Initialize(exports, module)</u>
+deactivate V8
 
-activate rootJS
+activate NodeApp
 
-== expose global functions ==
+/' set exit hook '/
+NodeApp -> V8 : AtExit(Exit)
+activate V8
+V8 --> NodeApp
+deactivate V8
 
-rootJS -> gROOT : getListOfGlobalFunctions(kTrue)
-activate gROOT
-rootJS <-- gROOT : functions
-deactivate gROOT
-
-loop foreach TFunction f in functions
-  rootJS -> v8 : NODE_SET_METHOD(exports, f, createMethodProxy)
-  activate v8
-  rootJS <-- v8
-  deactivate v8
+/' instance creation '/
+NodeApp -> NodeApp : <u>Instance()</u>
+activate NodeApp
+alt not initialized
+  create Instance
+  NodeApp --> Instance : <<create>>
 end
+NodeApp --> NodeApp : instance
+deactivate NodeApp
 
-== expose global variables ==
+/' init ROOT environment '/
+NodeApp -> Instance : initROOTGlobals()
+activate Instance
+Instance --> NodeApp
+deactivate Instance
 
-rootJS -> gROOT : getListOfGlobals()
-activate gROOT
-rootJS <-- gROOT : globals
-deactivate gROOT
+NodeApp -> Instance : initROOTMessageCallback()
+activate Instance
+Instance --> NodeApp
+deactivate Instance
 
-loop foreach TGlobal g in globals
-  |||
-  ref over rootJS, v8, gROOT
-    TODO: encapsulate global variable g
-  end ref
-  |||
-end
+/' Exposure of ROOT'/
+NodeApp -> Instance : exposeROOT()
+activate Instance
+Instance --> NodeApp
+deactivate Instance
 
-== expose macros ==
+NodeApp --> Client: exports
+deactivate NodeApp
 
-ref over rootJS, v8, gROOT
-    TODO: encapsulate macros like gROOT, gInterpreter, ...
-end ref
-
-== expose classes ==
-
-/'
-rootJS -> gClassTable : Init()
-activate gClassTable
-gClassTable --> rootJS
-deactivate gClassTable
-'/
-
-rootJS -> gClassTable : Classes()
-activate gClassTable
-rootJS <-- gClassTable : numberOfClasses
-deactivate gClassTable
-
-loop for i = 0; i < numberOfClasses; i++
-  ' Retrive class name
-  rootJS -> gClassTable : At(i)
-  activate gClassTable
-  rootJS <-- gClassTable : className
-  deactivate gClassTable
-
-  ' Get pointer to dictionary function of clazz
-  rootJS -> gClassTable : getDict(className)
-  activate gClassTable
-  rootJS <-- gClassTable : (dictionaryFunction)()
-  deactivate gClassTable
-
-  ' Call dictionary function on clazz
-  rootJS -> clazz : dictionaryFunction()
-  activate clazz
-  rootJS <-- clazz : tClass
-  deactivate clazz
-
-  |||
-  ref over rootJS, clazz
-      TODO: NODE_SET_PROTOTYPE_METHOD(...)
-  end ref
-  |||
-end
-
-client <-- rootJS : rootJS
-deactivate rootJS
-
-deactivate client
+deactivate Client
 @enduml
