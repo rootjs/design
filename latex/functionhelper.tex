@@ -1,0 +1,677 @@
+
+ \chapter{FunctionHelper}
+describe class FunctionHelper here
+\section{GetCallFunc}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetCallFunc(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ CallFunc_t*} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{copy_args}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::copy_args(args_: void*, vargs: void**)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{args_: void*, vargs: void**}\\
+\hline
+\textit{Return value} & \textbf{ void} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{FastCall}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::FastCall(method: TCppMethod_t, args_: void*, self: void*, result: void*)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, args_: void*, self: void*, result: void*}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{CallV}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::CallV(method: TCppMethod_t, self: TCppObject_t, args: void*)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, self: TCppObject_t, args: void*}\\
+\hline
+\textit{Return value} & \textbf{ void} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{CallR}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::CallR(method: TCppMethod_t, self: TCppObject_t, args: void*)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, self: TCppObject_t, args: void*}\\
+\hline
+\textit{Return value} & \textbf{ void*} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{CallS}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::CallS(method: TCppMethod_t, self: TCppObject_t, args: void*)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, self: TCppObject_t, args: void*}\\
+\hline
+\textit{Return value} & \textbf{ Char_t*} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{CallO}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::CallO(method: TCppMethod_t, self: TCppObject_t, args: void*, result_type: TCppType_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, self: TCppObject_t, args: void*, result_type: TCppType_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppObject_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{CallConstructor}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::CallConstructor(method: TCppMethod_t, klass: TCppType_t, args: void*)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, klass: TCppType_t, args: void*}\\
+\hline
+\textit{Return value} & \textbf{ TCppObject_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{CallDestructor}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::CallDestructor(type: TCppType_t, self: TCppObject_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{type: TCppType_t, self: TCppObject_t}\\
+\hline
+\textit{Return value} & \textbf{ void} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsConstructor}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::IsConstructor(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsPublicMethod}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::IsPublicMethod(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsStaticMethod}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::IsStaticMethod(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsConstMethod}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::IsConstMethod(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsMethodTemplate}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::IsMethodTemplate(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodNumTemplateArgs}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodNumTemplateArgs(scope: TCppScope_t, imeth: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, imeth: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodTemplateArgName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodTemplateArgName(scope: TCppScope_t, imeth: TCppIndex_t, iarg: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, imeth: TCppIndex_t, iarg: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetNumMethods}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetNumMethods(scope: TCppScope_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodIndexAt}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodIndexAt(scope: TCppScope_t, imeth: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, imeth: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodsFromName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodsFromName(scope: TCppScope_t, name: std::string&)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, name: std::string&}\\
+\hline
+\textit{Return value} & \textbf{ stdvector<TCppMethod_t>} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethod}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethod(scope: TCppScope_t, imeth: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, imeth: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppMethod_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodName(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodResultType}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodResultType(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodNumArgs}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodNumArgs(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodReqArgs}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodReqArgs(method: TCppMethod_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodArgName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodArgName(method: TCppMethod_t, iarg: int)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, iarg: int}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodArgType}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodArgType(method: TCppMethod_t, iarg: int)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, iarg: int}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodArgDefault}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodArgDefault(method: TCppMethod_t, iarg: int)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{method: TCppMethod_t, iarg: int}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetMethodSignature}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{FunctionHelper::GetMethodSignature(scope: TCppScope_t, imeth: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, imeth: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \chapter{ClassHelper}
+describe class ClassHelper here
+\section{IsNamespace}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsNamespace(scope: TCppScope_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsAbstract}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsAbstract(klass: TCppType_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{klass: TCppType_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsEnum}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsEnum(type_name: conSTstd::string&)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{type_name: conSTstd::string&}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsStruct}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsStruct(type_name: conSTstd::string&)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{type_name: conSTstd::string&}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetFinalName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetFinalName(klass: TCppType_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{klass: TCppType_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetScopedFinalName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetScopedFinalName(klass: TCppType_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{klass: TCppType_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetNumBases}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetNumBases(klass: TCppType_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{klass: TCppType_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetBaseName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetBaseName(klass: TCppType_t, ibase: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{klass: TCppType_t, ibase: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsSubtype}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsSubtype(derived: TCppType_t, base: TCppType_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{derived: TCppType_t, base: TCppType_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetNumDatamembers}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetNumDatamembers(scope: TCppScope_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetDatamemberName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetDatamemberName(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetDatamemberType}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetDatamemberType(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ stdstring} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetDatamemberOffset}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetDatamemberOffset(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ ptrdiff_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{GetDatamemberIndex}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::GetDatamemberIndex(scope: TCppScope_t, name: conSTstd::string&)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, name: conSTstd::string&}\\
+\hline
+\textit{Return value} & \textbf{ TCppIndex_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsPublicData}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsPublicData(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsStaticData}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsStaticData(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsConstData}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsConstData(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{IsEnumData}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::IsEnumData(scope: TCppScope_t, idata: TCppIndex_t)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{scope: TCppScope_t, idata: TCppIndex_t}\\
+\hline
+\textit{Return value} & \textbf{ Bool_t} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{resolveAddress}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::resolveAddress(staticMember: TDataMember, clazz: TClassRef)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{staticMember: TDataMember, clazz: TClassRef}\\
+\hline
+\textit{Return value} & \textbf{ void*} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{resolveAddress}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::resolveAddress(staticMember: TDataMember, clazz: TClassRef)}\\
+\hline
+ \textit{Visibility} & \\
+\hline
+\textit{Parameters} & \textit{staticMember: TDataMember, clazz: TClassRef}\\
+\hline
+\textit{Return value} & \textbf{ void*} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
