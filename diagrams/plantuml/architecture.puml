@@ -211,7 +211,7 @@ class FunctionHelper {
 
   +GetNumMethods(scope: TCppScope_t): TCppIndex_t
   +GetMethodIndexAt(scope: TCppScope_t, imeth: TCppIndex_t): TCppIndex_t
-  +GetMethodsFromName(scope: TCppScope_t, name: conSTstd::string&): std::vector<TCppMethod_t>
+  +GetMethodsFromName(scope: TCppScope_t, name: std::string&): std::vector<TCppMethod_t>
   +GetMethod(scope: TCppScope_t, imeth: TCppIndex_t): TCppMethod_t
   +GetMethodName(method: TCppMethod_t): std::string
   +GetMethodResultType(method: TCppMethod_t): std::string
