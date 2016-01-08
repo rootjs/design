@@ -189,8 +189,8 @@ class FunctionHelper {
   -functions: map<string, >
   --
   +GetCallFunc(method: TCppMethod): CallFunc*
-  +copy_args(args_: void*, vargs: void**): void
-  +FastCall(method: TCppMethod, args_: void*, self: void*, result: void*): bool
+  +copyArgs(args: void*, vargs: void**): void
+  +FastCall(method: TCppMethod, args: void*, self: void*, result: void*): bool
 
   +CallV(method: TCppMethod, self: TCppObject, args: void*): void
   +CallR(method: TCppMethod, self: TCppObject, args: void*): void*
@@ -226,8 +226,8 @@ class FunctionHelper {
 class ClassHelper {
   +IsNamespace(scope: TCppScope): bool
   +IsAbstract(klass: TCppType): bool
-  +IsEnum(type_name: string): bool
-  +IsStruct(type_name: string): bool
+  +IsEnum(typename: string): bool
+  +IsStruct(typename: string): bool
 
   +GetFinalName(klass: TCppType): string
   +GetScopedFinalName(klass: TCppType): string
