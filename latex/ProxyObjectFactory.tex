@@ -1,28 +1,17 @@
-\chapter{ProxyObjectFactory}
-The ProxyObjectFactory is used whenever a v8 objects needs to be converted into it's ROOT counterpart or vice versa.
-In a lot of cases we have a memory addresses and types, described by a string. The ProxyObjectFactory needs to parse the type string in order to decide on a class (these classes shall be called ProxyObjects) to which the void type variable needs to be forwarded.
-These ProxyObjects cotain the correct semantics to generate ROOT and Node objects. They are all named [type]ProxyObject derive from the class ProxyObject.
-The following ProxyObjects need to implemented to make the bindings work:
-\begin{itemize}
-  \item \textbf{String}ProxyObject
-  \item \textbf{Number}ProxyObject
-  \item \textbf{Bool}ProxyObject
-  \item \textbf{Object}ProxyObject
-  \item \dots
-\end{itemize}
+\chapter{ProxyObjectFactory.tex}
+describe class ProxyObjectFactory.tex here
 \section{createProxyObject}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObjectFactory.tex::createProxyObject(type: TDataMember, holder: ProxyObject)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{type: TDataMember, holder: ProxyObject}\\
+\hline
+\textit{Return value} & \textbf{ ProxyObject} describe return value\\
   \hline
-  \textit{Name} & \texttt{ProxyObjectFactory::createProxyObject(void* obj, std::string type))} \\
-  \hline
-  \textit{Visibility} & Public static \\
-  \hline
-  \textit{Parameters} & \textbf{obj}: The object to be converted
-   \textbf{type}: The typename, provided by ROOT \\
-  \hline
-  \textit{Return value} & \textbf{ProxyObject} The ProxyObjects that matches the given type. The ProxyObject has already been initialized with the obj pointer. \\
-  \hline
-  \textit{behavior} & Decides which ProxyObject can handle the obj pointer and returns an instance of this \\
-  \hline
-\end{longtable}
-Before creating a new ProxyObject this should querry the ProxyObjectCache, checking if the object at the given momeory address has already been proxied.
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ 

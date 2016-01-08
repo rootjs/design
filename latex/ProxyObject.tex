@@ -1,30 +1,87 @@
-\chapter{ProxyObject}
-ProxyObject is an interace defining the following abstract methods:
-\section{isScalar}
+\chapter{ProxyObject.tex}
+describe class ProxyObject.tex here
+\section{ProxyObject}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject.tex::ProxyObject(address: void*, type: TDataMember)}\\
+\hline
+ \textit{Visibility} & protected\\
+\hline
+\textit{Parameters} & \textit{address: void*, type: TDataMember}\\
+\hline
+\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
   \hline
-  \textit{Name} & \texttt{ProxyObject::isScalar())} \\
-  \hline
-  \textit{Visibility} & Public abstract \\
-  \hline
-  \textit{Parameters} & \textit{none} \\
-  \hline
-  \textit{Return value} & \textbf{bool} true: The object is scalar, no recursion is needed to create a ROOT/v8 representation \\
-  \hline
-  \textit{behavior} & This is usually just a return statement, as String, Number, Bool, ... ProxyObjects will always handle scalar data and ObjectProxyObjets will be the only non scalar ProxyObjects (and will therefor return false) \\
-  \hline
-\end{longtable}
-\section{getV8Handle}
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{getAddress}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject.tex::getAddress()}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{none}\\
+\hline
+\textit{Return value} & \textbf{ void*} describe return value\\
   \hline
-  \textit{Name} & \texttt{ProxyObject::getV8Handle())} \\
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{getType}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject.tex::getType()}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{none}\\
+\hline
+\textit{Return value} & \textbf{ TDataMember} describe return value\\
   \hline
-  \textit{Visibility} & Public abstract \\
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{set}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject.tex::set(value: ProxyObject)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{value: ProxyObject}\\
+\hline
+\textit{Return value} & \textbf{none}\\
   \hline
-  \textit{Parameters} & \textit{none} \\
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{get}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject.tex::get()}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{none}\\
+\hline
+\textit{Return value} & \textbf{ Local<Value>} describe return value\\
   \hline
-  \textit{Return value} & \textbf{v8::Handle} A Handle will be generated continaing the data, used to initialize the ProxyObject. \\
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{isPrimitive}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject.tex::isPrimitive()}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{none}\\
+\hline
+\textit{Return value} & \textbf{ bool} describe return value\\
   \hline
-  \textit{behavior} & This highly depends on the obecjt's type scalar types might just call a constructor and return the result, ObjectProxyObjects will need to step down all through the objects children. \\
-  \hline
-\end{longtable}
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ 
