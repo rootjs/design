@@ -128,14 +128,14 @@ class NodeApplication {
 
 /' Javascript Prototypes '/
 class TemplateFactory {
-  -cache: std::map<string, Persistent<FunctionTemplate>>
+  -cache: map<string, Persistent<FunctionTemplate>>
   --
   +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
 }
 
 /'
 class TemplateCache {
-  -cache: std::map<string, Persistent<FunctionTemplate>>
+  -cache: map<string, Persistent<FunctionTemplate>>
   --
   +contains(type: TClassRef): bool
   +get(type: TClassRef): Local<FunctionTemplate>
@@ -188,64 +188,64 @@ abstract class ProxyObject {
 class FunctionHelper {
   -functions: map<string, >
   --
-  +GetCallFunc(method: TCppMethod_t): CallFunc_t*
+  +GetCallFunc(method: TCppMethod): CallFunc*
   +copy_args(args_: void*, vargs: void**): void
-  +FastCall(method: TCppMethod_t, args_: void*, self: void*, result: void*): Bool_t
+  +FastCall(method: TCppMethod, args_: void*, self: void*, result: void*): bool
 
-  +CallV(method: TCppMethod_t, self: TCppObject_t, args: void*): void
-  +CallR(method: TCppMethod_t, self: TCppObject_t, args: void*): void*
-  +CallS(method: TCppMethod_t, self: TCppObject_t, args: void*): Char_t*
-  +CallO(method: TCppMethod_t, self: TCppObject_t, args: void*, result_type: TCppType_t): TCppObject_t
+  +CallV(method: TCppMethod, self: TCppObject, args: void*): void
+  +CallR(method: TCppMethod, self: TCppObject, args: void*): void*
+  +CallS(method: TCppMethod, self: TCppObject, args: void*): Char*
+  +CallO(method: TCppMethod, self: TCppObject, args: void*, resultype: TCppType): TCppObject
 
-  +CallConstructor(method: TCppMethod_t, klass: TCppType_t, args: void*): TCppObject_t
-  +CallDestructor(type: TCppType_t, self: TCppObject_t): void
+  +CallConstructor(method: TCppMethod, klass: TCppType, args: void*): TCppObject
+  +CallDestructor(type: TCppType, self: TCppObject): void
 
-  +IsConstructor(method: TCppMethod_t): Bool_t
-  +IsPublicMethod(method: TCppMethod_t): Bool_t
-  +IsStaticMethod(method: TCppMethod_t): Bool_t
-  +IsConstMethod(method: TCppMethod_t): Bool_t
-  +IsMethodTemplate(method: TCppMethod_t): Bool_t
+  +IsConstructor(method: TCppMethod): bool
+  +IsPublicMethod(method: TCppMethod): bool
+  +IsStaticMethod(method: TCppMethod): bool
+  +IsConstMethod(method: TCppMethod): bool
+  +IsMethodTemplate(method: TCppMethod): bool
 
-  +GetMethodNumTemplateArgs(scope: TCppScope_t, imeth: TCppIndex_t): TCppIndex_t
-  +GetMethodTemplateArgName(scope: TCppScope_t, imeth: TCppIndex_t, iarg: TCppIndex_t): std::string
+  +GetMethodNumTemplateArgs(scope: TCppScope, imeth: TCppIndex): TCppIndex
+  +GetMethodTemplateArgName(scope: TCppScope, imeth: TCppIndex, iarg: TCppIndex): string
 
-  +GetNumMethods(scope: TCppScope_t): TCppIndex_t
-  +GetMethodIndexAt(scope: TCppScope_t, imeth: TCppIndex_t): TCppIndex_t
-  +GetMethodsFromName(scope: TCppScope_t, name: std::string&): std::vector<TCppMethod_t>
-  +GetMethod(scope: TCppScope_t, imeth: TCppIndex_t): TCppMethod_t
-  +GetMethodName(method: TCppMethod_t): std::string
-  +GetMethodResultType(method: TCppMethod_t): std::string
-  +GetMethodNumArgs(method: TCppMethod_t): TCppIndex_t
-  +GetMethodReqArgs(method: TCppMethod_t): TCppIndex_t
-  +GetMethodArgName(method: TCppMethod_t, iarg: int): std::string
-  +GetMethodArgType(method: TCppMethod_t, iarg: int): std::string
-  +GetMethodArgDefault(method: TCppMethod_t, iarg: int): std::string
-  +GetMethodSignature(scope: TCppScope_t, imeth: TCppIndex_t): std::string
+  +GetNumMethods(scope: TCppScope): TCppIndex
+  +GetMethodIndexAt(scope: TCppScope, imeth: TCppIndex): TCppIndex
+  +GetMethodsFromName(scope: TCppScope, name: string): vector<TCppMethod>
+  +GetMethod(scope: TCppScope, imeth: TCppIndex): TCppMethod
+  +GetMethodName(method: TCppMethod): string
+  +GetMethodResultType(method: TCppMethod): string
+  +GetMethodNumArgs(method: TCppMethod): TCppIndex
+  +GetMethodReqArgs(method: TCppMethod): TCppIndex
+  +GetMethodArgName(method: TCppMethod, iarg: int): string
+  +GetMethodArgType(method: TCppMethod, iarg: int): string
+  +GetMethodArgDefault(method: TCppMethod, iarg: int): string
+  +GetMethodSignature(scope: TCppScope, imeth: TCppIndex): string
 }
 
 class ClassHelper {
-  +IsNamespace(scope: TCppScope_t): Bool_t
-  +IsAbstract(klass: TCppType_t): Bool_t
-  +IsEnum(type_name: conSTstd::string&): Bool_t
-  +IsStruct(type_name: conSTstd::string&): Bool_t
+  +IsNamespace(scope: TCppScope): bool
+  +IsAbstract(klass: TCppType): bool
+  +IsEnum(type_name: string): bool
+  +IsStruct(type_name: string): bool
 
-  +GetFinalName(klass: TCppType_t): std::string
-  +GetScopedFinalName(klass: TCppType_t): std::string
+  +GetFinalName(klass: TCppType): string
+  +GetScopedFinalName(klass: TCppType): string
 
-  +GetNumBases(klass: TCppType_t): TCppIndex_t
-  +GetBaseName(klass: TCppType_t, ibase: TCppIndex_t): std::string
-  +IsSubtype(derived: TCppType_t, base: TCppType_t): Bool_t
+  +GetNumBases(klass: TCppType): TCppIndex
+  +GetBaseName(klass: TCppType, ibase: TCppIndex): string
+  +IsSubtype(derived: TCppType, base: TCppType): bool
 
-  +GetNumDatamembers(scope: TCppScope_t): TCppIndex_t
-  +GetDatamemberName(scope: TCppScope_t, idata: TCppIndex_t): std::string
-  +GetDatamemberType(scope: TCppScope_t, idata: TCppIndex_t): std::string
-  +GetDatamemberOffset(scope: TCppScope_t, idata: TCppIndex_t): ptrdiff_t
-  +GetDatamemberIndex(scope: TCppScope_t, name: conSTstd::string&): TCppIndex_t
+  +GetNumDatamembers(scope: TCppScope): TCppIndex
+  +GetDatamemberName(scope: TCppScope, idata: TCppIndex): string
+  +GetDatamemberType(scope: TCppScope, idata: TCppIndex): string
+  +GetDatamemberOffset(scope: TCppScope, idata: TCppIndex): ptrdiff
+  +GetDatamemberIndex(scope: TCppScope, name: string): TCppIndex
 
-  +IsPublicData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
-  +IsStaticData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
-  +IsConstData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
-  +IsEnumData(scope: TCppScope_t, idata: TCppIndex_t): Bool_t
+  +IsPublicData(scope: TCppScope, idata: TCppIndex): bool
+  +IsStaticData(scope: TCppScope, idata: TCppIndex): bool
+  +IsConstData(scope: TCppScope, idata: TCppIndex): bool
+  +IsEnumData(scope: TCppScope, idata: TCppIndex): bool
 
   +resolveAddress(staticMember: TDataMember, clazz: TClassRef): void*
   +resolveAddress(staticMember: TDataMember, clazz: TClassRef): void*
