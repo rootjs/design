@@ -1,5 +1,5 @@
 \chapter{CallbackHandler}
-describe class CallbackHandler here
+The CallbackHandler class gets invoked whenever an encapsulated ROOT function or object is accessed.
 \section{ctorCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -7,11 +7,11 @@ describe class CallbackHandler here
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{args: FunctionCallbackInfo<Value>}\\
+\textit{Parameters} & \textit{args: FunctionCallbackInfo<Value>} information about the context\\
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever a non static constructor function of an encapsulated ROOT class was called.\\
 \hline
 \end{longtable} \pagebreak
  \section{staticCtorCallback}
@@ -25,7 +25,7 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever a static constructor function of an encapsulated ROOT class was called.\\
 \hline
 \end{longtable} \pagebreak
  \section{memberGetterCallback}
@@ -39,7 +39,7 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever an encapsulated (class) member was requested.\\
 \hline
 \end{longtable} \pagebreak
  \section{memberSetterCallback}
@@ -53,7 +53,7 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever an encapsulated (class) member is attempted to be set.\\
 \hline
 \end{longtable} \pagebreak
  \section{memberFunctionCallback}
@@ -67,7 +67,7 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever an non-static (class) function was called.\\
 \hline
 \end{longtable} \pagebreak
  \section{staticGetterCallback}
@@ -81,7 +81,7 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} &  Gets invoked whenever an encapsulated static object was requested.\\
 \hline
 \end{longtable} \pagebreak
  \section{staticSetterCallback}
@@ -95,7 +95,7 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever an encapsulated static object is attempted to be set.\\
 \hline
 \end{longtable} \pagebreak
  \section{staticFunctionCallback}
@@ -109,7 +109,6 @@ describe class CallbackHandler here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets invoked whenever a static function was called.\\
 \hline
 \end{longtable} \pagebreak
- 
