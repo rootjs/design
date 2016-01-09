@@ -11,7 +11,7 @@ end title
 /' ----------------------------------------------------------------------- '/
 
 /' Interfaces '/
-interface ROOT
+' interface ROOT
 
 /' Environment '/
 class "ROOT::TApplication" as TApplication
@@ -51,7 +51,7 @@ class BooleanProxy
 
 /' Relations '/
 TApplication <|-down- NodeApplication
-NodeHandler -left-> "1" NodeApplication
+NodeHandler -left-> NodeApplication
 NodeHandler -right-> CallbackHandler
 
 CallbackHandler ..> TemplateFactory : uses
@@ -82,7 +82,6 @@ PrimitiveProxy <|-- BooleanProxy
 
 /' Callback Handling '/
 class CallbackHandler {
-  --
   {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
   {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
 
@@ -93,6 +92,8 @@ class CallbackHandler {
   {static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
   {static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
   {static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
+
+  ' -CallbackHandler() <<constructor>>
 }
 
 class NodeHandler {

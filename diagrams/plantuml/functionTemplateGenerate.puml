@@ -10,6 +10,9 @@ end title
 
 participant "TemplateFactory" as TemplateFactory
 participant "ProxyObjectFactory" as ProxyObjectFactory
+participant "ProxyFunctionFactory" as ProxyFunctionFactory
+participant "<u>classRef: TClassRef</u>" as classRef
+participant "<u>functionTemplate: FunctionTemplate</u>" as FunctionTemplate
 
 
 note left of TemplateFactory
@@ -21,14 +24,33 @@ end note
 [-> TemplateFactory: createTemplate(classRef)
 activate TemplateFactory
 
-TemplateFactory -> TemplateFactory : class = classRef->getClass()
-TemplateFactory -> TemplateFactory : functionTemplate = FunctionTemplate::New(isolate, CallbackHandler::functionCallback)
-loop class->GetListOfMethods()
+TemplateFactory -> classRef : getClass()
+activate classRef
+classRef -> TemplateFactory : class
+deactivate classRef
+
+TemplateFactory -> FunctionTemplate : New(isolate, CallbackHandler::functionCallback)
+
+activate FunctionTemplate
+FunctionTemplate -> TemplateFactory : functionTemplate
+deactivate FunctionTemplate
+
+loop class->GetListOfPublicDataMembers() : type [where type->Property() & kIsStatic is true]
   TemplateFactory -> ProxyObjectFactory : createProxyObject(type, scope, holder)
   activate ProxyObjectFactory
   ProxyObjectFactory -> TemplateFactory : proxyObject
   deactivate ProxyObjectFactory
-  TemplateFactory -> TemplateFactory : functionTemplate->Set(name, proxyObject->getProxy())
+  TemplateFactory -> FunctionTemplate : Set(name, proxyObject->getProxy())
+  activate FunctionTemplate
+  FunctionTemplate -> TemplateFactory
+  deactivate FunctionTemplate
+end
+
+loop class->GetListOfMethods() : func [where func->Property() & kIsStatic is true]
+  TemplateFactory -> FunctionTemplate : Set(func->GetName(), CallbackHandler::functionCallback)
+  activate FunctionTemplate
+  FunctionTemplate -> TemplateFactory
+  deactivate FunctionTemplate
 end
 
 TemplateFactory ->[ : functionTemplate
