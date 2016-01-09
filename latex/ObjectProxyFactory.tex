@@ -7,9 +7,11 @@ The ObjectProxyFactory creates ObjectProxy instances with TDataMember type, TCla
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{type: TDataMember, scope: TClassRef, holder: ObjectProxy} The type and scope the ObjectProxy will have. The holder is the ObjectProxy which will encapsulate and hold the newly created ObjectProxy\\
+\textit{Parameters} & \textit{type: TDataMember} The type identification which the ObjectProxy will have \\
+& \textit{scope: TClassRef} The class the ObjectProxy belongs to \\
+& \textit{holder: ObjectProxy}  The holder is the ObjectProxy which will encapsulate and hold the newly created ObjectProxy \\
 \hline
-\textit{Return value} & \textbf{ ObjectProxy} Returns the ObjectProxy which is created with the given parameters. \\
+\textit{Return value} & \textbf{ ObjectProxy} Returns the ObjectProxy which is created with the given parameters. 1q\\
   \hline
  \textit{behavior} & A new ObjectProxy is created each time the createObjectProxy method is called up. \\
 \hline
