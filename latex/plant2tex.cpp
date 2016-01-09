@@ -73,7 +73,7 @@ void processclass(queue<string> &q) {
 
     klass newklass;
     string cur = q.front();
-    newklass.name = regex_replace(cur, regex("class|\\{|abstract"), "");
+    newklass.name = regex_replace(cur, regex("class|\\{|abstract|(<<(.*)>>)"), "");
     newklass.name.erase(std::remove(newklass.name.begin(), newklass.name.end(), ' '), newklass.name.end());
     q.pop();
     cur = q.front();

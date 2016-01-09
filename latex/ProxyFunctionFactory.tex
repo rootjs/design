@@ -1,13 +1,27 @@
 \chapter{ProxyFunctionFactory}
 describe class ProxyFunctionFactory here
-\section{createProxyFunction}
+\section{ProxyFunctionFactory}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunctionFactory::createProxyFunction(info: TMethod)}\\
+\textit{Name} & \texttt{ProxyFunctionFactory::ProxyFunctionFactory()}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{info: TMethod}\\
+\textit{Parameters} & \textit{none}\\
+\hline
+\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{createProxyFunction}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyFunctionFactory::createProxyFunction(function: TFunction, scope: TClassRef)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{function: TFunction, scope: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ ProxyFunciton} describe return value\\
   \hline
@@ -17,11 +31,11 @@ describe class ProxyFunctionFactory here
  \section{fromArgs}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunctionFactory::fromArgs(name: string, clazz: TClassRef, args: FunctionCallbackInfo)}\\
+\textit{Name} & \texttt{ProxyFunctionFactory::fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{name: string, clazz: TClassRef, args: FunctionCallbackInfo}\\
+\textit{Parameters} & \textit{name: string, scope: TClassRef, args: FunctionCallbackInfo}\\
 \hline
 \textit{Return value} & \textbf{ ProxyFunction} describe return value\\
   \hline
