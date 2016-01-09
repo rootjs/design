@@ -3,41 +3,47 @@
 !include ./config/diagramsConfig.puml
 !include ./config/sequenceConfig.puml
 
-title rootJS initialization sequence
+title rootJS exposure sequence
 
-actor "Client Application" as client
 participant "<u>rootJS:NodeApplication</u>" as rootJS
-participant "<u>:Node</u>" as v8
+
+/'
 participant "<u>gROOT:TROOT</u>" as gROOT
 participant "<u>gClassTable:TClassTable</u>" as gClassTable
 participant "<u>:TClass</u>" as clazz
+'/
 
-activate client
-client -> v8: require(rootJS.node)
-
-activate v8
-create rootJS
-v8 --> rootJS : <<create>>
-deactivate v8
-
+[-> rootJS: exposeROOT()
 activate rootJS
 
 == expose global functions ==
 
+rootJS -> rootJS : exposeGlobalFunctions()
+activate rootJS
+rootJS --> rootJS
+deactivate rootJS
+
+/'
 rootJS -> gROOT : getListOfGlobalFunctions(kTrue)
 activate gROOT
 rootJS <-- gROOT : functions
 deactivate gROOT
-
 loop foreach TFunction f in functions
   rootJS -> v8 : NODE_SET_METHOD(exports, f, createMethodProxy)
   activate v8
   rootJS <-- v8
   deactivate v8
 end
+'/
 
 == expose global variables ==
 
+rootJS -> rootJS : exposeGlobals()
+activate rootJS
+rootJS --> rootJS
+deactivate rootJS
+
+/'
 rootJS -> gROOT : getListOfGlobals()
 activate gROOT
 rootJS <-- gROOT : globals
@@ -50,22 +56,29 @@ loop foreach TGlobal g in globals
   end ref
   |||
 end
+'/
 
 == expose macros ==
 
+rootJS -> rootJS : exposeMacros()
+activate rootJS
+rootJS --> rootJS
+deactivate rootJS
+
+/'
 ref over rootJS, v8, gROOT
     TODO: encapsulate macros like gROOT, gInterpreter, ...
 end ref
-
-== expose classes ==
-
-/'
-rootJS -> gClassTable : Init()
-activate gClassTable
-gClassTable --> rootJS
-deactivate gClassTable
 '/
 
+== expose classes & namespaces ==
+
+rootJS -> rootJS : exposeClasses()
+activate rootJS
+rootJS --> rootJS
+deactivate rootJS
+
+/'
 rootJS -> gClassTable : Classes()
 activate gClassTable
 rootJS <-- gClassTable : numberOfClasses
@@ -96,9 +109,9 @@ loop for i = 0; i < numberOfClasses; i++
   end ref
   |||
 end
+'/
 
-client <-- rootJS : rootJS
+rootJS -->[
 deactivate rootJS
 
-deactivate client
 @enduml
