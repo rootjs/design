@@ -1,5 +1,17 @@
 \chapter{ObjectProxy}
-The \textit{ObjectProxy} class is used to represent ROOT objects. It differentiates between primitive and non-primitive object types.
+The \textit{ObjectProxy} class is used to represent ROOT objects. It differentiates between primitive and non-primitive object types.\\
+There are the following implementations of ObjectProxy:
+\being{listing}
+\item \textbf{EnumProxy} Maps C++ enums to JavaScript strings
+\item \textbf{StructProxy} Maps C++ structs to JavaScript objects
+\item \textbf{ArrayProxy} Maps C++ arrays to JavaScript arrays, we cannot enlarge C++ arrays, so we will throw an Exception on overflows
+\item \textbf{PointerProxy} Maps C++ pointers to JavaScript objects
+\item \textbf{NumberProxy} Uses a C++ template to map all C++ numbers to JavaScript Numbers
+\item \textbf{StringProxy} Maps C++ strings and cstrings to JavaScript strings
+\item \textbf{BooleanProxy} Maps C++ root boolean to Javascript boolean
+\end{listing}
+The \textit{ProxyObjectFactory} decides which ObjectProxy needs to be instantiated.
+Internally all these \textit{ProxyObjects} work the same way by linking a \textit{v8::Local} with a \textit{TDataMember}
 \section{ObjectProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
