@@ -2,5 +2,5 @@
 ./plant2tex ../diagrams/plantuml/architecture.puml > includes
 mv *.tex ../latex 
 mv includes ../latex/latexinput.tex
-rm temp
+
 
