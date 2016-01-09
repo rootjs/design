@@ -206,4 +206,50 @@ class ObjectProxy {
   {abstract} +isPrimitive(): bool
 }
 
+class BooleanProxy {
+  --
+  +BooleanProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class StringProxy {
+  --
+  +StringProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class NumberProxy {
+  --
+  +NumberProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class PrimitiveProxy {
+  --
+  +PrimitiveProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+  +isPrimitive(): bool
+}
+
+class ArrayProxy {
+  --
+  +ArrayProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class PointerProxy {
+--
++PointerProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class StructProxy {
+--
++StructProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class EnumProxy {
+--
++EnumProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+class TemplateProxy {
+--
++TemplateProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
 @enduml
