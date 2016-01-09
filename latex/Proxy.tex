@@ -7,7 +7,9 @@ The Proxy class is an abstract class which acts as an intermediary between Node.
 \hline
  \textit{Visibility} & protected\\
 \hline
-\textit{Parameters} & \textit{address: void*, type: TObject, scope: TClassRef} The address, type and scope the Proxy will have as variables \\
+\textit{Parameters} & \textit{address: void*}, type: TObject, scope: TClassRef} The memory address of the Proxy \\
+& \textit{type: TObject}  The type identification which the ObjectProxy will have \\
+& \textit{scope: TClassRef} The class the Proxy belongs to \\
 \hline
 \textit{Return value} & \textbf{ <<constructor>>} Returns a Proxy with the given parameters as a variables \\
   \hline
