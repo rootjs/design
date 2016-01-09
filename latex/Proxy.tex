@@ -1,5 +1,5 @@
 \chapter{Proxy}
-describe class Proxy here
+The Proxy class is an abstract class which acts as an intermediary between Node.js and ROOT. Both the ObjectProxy and FunctionProxy inherit the Proxy class, since both of them require the object's or functions's address, type and scope. The Proxy class holds the data, which both ObjectProxy and FunctionProxy require. 
 \section{Proxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -9,9 +9,10 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{address: void*, type: TObject, scope: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
+\textit{Return value} & \textbf{ <<constructor>>} Returns a Proxy with the given parameters as a variables. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & The Proxy constructor will be inherited by both ObjectProxy and FunctionProxy.
+ The created Proxy will have the parameters as variables. \\
 \hline
 \end{longtable} \pagebreak
  \section{setAddress}
@@ -21,11 +22,11 @@ describe class Proxy here
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{address: void*}\\
+\textit{Parameters} & \textit{address: void*} The address to which the Proxy should be set to. \\
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Sets the address of the Proxy. \\
 \hline
 \end{longtable} \pagebreak
  \section{getAddress}
@@ -37,9 +38,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ void*} describe return value\\
+\textit{Return value} & \textbf{ void*} The current address of the Proxy. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets the current address of the Proxy. \\
 \hline
 \end{longtable} \pagebreak
  \section{getType}
@@ -51,9 +52,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ TObject} describe return value\\
+\textit{Return value} & \textbf{ TObject} The current type of the Proxy. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets the current type of the Proxy. \\
 \hline
 \end{longtable} \pagebreak
  \section{getScope}
@@ -65,9 +66,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ TClassRef} describe return value\\
+\textit{Return value} & \textbf{ TClassRef} The current scope of the Proxy. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Gets the current scope of the Proxy. \\
 \hline
 \end{longtable} \pagebreak
  \section{isGlobal}
@@ -79,9 +80,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} describe return value\\
+\textit{Return value} & \textbf{ bool} True if the Proxy is global. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Checks if the Proxy is global and hence visible throughout the program. \\
 \hline
 \end{longtable} \pagebreak
  \section{isTemplate}
@@ -93,9 +94,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} describe return value\\
+\textit{Return value} & \textbf{ bool} True if the Proxy is a template. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Checks if the Proxy is a template, which allows using generic types. \\
 \hline
 \end{longtable} \pagebreak
  \section{isConst}
@@ -107,9 +108,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} describe return value\\
+\textit{Return value} & \textbf{ bool} True if the Proxy is a constant. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Checks if the Proxy is a constant. \\
 \hline
 \end{longtable} \pagebreak
  \section{isStatic}
@@ -121,9 +122,9 @@ describe class Proxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} describe return value\\
+\textit{Return value} & \textbf{ bool} True if the Proxy is static. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Checks if the Proxy is static. \\
 \hline
 \end{longtable} \pagebreak
  
