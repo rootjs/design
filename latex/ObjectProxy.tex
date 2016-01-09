@@ -7,11 +7,11 @@ The \textit{ObjectProxy} class is used to represent ROOT objects. It differentia
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{type: TDataMember, scope: TClassRef}\\
+\textit{Parameters} & \textit{type: TDataMember, scope: TClassRef} The type and scope of the object.\\
 \hline
 \textit{Return value} & \textbf{<<constructor>>} The newly constructed ObjectProxy.\\
   \hline
-  \textit{behavior} & Creates a new ObjectProxy with the given type and \textit{TClassRef}.\\
+  \textit{behavior} & Creates a new ObjectProxy with the given type and scope.\\
 \hline
 \end{longtable} \pagebreak
  \section{getType}
@@ -35,7 +35,7 @@ The \textit{ObjectProxy} class is used to represent ROOT objects. It differentia
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{value: ObjectProxy}\\
+\textit{Parameters} & \textit{value: ObjectProxy} The value to set.\\
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
