@@ -3,27 +3,13 @@ describe class ProxyObject here
 \section{ProxyObject}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyObject::ProxyObject(address: void*, type: TDataMember)}\\
-\hline
- \textit{Visibility} & protected\\
-\hline
-\textit{Parameters} & \textit{address: void*, type: TDataMember}\\
-\hline
-\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
-\end{longtable} \pagebreak
- \section{getAddress}
-\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{ProxyObject::getAddress()}\\
+\textit{Name} & \texttt{ProxyObject::ProxyObject(type: TDataMember, scope: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{none}\\
+\textit{Parameters} & \textit{type: TDataMember, scope: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ void*} describe return value\\
+\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
@@ -66,6 +52,34 @@ describe class ProxyObject here
 \textit{Parameters} & \textit{none}\\
 \hline
 \textit{Return value} & \textbf{ Local<Value>} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{setProxy}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject::setProxy(proxy: Local<Object>)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{proxy: Local<Object>}\\
+\hline
+\textit{Return value} & \textbf{none}\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{getProxy}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ProxyObject::getProxy()}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{none}\\
+\hline
+\textit{Return value} & \textbf{ Local<Object>} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
