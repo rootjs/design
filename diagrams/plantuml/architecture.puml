@@ -16,7 +16,12 @@ end title
 
 /' Environment '/
 class "ROOT::TApplication" as TApplication
+class "TROOT::TROOT" as TROOT
+class TClassTable
+class TCling
 class NodeApplication << (S,#FF7700) Singleton >>
+class CallbackHandler << (S,#FF7700) static>>
+class NodeHandler
 
 /' Javascript Prototypes '/
 class TemplateFactory
@@ -54,9 +59,17 @@ class BooleanProxy
 /' Relations '/
 TApplication <|-down- NodeApplication
 
-NodeApplication -down-> "1" TemplateFactory
-NodeApplication --> "1" ProxyFunctionFactory
-NodeApplication --> "1" ProxyObjectFactory
+NodeHandler --> "1" NodeApplication
+
+NodeHandler --> TROOT
+NodeHandler --> TClassTable
+NodeHandler --> TCling
+NodeHandler ..> CallbackHandler : uses
+
+CallbackHandler ..> TemplateFactory : uses
+CallbackHandler ..> ProxyObjectFactory : uses
+CallbackHandler ..> ProxyFunctionFactory : uses
+
 
 'TemplateFactory .left.> V8 : uses
 
@@ -86,24 +99,48 @@ PrimitiveProxy <|-- BooleanProxy
 
 /' ----------------------------------------------------------------------- '/
 
+/' Callback Handling '/
+class CallbackHandler {
+
+  --
+  {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
+  {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
+
+  {static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+  {static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+  {static} +memberFunctionCallback(args: FunctionCallbackInfo<Value>)
+
+  {static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+  {static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+  {static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
+}
+
+class NodeHandler {
+  {static} -initialized: bool
+  -rootJS: Persistent<Object>
+  --
+  {static} +Initialize(exports: Local<Object>, module: Local<Object>)
+
+  -exposeROOT()
+  -exposeGlobalFunctions()
+  -exposeGlobals()
+  -exposeMacros()
+  -exposeClasses()
+  -exposeClass(clazz: TClassRef)
+
+  +getIsolate(): Isolate*
+  +getExports(): Local<Object>
+
+  +getTemplateFactory(): TemplateFactory
+  +getFunctionFactory(): ProxyFunctionFactory
+  +getObjectFactory(): ProxyObjectFactory
+}
+
 /' Facade '/
 class NodeApplication {
-  {static} -initialized: bool
   -instance: NodeApplication
-  -rootJS: Persistent<Object>
  --
- {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
- {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
 
- {static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
- {static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
- {static} +memberFunctionCallback(args: FunctionCallbackInfo<Value>)
-
- {static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
- {static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
- {static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
-
- {static} +Initialize(exports: Local<Object>, module: Local<Object>)
  {static} -Exit(args: void*)
 
  {static} +Instance(): NodeApplication
@@ -111,30 +148,16 @@ class NodeApplication {
  -NodeApplication(acn: char*, argc: int*, argv: char**) <<constructor>>
  -initROOTGlobals()
  -initROOTMessageCallback()
-
- -exposeROOT()
- -exposeGlobalFunctions()
- -exposeGlobals()
- -exposeMacros()
- -exposeClasses()
- -exposeClass(clazz: TClassRef)
-
- +getIsolate(): Isolate*
- +getExports(): Local<Object>
-
- +getTemplateFactory(): TemplateFactory
- +getFunctionFactory(): ProxyFunctionFactory
- +getObjectFactory(): ProxyObjectFactory
 }
 
 /' ----------------------------------------------------------------------- '/
 
 /' Javascript Prototypes '/
 class TemplateFactory {
-  -cache: map<string, Persistent<FunctionTemplate>>
+  {static} -cache: map<string, Persistent<FunctionTemplate>>
   --
-  +TemplateFactory() <<constructor>>
-  +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
+  -TemplateFactory() <<constructor>>
+  {static} +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
 }
 
 /' ----------------------------------------------------------------------- '/
@@ -162,9 +185,9 @@ abstract class Proxy {
 
 /' Encapsulation of ROOT functions '/
 class ProxyFunctionFactory {
-  +ProxyFunctionFactory() <<constructor>>
-  +createProxyFunction(function: TFunction, scope: TClassRef): ProxyFunciton
-  +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): ProxyFunction
+  -ProxyFunctionFactory() <<constructor>>
+  {static} +createProxyFunction(function: TFunction, scope: TClassRef): ProxyFunciton
+  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): ProxyFunction
 }
 
 class ProxyFunction {
@@ -201,8 +224,8 @@ class ProxyFunction {
 class ProxyObjectFactory {
   ' {static} -primitives: map<string, ...>
   --
-  +ProxyObjectFactory() <<constructor>>
-  +createProxyObject(type: TDataMember, scope: TClassRef, holder: ProxyObject): ProxyObject
+  -ProxyObjectFactory() <<constructor>>
+  {static} +createProxyObject(type: TDataMember, scope: TClassRef, holder: ProxyObject): ProxyObject
 }
 
 class ProxyObject {
