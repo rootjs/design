@@ -82,10 +82,11 @@
 	\textit{Parameters} & \textit{none}\\
 	\hline
 
-	\textit{Return value} & \textbf{ TFunction} describe return value\\
+	\textit{Return value} & \textbf{ TFunction} the TFunction object in the proxy \\
 	\hline
 
-	\textit{behavior} & describe beahviour \\
+	\textit{Behavior} & returns the TFunction object this proxy wraps. 
+			It contains the meta data of its corresponding function \\
 	\hline
 
 \end{longtable} \pagebreak
@@ -100,13 +101,13 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{args: FunctionCallbackInfo}\\
+	\textit{Parameters} & \textit{args: FunctionCallbackInfo} information about the context of the call, including the  number and values of arguments \\
 	\hline
 
-	\textit{Return value} & \textbf{ ObjectProxy[]} describe return value\\
+	\textit{Return value} & \textbf{ ObjectProxy[]} array of the arguments as proxies\\
 	\hline
 
-	\textit{behavior} & describe beahviour \\
+	\textit{Behavior} & checks whether the functiion is being called with the proper arguments and wraps them in proxies so they can be used by the call method \\
 	\hline
 
 \end{longtable} \pagebreak
@@ -121,13 +122,14 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{args: ObjectProxy[]}\\
+	\textit{Parameters} & \textit{args: ObjectProxy[]} proxies containing arguments for the  method\\
 	\hline
 
-	\textit{Return value} & \textbf{ ObjectProxy} describe return value\\
+	\textit{Return value} & \textbf{ ObjectProxy} proxies containing the values returned by the called method\\
 	\hline
 
-	\textit{behavior} & describe beahviour \\
+	\textit{behavior} & calls the actual method in storage using cling.
+			The argument object proxies' contents are read and given to the called method  \\
 	\hline
 
 \end{longtable} \pagebreak
