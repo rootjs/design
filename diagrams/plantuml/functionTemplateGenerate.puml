@@ -1,0 +1,38 @@
+@startuml
+
+!include ./config/diagramsConfig.puml
+!include ./config/sequenceConfig.puml
+
+title
+FunctionTemplate generation for class exposure
+
+end title
+
+participant "TemplateFactory" as TemplateFactory
+participant "ProxyObjectFactory" as ProxyObjectFactory
+
+
+note left of TemplateFactory
+<u>Assertion</u>:
+clazz provides public constructor and
+is neither abstract nor pure virtual
+end note
+
+[-> TemplateFactory: createTemplate(classRef)
+activate TemplateFactory
+
+TemplateFactory -> TemplateFactory : class = classRef->getClass()
+TemplateFactory -> TemplateFactory : functionTemplate = FunctionTemplate::New(isolate, CallbackHandler::functionCallback)
+loop class->GetListOfMethods()
+  TemplateFactory -> ProxyObjectFactory : createProxyObject(type, scope, holder)
+  activate ProxyObjectFactory
+  ProxyObjectFactory -> TemplateFactory : proxyObject
+  deactivate ProxyObjectFactory
+  TemplateFactory -> TemplateFactory : functionTemplate->Set(name, proxyObject->getProxy())
+end
+
+TemplateFactory ->[ : functionTemplate
+
+deactivate TemplateFactory
+
+@enduml
