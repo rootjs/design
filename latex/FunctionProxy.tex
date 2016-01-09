@@ -1,87 +1,128 @@
 \chapter{FunctionProxy}
-describe class FunctionProxy here
+	Acts as a proxy for a ROOT callable (i.e. function or class method). It provides methods to execute such a callable and validate its arguments. It also maintains a map of \texttt{TFunction} - \texttt{CallFunc} entries to cache already used functions.
+
 \section{getCallFunc}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{FunctionProxy::getCallFunc(method: TFunction*)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{method: TFunction*}\\
-\hline
-\textit{Return value} & \textbf{ CallFunc*} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
+	\hline
+
+	\textit{Name} & \texttt{FunctionProxy::getCallFunc(method: TFunction*)}\\
+	\hline
+
+	\textit{Visibility} & public\\
+	\hline
+
+	\textit{Parameters} & \textit{method: TFunction*}\\
+	\hline
+
+	\textit{Return value} & \textbf{ CallFunc*} describe return value\\
+	\hline
+
+	\textit{behavior} & describe beahviour \\
+	\hline
+
 \end{longtable} \pagebreak
- \section{getMethodsFromName}
+
+\section{getMethodsFromName}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{FunctionProxy::getMethodsFromName(scope: TClassRef, name: string)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{scope: TClassRef, name: string}\\
-\hline
-\textit{Return value} & \textbf{ vector<TFunction*>} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
+	\hline
+
+	\textit{Name} & \texttt{FunctionProxy::getMethodsFromName(scope: TClassRef, name: string)}\\
+	\hline
+
+	\textit{Visibility} & public\\
+	\hline
+
+	\textit{Parameters} & \textit{scope: TClassRef, name: string}\\
+	\hline
+
+	\textit{Return value} & \textbf{ vector<TFunction*>} describe return value\\
+	\hline
+
+	\textit{behavior} & describe beahviour \\
+	\hline
+
 \end{longtable} \pagebreak
- \section{FunctionProxy}
+
+\section{FunctionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{FunctionProxy::FunctionProxy(address: void*, function: TFunction, scope: TClassRef)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{address: void*, function: TFunction, scope: TClassRef}\\
-\hline
-\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
+	\hline
+
+	\textit{Name} & \texttt{FunctionProxy::FunctionProxy(address: void*, function: TFunction, scope: TClassRef)}\\
+	\hline
+
+	\textit{Visibility} & public\\
+	\hline
+
+	\textit{Parameters} & \textit{address: void*, function: TFunction, scope: TClassRef}\\
+	\hline
+
+	\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
+	\hline
+
+	\textit{behavior} & describe beahviour \\
+	\hline
+
 \end{longtable} \pagebreak
- \section{getType}
+
+\section{getType}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{FunctionProxy::getType()}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{none}\\
-\hline
-\textit{Return value} & \textbf{ TFunction} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
+	\hline
+
+	\textit{Name} & \texttt{FunctionProxy::getType()}\\
+	\hline
+
+	\textit{Visibility} & public\\
+	\hline
+
+	\textit{Parameters} & \textit{none}\\
+	\hline
+
+	\textit{Return value} & \textbf{ TFunction} describe return value\\
+	\hline
+
+	\textit{behavior} & describe beahviour \\
+	\hline
+
 \end{longtable} \pagebreak
- \section{validateArgs}
+
+\section{validateArgs}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{FunctionProxy::validateArgs(args: FunctionCallbackInfo)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{args: FunctionCallbackInfo}\\
-\hline
-\textit{Return value} & \textbf{ ObjectProxy[]} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
+	\hline
+
+	\textit{Name} & \texttt{FunctionProxy::validateArgs(args: FunctionCallbackInfo)}\\
+	\hline
+
+	\textit{Visibility} & public\\
+	\hline
+
+	\textit{Parameters} & \textit{args: FunctionCallbackInfo}\\
+	\hline
+
+	\textit{Return value} & \textbf{ ObjectProxy[]} describe return value\\
+	\hline
+
+	\textit{behavior} & describe beahviour \\
+	\hline
+
 \end{longtable} \pagebreak
- \section{call}
+
+\section{call}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{FunctionProxy::call(args: ObjectProxy[])}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{args: ObjectProxy[]}\\
-\hline
-\textit{Return value} & \textbf{ ObjectProxy} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
+	\hline
+
+	\textit{Name} & \texttt{FunctionProxy::call(args: ObjectProxy[])}\\
+	\hline
+
+	\textit{Visibility} & public\\
+	\hline
+
+	\textit{Parameters} & \textit{args: ObjectProxy[]}\\
+	\hline
+
+	\textit{Return value} & \textbf{ ObjectProxy} describe return value\\
+	\hline
+
+	\textit{behavior} & describe beahviour \\
+	\hline
+
 \end{longtable} \pagebreak
- 
