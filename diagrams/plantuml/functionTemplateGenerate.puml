@@ -13,13 +13,9 @@ participant "ProxyObjectFactory" as ProxyObjectFactory
 participant "ProxyFunctionFactory" as ProxyFunctionFactory
 participant "<u>classRef: TClassRef</u>" as classRef
 participant "<u>functionTemplate: FunctionTemplate</u>" as FunctionTemplate
+participant "<u>objectTemplate: ObjectTemplate</u>" as objectTemplate
 
 
-note left of TemplateFactory
-<u>Assertion</u>:
-clazz provides public constructor and
-is neither abstract nor pure virtual
-end note
 
 [-> TemplateFactory: createTemplate(classRef)
 activate TemplateFactory
@@ -46,11 +42,17 @@ loop class->GetListOfPublicDataMembers() : type [where type->Property() & kIsSta
   deactivate FunctionTemplate
 end
 
-loop class->GetListOfMethods() : func [where func->Property() & kIsStatic is true]
-  TemplateFactory -> FunctionTemplate : Set(func->GetName(), CallbackHandler::functionCallback)
-  activate FunctionTemplate
-  FunctionTemplate -> TemplateFactory
-  deactivate FunctionTemplate
+loop class->GetListOfMethods() : func
+  alt "func->Property() & kIsStatic is true" case
+    TemplateFactory -> FunctionTemplate : Set(func->GetName(), CallbackHandler::functionCallback)
+    activate FunctionTemplate
+    FunctionTemplate -> TemplateFactory
+    deactivate FunctionTemplate
+  else "Method is not static"
+    TemplateFactory -> objectTemplate : Set(func->GetName(), CallbackHandler::functionCallback)
+    activate objectTemplate
+    objectTemplate -> TemplateFactory
+    deactivate objectTemplate
 end
 
 TemplateFactory ->[ : functionTemplate
