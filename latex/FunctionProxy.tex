@@ -34,13 +34,14 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{scope: TClassRef, name: string}\\
+	\textit{Parameters} & \textit{scope: TClassRef} a reference to the class which is checked for methods with the specified name\\
+		& \textit{name: string} the name of the overloaded methods which shall be returned\\
 	\hline
 
-	\textit{Return value} & \textbf{ vector<TFunction*>} describe return value\\
+	\textit{Return value} & \textbf{vector<TFunction*>} all methods that match the specified name\\
 	\hline
 
-	\textit{behavior} & describe beahviour \\
+	\textit{Behavior} & Gets a reference to a class and a method name string. It returnes all methods of the class with the specified name. This is needed since JavaScript does not support method overloading.\\
 	\hline
 
 \end{longtable} \pagebreak
