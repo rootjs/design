@@ -31,7 +31,7 @@ activate FunctionTemplate
 FunctionTemplate -> TemplateFactory : functionTemplate
 deactivate FunctionTemplate
 
-loop class->GetListOfPublicDataMembers() : type [where type->Property() & kIsStatic is true]
+loop "class->GetListOfPublicDataMembers() : type [where type->Property() & kIsStatic is true]"
   TemplateFactory -> ProxyObjectFactory : createProxyObject(type, scope, holder)
   activate ProxyObjectFactory
   ProxyObjectFactory -> TemplateFactory : proxyObject
@@ -42,7 +42,7 @@ loop class->GetListOfPublicDataMembers() : type [where type->Property() & kIsSta
   deactivate FunctionTemplate
 end
 
-loop class->GetListOfMethods() : func
+loop "class->GetListOfMethods() : func"
   alt "func->Property() & kIsStatic is true" case
     TemplateFactory -> FunctionTemplate : Set(func->GetName(), CallbackHandler::functionCallback)
     activate FunctionTemplate
@@ -53,6 +53,7 @@ loop class->GetListOfMethods() : func
     activate objectTemplate
     objectTemplate -> TemplateFactory
     deactivate objectTemplate
+  end
 end
 
 TemplateFactory ->[ : functionTemplate
