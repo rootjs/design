@@ -27,19 +27,18 @@ class TemplateFactory
 abstract class Proxy
 
 /' Encapsulation of ROOT functions '/
-class ProxyFunctionFactory
-class ProxyFunction
+class FunctionProxyFactory
+class FunctionProxy
 
 /' Encapsulation of ROOT objects and primitives '/
-class ProxyObjectFactory
-class ProxyObject
+class ObjectProxyFactory
+class ObjectProxy
 
 class TemplateProxy
 class EnumProxy
 class StructProxy
 class ArrayProxy
 class PointerProxy
-class ReferenceProxy
 
 abstract class PrimitiveProxy
 class NumberProxy
@@ -52,24 +51,29 @@ class BooleanProxy
 
 /' Relations '/
 TApplication <|-down- NodeApplication
-NodeHandler -right-> "1" NodeApplication
+NodeHandler -left-> "1" NodeApplication
+NodeHandler -right-> CallbackHandler
 
 CallbackHandler ..> TemplateFactory : uses
-CallbackHandler ..> ProxyObjectFactory : uses
-CallbackHandler ..> ProxyFunctionFactory : uses
+CallbackHandler ..> ObjectProxyFactory : uses
+CallbackHandler ..> FunctionProxyFactory : uses
 
 NodeHandler ..> TemplateFactory : uses
-NodeHandler ..> ProxyObjectFactory : uses
-NodeHandler ..> ProxyFunctionFactory : uses
+NodeHandler ..> ObjectProxyFactory : uses
+NodeHandler ..> FunctionProxyFactory : uses
 
-Proxy <|-right- ProxyObject
-Proxy <|-left- ProxyFunction
+Proxy <|-right- ObjectProxy
+Proxy <|-left- FunctionProxy
 
-ProxyFunctionFactory .down.> ProxyFunction : creates
-ProxyObjectFactory .down.> ProxyObject : creates
+FunctionProxyFactory .down.> FunctionProxy : creates
+ObjectProxyFactory .down.> ObjectProxy : creates
 
-ProxyObject <|-- TemplateProxy
-ProxyObject <|-- PrimitiveProxy
+ObjectProxy <|-- EnumProxy
+ObjectProxy <|-- PointerProxy
+ObjectProxy <|-- StructProxy
+ObjectProxy <|-- ArrayProxy
+ObjectProxy <|-- TemplateProxy
+ObjectProxy <|-- PrimitiveProxy
 PrimitiveProxy <|-- NumberProxy
 PrimitiveProxy <|-- StringProxy
 PrimitiveProxy <|-- BooleanProxy
@@ -149,13 +153,13 @@ abstract class Proxy {
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation of ROOT functions '/
-class ProxyFunctionFactory {
-  -ProxyFunctionFactory() <<constructor>>
-  {static} +createProxyFunction(function: TFunction, scope: TClassRef): ProxyFunciton
-  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): ProxyFunction
+class FunctionProxyFactory {
+  -FunctionProxyFactory() <<constructor>>
+  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): ProxyFunciton
+  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): FunctionProxy
 }
 
-class ProxyFunction {
+class FunctionProxy {
   {static} -functions: map<TFunction*, CallFunc*>
   --
   {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
@@ -169,30 +173,30 @@ class ProxyFunction {
   {static} +getCallFunc(method: TFunction*): CallFunc*
   {static} +getMethodsFromName(scope: TClassRef, name: string): vector<TFunction*>
 
-  +ProxyFunction(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
+  +FunctionProxy(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
   +getType(): TFunction
 
-  +validateArgs(args: FunctionCallbackInfo): ProxyObject[]
-  +call(args: ProxyObject[]): ProxyObject
+  +validateArgs(args: FunctionCallbackInfo): ObjectProxy[]
+  +call(args: ObjectProxy[]): ObjectProxy
 
 }
 
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation of ROOT objects and primitives '/
-class ProxyObjectFactory {
+class ObjectProxyFactory {
   --
-  -ProxyObjectFactory() <<constructor>>
-  {static} +createProxyObject(type: TDataMember, scope: TClassRef, holder: ProxyObject): ProxyObject
+  -ObjectProxyFactory() <<constructor>>
+  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
 }
 
-class ProxyObject {
+class ObjectProxy {
   #proxy: Persistent<Object>
   --
-  +ProxyObject(type: TDataMember, scope: TClassRef) <<constructor>>
+  +ObjectProxy(type: TDataMember, scope: TClassRef) <<constructor>>
   +getType(): TDataMember
 
-  {abstract} +set(value: ProxyObject)
+  {abstract} +set(value: ObjectProxy)
   {abstract} +get(): Local<Value>
 
   {abstract} +setProxy(proxy: Local<Object>)
