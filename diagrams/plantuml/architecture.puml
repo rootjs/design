@@ -11,8 +11,8 @@ end title
 /' ----------------------------------------------------------------------- '/
 
 /' Interfaces '/
-interface V8
-interface ROOT
+'interface V8
+'interface ROOT
 
 /' Environment '/
 class "ROOT::TApplication" as TApplication
@@ -22,13 +22,14 @@ class NodeApplication << (S,#FF7700) Singleton >>
 class TemplateFactory
 ' class TemplateCache
 
+/' Encapsulation '/
+abstract class Proxy
+
 /' Encapsulation of ROOT functions '/
 class ProxyFunctionFactory
 class ProxyFunction
 
 /' Encapsulation of ROOT objects and primitives '/
-class "node::ObjectWrap" as ObjectWrap
-
 class ProxyObjectFactory
 class ProxyObject
 
@@ -45,8 +46,8 @@ class StringProxy
 class BooleanProxy
 
 /' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
-class ClassHelper
-class FunctionHelper
+' class ClassHelper
+' class FunctionHelper
 
 /' ----------------------------------------------------------------------- '/
 
@@ -57,20 +58,20 @@ NodeApplication -down-> "1" TemplateFactory
 NodeApplication --> "1" ProxyFunctionFactory
 NodeApplication --> "1" ProxyObjectFactory
 
-TemplateFactory .left.> V8 : uses
-' TemplateFactory -down-> "1" TemplateCache : access
+'TemplateFactory .left.> V8 : uses
 
-'ClassHelper .up.> ROOT : uses
-ClassHelper <-- ProxyObjectFactory
+'ClassHelper ..> ROOT : uses
+'FunctionHelper ..> ROOT : uses
 
-'FunctionHelper .up.> ROOT : uses
-FunctionHelper <-- ProxyFunctionFactory
+Proxy <|-right- ProxyObject
+Proxy <|-left- ProxyFunction
+
+' FunctionHelper <.up. ProxyFunctionFactory : uses
+' ClassHelper <.up. ProxyObjectFactory : uses
 
 ProxyFunctionFactory .down.> ProxyFunction : creates
-
-ObjectWrap <|-left- ProxyObject
-
 ProxyObjectFactory .down.> ProxyObject : creates
+
 ProxyObject <|-- TemplateProxy
 ProxyObject <|-- EnumProxy
 ProxyObject <|-- StructProxy
@@ -112,6 +113,8 @@ class NodeApplication {
  -initROOTMessageCallback()
 
  -exposeROOT()
+ -exposeGlobalFunctions()
+ -exposeGlobals()
  -exposeMacros()
  -exposeClasses()
  -exposeClass(clazz: TClassRef)
@@ -130,36 +133,67 @@ class NodeApplication {
 class TemplateFactory {
   -cache: map<string, Persistent<FunctionTemplate>>
   --
+  +TemplateFactory() <<constructor>>
   +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
 }
 
-/'
-class TemplateCache {
-  -cache: map<string, Persistent<FunctionTemplate>>
-  --
-  +contains(type: TClassRef): bool
-  +get(type: TClassRef): Local<FunctionTemplate>
-  +store(type: TClassRef, tpl: Local<FunctionTemplate>)
+/' ----------------------------------------------------------------------- '/
+
+/' Encapsulation '/
+abstract class Proxy {
+    #address: void*
+    #type: TObject
+    #scope: TClassRef
+    --
+    #Proxy(address: void*, type: TObject, scope: TClassRef) <<constructor>>
+    {abstract} +setAddress(address: void*)
+    +getAddress(): void*
+    +getType(): TObject
+    +getScope(): TClassRef
+
+    +isGlobal(): bool
+
+    {abstract} +isTemplate(): bool
+    {abstract} +isConst(): bool
+    {abstract} +isStatic(): bool
 }
-'/
 
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation of ROOT functions '/
 class ProxyFunctionFactory {
-  +createProxyFunction(info: TMethod): ProxyFunciton
-  +fromArgs(name: string, clazz: TClassRef, args: FunctionCallbackInfo): ProxyFunction
+  +ProxyFunctionFactory() <<constructor>>
+  +createProxyFunction(function: TFunction, scope: TClassRef): ProxyFunciton
+  +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): ProxyFunction
 }
 
 class ProxyFunction {
-  -address: void*
-  -info: TFunction
+  {static} -functions: map<TFunction*, CallFunc*>
   --
-  +ProxyFunction(address: void*, info: TFunction) <<constructor>>
-  +convertArgs(args: FunctionCallbackInfo): ProxyObject[]
+  {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
+
+  {static} -callConstructor(method: TFunction*, type: TClassRef, args: void*): void*
+  {static} -callDestructor(type: TClassRef, self: void*): void
+
+  {static} -callObject(method: TFunction*, self: void*, args: void*, resType: TClassRef): void*
+  {static} <T> -callPrimitive(TFunction* method, void* self, void* args): T
+
+  {static} +getCallFunc(method: TFunction*): CallFunc*
+  {static} +getMethodsFromName(scope: TClassRef, name: string): vector<TFunction*>
+
+  +ProxyFunction(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
+  +getType(): TFunction
+
+  +validateArgs(args: FunctionCallbackInfo): ProxyObject[]
   +call(args: ProxyObject[]): ProxyObject
-  +isTemplateFunction(): bool
+
 }
+/'
++isTemplateFunction(): bool
++isConstFunction(): bool
++isStaticFunction(): bool
++isOperator(): bool
+'/
 
 /' ----------------------------------------------------------------------- '/
 
@@ -167,88 +201,121 @@ class ProxyFunction {
 class ProxyObjectFactory {
   ' {static} -primitives: map<string, ...>
   --
-  +createProxyObject(type: TDataMember, holder: ProxyObject): ProxyObject
+  +ProxyObjectFactory() <<constructor>>
+  +createProxyObject(type: TDataMember, scope: TClassRef, holder: ProxyObject): ProxyObject
 }
 
-abstract class ProxyObject {
-  #address: void*
-  #type: TDataMember
+class ProxyObject {
+  #proxy: Persistent<Object>
   --
-  #ProxyObject(address: void*, type: TDataMember) <<constructor>>
-  +getAddress(): void*
+  +ProxyObject(type: TDataMember, scope: TClassRef) <<constructor>>
   +getType(): TDataMember
+
   {abstract} +set(value: ProxyObject)
   {abstract} +get(): Local<Value>
+
+  {abstract} +setProxy(proxy: Local<Object>)
+  {abstract} +getProxy(): Local<Object>
+
   {abstract} +isPrimitive(): bool
 }
+
+
+class TemplateProxy {
+
+}
+
+class EnumProxy {
+
+}
+
+class StructProxy {
+
+}
+
+class ArrayProxy {
+}
+
+class PointerProxy {
+
+}
+
+class ReferenceProxy {
+
+}
+
+abstract class PrimitiveProxy {
+
+}
+
+class NumberProxy {
+
+}
+
+class StringProxy {
+
+}
+
+class BooleanProxy {
+
+}
+
 
 /' ----------------------------------------------------------------------- '/
 
 /' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
-class FunctionHelper {
-  -functions: map<string, >
+/' Taken from https://github.com/root-mirror/root/blob/master/bindings/pyroot/src/Cppyy.h '/
+
+/' class FunctionHelper << (N,#A1A1A1) Namespace >> {
+  +isConstructor(method: TFunction*): bool
+  +isPublicMethod(method: TFunction*): bool
+  +isStaticMethod(method: TFunction*): bool
+  +isConstMethod(method: TFunction*): bool
+  +isMethodTemplate(method: TFunction*): bool
+
+  +getMethodIndexAt(scope: TClassRef, imeth: long): long
+  +getMethod(scope: TClassRef, imeth: long): TFunction*
+  +getMethodName(method: TFunction*): string
+  +getMethodResultType(method: TFunction*): string
+  +getMethodNumArgs(method: TFunction*): long
+  +getMethodReqArgs(method: TFunction*): long
+
+  +getMethodArgName(method: TFunction*, iarg: int): string
+  +getMethodArgType(method: TFunction*, iarg: int): string
+  +getMethodArgDefault(method: TFunction*, iarg: int): string
+}
+
+class ClassHelper << (N,#A1A1A1) Namespace >> {
+  -globals: vector<TGlobal*>
   --
-  +GetCallFunc(method: TCppMethod): CallFunc*
-  +copyArgs(args: void*, vargs: void**): void
-  +FastCall(method: TCppMethod, args: void*, self: void*, result: void*): bool
+  +isNamespace(scope: TClassRef): bool
+  +isAbstract(clazz: TClassRef): bool
+  +isEnum(typeName: string): bool
+  +isStruct(typeName: string): bool
 
-  +CallV(method: TCppMethod, self: TCppObject, args: void*): void
-  +CallR(method: TCppMethod, self: TCppObject, args: void*): void*
-  +CallS(method: TCppMethod, self: TCppObject, args: void*): Char*
-  +CallO(method: TCppMethod, self: TCppObject, args: void*, resultype: TCppType): TCppObject
+  +getFinalName(clazz: TClassRef): string
+  +getScopedFinalName(clazz: TClassRef): string
 
-  +CallConstructor(method: TCppMethod, klass: TCppType, args: void*): TCppObject
-  +CallDestructor(type: TCppType, self: TCppObject): void
+  +getNumBases(clazz: TClassRef): long
+  +getBaseName(clazz: TClassRef, ibase: long): string
+  +isSubtype(derived: TClassRef, base: TClassRef): bool
 
-  +IsConstructor(method: TCppMethod): bool
-  +IsPublicMethod(method: TCppMethod): bool
-  +IsStaticMethod(method: TCppMethod): bool
-  +IsConstMethod(method: TCppMethod): bool
-  +IsMethodTemplate(method: TCppMethod): bool
+  +getNumMethods(scope: TClassRef): long
 
-  +GetMethodNumTemplateArgs(scope: TCppScope, imeth: TCppIndex): TCppIndex
-  +GetMethodTemplateArgName(scope: TCppScope, imeth: TCppIndex, iarg: TCppIndex): string
+  +getNumDatamembers(scope: TClassRef): long
+  +getDatamemberName(scope: TClassRef, idata: long): string
+  +getDatamemberType(scope: TClassRef, idata: long): string
+  +getDatamemberOffset(scope: TClassRef, idata: long): long
+  +getDatamemberIndex(scope: TClassRef, name: string): long
+  +getDimensionSize(TClassRef scope, long idata, int dimension): int
 
-  +GetNumMethods(scope: TCppScope): TCppIndex
-  +GetMethodIndexAt(scope: TCppScope, imeth: TCppIndex): TCppIndex
-  +GetMethodsFromName(scope: TCppScope, name: string): vector<TCppMethod>
-  +GetMethod(scope: TCppScope, imeth: TCppIndex): TCppMethod
-  +GetMethodName(method: TCppMethod): string
-  +GetMethodResultType(method: TCppMethod): string
-  +GetMethodNumArgs(method: TCppMethod): TCppIndex
-  +GetMethodReqArgs(method: TCppMethod): TCppIndex
-  +GetMethodArgName(method: TCppMethod, iarg: int): string
-  +GetMethodArgType(method: TCppMethod, iarg: int): string
-  +GetMethodArgDefault(method: TCppMethod, iarg: int): string
-  +GetMethodSignature(scope: TCppScope, imeth: TCppIndex): string
+  +isPublicData(scope: TClassRef, idata: long): bool
+  +isStaticData(scope: TClassRef, idata: long): bool
+  +isConstData(scope: TClassRef, idata: long): bool
+  +isEnumData(scope: TClassRef, idata: long): bool
+  +isStructData(scope: TClassRef, idata: long): bool
+
+  +resolveAddress(member: TDataMember, clazz: TClassRef): void*
 }
-
-class ClassHelper {
-  +IsNamespace(scope: TCppScope): bool
-  +IsAbstract(klass: TCppType): bool
-  +IsEnum(typename: string): bool
-  +IsStruct(typename: string): bool
-
-  +GetFinalName(klass: TCppType): string
-  +GetScopedFinalName(klass: TCppType): string
-
-  +GetNumBases(klass: TCppType): TCppIndex
-  +GetBaseName(klass: TCppType, ibase: TCppIndex): string
-  +IsSubtype(derived: TCppType, base: TCppType): bool
-
-  +GetNumDatamembers(scope: TCppScope): TCppIndex
-  +GetDatamemberName(scope: TCppScope, idata: TCppIndex): string
-  +GetDatamemberType(scope: TCppScope, idata: TCppIndex): string
-  +GetDatamemberOffset(scope: TCppScope, idata: TCppIndex): ptrdiff
-  +GetDatamemberIndex(scope: TCppScope, name: string): TCppIndex
-
-  +IsPublicData(scope: TCppScope, idata: TCppIndex): bool
-  +IsStaticData(scope: TCppScope, idata: TCppIndex): bool
-  +IsConstData(scope: TCppScope, idata: TCppIndex): bool
-  +IsEnumData(scope: TCppScope, idata: TCppIndex): bool
-
-  +resolveAddress(staticMember: TDataMember, clazz: TClassRef): void*
-  +resolveAddress(staticMember: TDataMember, clazz: TClassRef): void*
-}
-
+'/
 @enduml
