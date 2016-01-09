@@ -11,16 +11,12 @@ end title
 /' ----------------------------------------------------------------------- '/
 
 /' Interfaces '/
-'interface V8
-'interface ROOT
+interface ROOT
 
 /' Environment '/
 class "ROOT::TApplication" as TApplication
-class "TROOT::TROOT" as TROOT
-class TClassTable
-class TCling
-class NodeApplication << (S,#FF7700) Singleton >>
-class CallbackHandler << (S,#FF7700) static>>
+class NodeApplication
+class CallbackHandler
 class NodeHandler
 
 /' Javascript Prototypes '/
@@ -31,19 +27,18 @@ class TemplateFactory
 abstract class Proxy
 
 /' Encapsulation of ROOT functions '/
-class ProxyFunctionFactory
-class ProxyFunction
+class FunctionProxyFactory
+class FunctionProxy
 
 /' Encapsulation of ROOT objects and primitives '/
-class ProxyObjectFactory
-class ProxyObject
+class ObjectProxyFactory
+class ObjectProxy
 
 class TemplateProxy
 class EnumProxy
 class StructProxy
 class ArrayProxy
 class PointerProxy
-class ReferenceProxy
 
 abstract class PrimitiveProxy
 class NumberProxy
@@ -51,48 +46,34 @@ class StringProxy
 class BooleanProxy
 
 /' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
-' class ClassHelper
-' class FunctionHelper
 
 /' ----------------------------------------------------------------------- '/
 
 /' Relations '/
 TApplication <|-down- NodeApplication
-
-NodeHandler --> "1" NodeApplication
-
-NodeHandler --> TROOT
-NodeHandler --> TClassTable
-NodeHandler --> TCling
-NodeHandler ..> CallbackHandler : uses
+NodeHandler -left-> "1" NodeApplication
+NodeHandler -right-> CallbackHandler
 
 CallbackHandler ..> TemplateFactory : uses
-CallbackHandler ..> ProxyObjectFactory : uses
-CallbackHandler ..> ProxyFunctionFactory : uses
+CallbackHandler ..> ObjectProxyFactory : uses
+CallbackHandler ..> FunctionProxyFactory : uses
 
+NodeHandler ..> TemplateFactory : uses
+NodeHandler ..> ObjectProxyFactory : uses
+NodeHandler ..> FunctionProxyFactory : uses
 
-'TemplateFactory .left.> V8 : uses
+Proxy <|-right- ObjectProxy
+Proxy <|-left- FunctionProxy
 
-'ClassHelper ..> ROOT : uses
-'FunctionHelper ..> ROOT : uses
+FunctionProxyFactory .down.> FunctionProxy : creates
+ObjectProxyFactory .down.> ObjectProxy : creates
 
-Proxy <|-right- ProxyObject
-Proxy <|-left- ProxyFunction
-
-' FunctionHelper <.up. ProxyFunctionFactory : uses
-' ClassHelper <.up. ProxyObjectFactory : uses
-
-ProxyFunctionFactory .down.> ProxyFunction : creates
-ProxyObjectFactory .down.> ProxyObject : creates
-
-ProxyObject <|-- TemplateProxy
-ProxyObject <|-- EnumProxy
-ProxyObject <|-- StructProxy
-ProxyObject <|-- ArrayProxy
-ProxyObject <|-- PointerProxy
-ProxyObject <|-- ReferenceProxy
-
-ProxyObject <|-- PrimitiveProxy
+ObjectProxy <|-- EnumProxy
+ObjectProxy <|-- PointerProxy
+ObjectProxy <|-- StructProxy
+ObjectProxy <|-- ArrayProxy
+ObjectProxy <|-- TemplateProxy
+ObjectProxy <|-- PrimitiveProxy
 PrimitiveProxy <|-- NumberProxy
 PrimitiveProxy <|-- StringProxy
 PrimitiveProxy <|-- BooleanProxy
@@ -101,7 +82,6 @@ PrimitiveProxy <|-- BooleanProxy
 
 /' Callback Handling '/
 class CallbackHandler {
-
   --
   {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
   {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
@@ -116,11 +96,8 @@ class CallbackHandler {
 }
 
 class NodeHandler {
-  {static} -initialized: bool
   -rootJS: Persistent<Object>
   --
-  {static} +Initialize(exports: Local<Object>, module: Local<Object>)
-
   -exposeROOT()
   -exposeGlobalFunctions()
   -exposeGlobals()
@@ -128,24 +105,16 @@ class NodeHandler {
   -exposeClasses()
   -exposeClass(clazz: TClassRef)
 
-  +getIsolate(): Isolate*
   +getExports(): Local<Object>
-
-  +getTemplateFactory(): TemplateFactory
-  +getFunctionFactory(): ProxyFunctionFactory
-  +getObjectFactory(): ProxyObjectFactory
 }
+
 
 /' Facade '/
 class NodeApplication {
-  -instance: NodeApplication
  --
-
  {static} -Exit(args: void*)
 
- {static} +Instance(): NodeApplication
-
- -NodeApplication(acn: char*, argc: int*, argv: char**) <<constructor>>
+ +NodeApplication(acn: char*, argc: int*, argv: char**) <<constructor>>
  -initROOTGlobals()
  -initROOTMessageCallback()
 }
@@ -184,13 +153,13 @@ abstract class Proxy {
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation of ROOT functions '/
-class ProxyFunctionFactory {
-  -ProxyFunctionFactory() <<constructor>>
-  {static} +createProxyFunction(function: TFunction, scope: TClassRef): ProxyFunciton
-  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): ProxyFunction
+class FunctionProxyFactory {
+  -FunctionProxyFactory() <<constructor>>
+  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): ProxyFunciton
+  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): FunctionProxy
 }
 
-class ProxyFunction {
+class FunctionProxy {
   {static} -functions: map<TFunction*, CallFunc*>
   --
   {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
@@ -204,37 +173,30 @@ class ProxyFunction {
   {static} +getCallFunc(method: TFunction*): CallFunc*
   {static} +getMethodsFromName(scope: TClassRef, name: string): vector<TFunction*>
 
-  +ProxyFunction(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
+  +FunctionProxy(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
   +getType(): TFunction
 
-  +validateArgs(args: FunctionCallbackInfo): ProxyObject[]
-  +call(args: ProxyObject[]): ProxyObject
+  +validateArgs(args: FunctionCallbackInfo): ObjectProxy[]
+  +call(args: ObjectProxy[]): ObjectProxy
 
 }
-/'
-+isTemplateFunction(): bool
-+isConstFunction(): bool
-+isStaticFunction(): bool
-+isOperator(): bool
-'/
 
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation of ROOT objects and primitives '/
-class ProxyObjectFactory {
-  ' {static} -primitives: map<string, ...>
+class ObjectProxyFactory {
   --
-  -ProxyObjectFactory() <<constructor>>
-  {static} +createProxyObject(type: TDataMember, scope: TClassRef, holder: ProxyObject): ProxyObject
+  -ObjectProxyFactory() <<constructor>>
+  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
 }
 
-class ProxyObject {
+class ObjectProxy {
   #proxy: Persistent<Object>
   --
-  +ProxyObject(type: TDataMember, scope: TClassRef) <<constructor>>
+  +ObjectProxy(type: TDataMember, scope: TClassRef) <<constructor>>
   +getType(): TDataMember
 
-  {abstract} +set(value: ProxyObject)
+  {abstract} +set(value: ObjectProxy)
   {abstract} +get(): Local<Value>
 
   {abstract} +setProxy(proxy: Local<Object>)
@@ -243,102 +205,4 @@ class ProxyObject {
   {abstract} +isPrimitive(): bool
 }
 
-
-class TemplateProxy {
-
-}
-
-class EnumProxy {
-
-}
-
-class StructProxy {
-
-}
-
-class ArrayProxy {
-}
-
-class PointerProxy {
-
-}
-
-class ReferenceProxy {
-
-}
-
-abstract class PrimitiveProxy {
-
-}
-
-class NumberProxy {
-
-}
-
-class StringProxy {
-
-}
-
-class BooleanProxy {
-
-}
-
-
-/' ----------------------------------------------------------------------- '/
-
-/' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
-/' Taken from https://github.com/root-mirror/root/blob/master/bindings/pyroot/src/Cppyy.h '/
-
-/' class FunctionHelper << (N,#A1A1A1) Namespace >> {
-  +isConstructor(method: TFunction*): bool
-  +isPublicMethod(method: TFunction*): bool
-  +isStaticMethod(method: TFunction*): bool
-  +isConstMethod(method: TFunction*): bool
-  +isMethodTemplate(method: TFunction*): bool
-
-  +getMethodIndexAt(scope: TClassRef, imeth: long): long
-  +getMethod(scope: TClassRef, imeth: long): TFunction*
-  +getMethodName(method: TFunction*): string
-  +getMethodResultType(method: TFunction*): string
-  +getMethodNumArgs(method: TFunction*): long
-  +getMethodReqArgs(method: TFunction*): long
-
-  +getMethodArgName(method: TFunction*, iarg: int): string
-  +getMethodArgType(method: TFunction*, iarg: int): string
-  +getMethodArgDefault(method: TFunction*, iarg: int): string
-}
-
-class ClassHelper << (N,#A1A1A1) Namespace >> {
-  -globals: vector<TGlobal*>
-  --
-  +isNamespace(scope: TClassRef): bool
-  +isAbstract(clazz: TClassRef): bool
-  +isEnum(typeName: string): bool
-  +isStruct(typeName: string): bool
-
-  +getFinalName(clazz: TClassRef): string
-  +getScopedFinalName(clazz: TClassRef): string
-
-  +getNumBases(clazz: TClassRef): long
-  +getBaseName(clazz: TClassRef, ibase: long): string
-  +isSubtype(derived: TClassRef, base: TClassRef): bool
-
-  +getNumMethods(scope: TClassRef): long
-
-  +getNumDatamembers(scope: TClassRef): long
-  +getDatamemberName(scope: TClassRef, idata: long): string
-  +getDatamemberType(scope: TClassRef, idata: long): string
-  +getDatamemberOffset(scope: TClassRef, idata: long): long
-  +getDatamemberIndex(scope: TClassRef, name: string): long
-  +getDimensionSize(TClassRef scope, long idata, int dimension): int
-
-  +isPublicData(scope: TClassRef, idata: long): bool
-  +isStaticData(scope: TClassRef, idata: long): bool
-  +isConstData(scope: TClassRef, idata: long): bool
-  +isEnumData(scope: TClassRef, idata: long): bool
-  +isStructData(scope: TClassRef, idata: long): bool
-
-  +resolveAddress(member: TDataMember, clazz: TClassRef): void*
-}
-'/
 @enduml

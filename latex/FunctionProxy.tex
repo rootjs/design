@@ -1,9 +1,9 @@
-\chapter{ProxyFunction}
-describe class ProxyFunction here
+\chapter{FunctionProxy}
+describe class FunctionProxy here
 \section{getCallFunc}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunction::getCallFunc(method: TFunction*)}\\
+\textit{Name} & \texttt{FunctionProxy::getCallFunc(method: TFunction*)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
@@ -17,7 +17,7 @@ describe class ProxyFunction here
  \section{getMethodsFromName}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunction::getMethodsFromName(scope: TClassRef, name: string)}\\
+\textit{Name} & \texttt{FunctionProxy::getMethodsFromName(scope: TClassRef, name: string)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
@@ -28,10 +28,10 @@ describe class ProxyFunction here
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{ProxyFunction}
+ \section{FunctionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunction::ProxyFunction(address: void*, function: TFunction, scope: TClassRef)}\\
+\textit{Name} & \texttt{FunctionProxy::FunctionProxy(address: void*, function: TFunction, scope: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
@@ -45,7 +45,7 @@ describe class ProxyFunction here
  \section{getType}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunction::getType()}\\
+\textit{Name} & \texttt{FunctionProxy::getType()}\\
 \hline
  \textit{Visibility} & public\\
 \hline
@@ -59,13 +59,13 @@ describe class ProxyFunction here
  \section{validateArgs}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunction::validateArgs(args: FunctionCallbackInfo)}\\
+\textit{Name} & \texttt{FunctionProxy::validateArgs(args: FunctionCallbackInfo)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
 \textit{Parameters} & \textit{args: FunctionCallbackInfo}\\
 \hline
-\textit{Return value} & \textbf{ ProxyObject[]} describe return value\\
+\textit{Return value} & \textbf{ ObjectProxy[]} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
@@ -73,13 +73,13 @@ describe class ProxyFunction here
  \section{call}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ProxyFunction::call(args: ProxyObject[])}\\
+\textit{Name} & \texttt{FunctionProxy::call(args: ObjectProxy[])}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{args: ProxyObject[]}\\
+\textit{Parameters} & \textit{args: ObjectProxy[]}\\
 \hline
-\textit{Return value} & \textbf{ ProxyObject} describe return value\\
+\textit{Return value} & \textbf{ ObjectProxy} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
