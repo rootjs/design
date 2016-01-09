@@ -1,5 +1,5 @@
 \chapter{ObjectProxyFactory}
-describe class ObjectProxyFactory here
+The ObjectProxyFactory creates ObjectProxy instances with TDataMember type, TClassRef scope and ObjectProxy holder. It encapsulates ROOT objects recursively for use in Javascript. 
 \section{createObjectProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -7,11 +7,11 @@ describe class ObjectProxyFactory here
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{type: TDataMember, scope: TClassRef, holder: ObjectProxy}\\
+\textit{Parameters} & \textit{type: TDataMember, scope: TClassRef, holder: ObjectProxy} The type and scope the ObjectProxy will have. The holder is the ObjectProxy which will encapsulate and hold the newly created ObjectProxy\\
 \hline
-\textit{Return value} & \textbf{ ObjectProxy} describe return value\\
+\textit{Return value} & \textbf{ ObjectProxy} Returns the ObjectProxy which is created with the given parameters. \\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & A new ObjectProxy is created each time the createObjectProxy method is called up. \\
 \hline
 \end{longtable} \pagebreak
  
