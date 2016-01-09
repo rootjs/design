@@ -1,0 +1,53 @@
+@startuml
+
+!include ./config/diagramsConfig.puml
+!include ./config/sequenceConfig.puml
+
+title
+class & namespace exposure
+
+end title
+
+participant "<u>instance:NodeApplication</u>" as instance
+participant "<u>rootJS:Persistent<Object></u>" as rootJS
+participant "<u>:TemplateFactory</u>" as TemplateFactory
+participant "<u>clazz:TClassRef</u>" as clazz
+participant "<u>prototype:Local<FunctionTemplate></u>" as prototype
+
+note left of instance
+<u>Assertion</u>:
+clazz provides public constructor and
+is neither abstract nor pure virtual
+end note
+
+[-> instance: exposeClass(clazz)
+activate instance
+
+instance -> TemplateFactory : createTemplate(clazz)
+activate TemplateFactory
+
+create prototype
+TemplateFactory -> prototype : <<create>>
+
+TemplateFactory --> instance : prototype
+deactivate TemplateFactory
+
+instance -> clazz : getName()
+activate clazz
+prototype --> instance : protoName
+deactivate clazz
+
+instance -> prototype : getFunction()
+activate prototype
+prototype --> instance : protoFunction
+deactivate prototype
+
+instance -> rootJS : Set(protoName, protoFunction)
+activate rootJS
+rootJS -> instance
+deactivate rootJS
+
+instance -->[
+deactivate instance
+
+@enduml
