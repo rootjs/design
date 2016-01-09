@@ -113,6 +113,8 @@ class NodeApplication {
  -initROOTMessageCallback()
 
  -exposeROOT()
+ -exposeGlobalFunctions()
+ -exposeGlobals()
  -exposeMacros()
  -exposeClasses()
  -exposeClass(clazz: TClassRef)
