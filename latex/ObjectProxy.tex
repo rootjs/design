@@ -1,5 +1,5 @@
 \chapter{ObjectProxy}
-describe class ObjectProxy here
+The \textit{ObjectProxy} class is used to represent ROOT objects. It differentiates between primitive and non-primitive object types.
 \section{ObjectProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -9,9 +9,9 @@ describe class ObjectProxy here
 \hline
 \textit{Parameters} & \textit{type: TDataMember, scope: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
+\textit{Return value} & \textbf{<<constructor>>} The newly constructed ObjectProxy.\\
   \hline
- \textit{behavior} & describe beahviour \\
+  \textit{behavior} & Creates a new ObjectProxy with the given type and \textit{TClassRef}.\\
 \hline
 \end{longtable} \pagebreak
  \section{getType}
@@ -23,9 +23,9 @@ describe class ObjectProxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ TDataMember} describe return value\\
+\textit{Return value} & \textbf{TDataMember} The type of the ObjectProxy.\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Returns the type of the Object behind the proxy.\\
 \hline
 \end{longtable} \pagebreak
  \section{set}
@@ -39,7 +39,7 @@ describe class ObjectProxy here
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Sets the value of the Object behind the proxy.\\
 \hline
 \end{longtable} \pagebreak
  \section{get}
@@ -51,9 +51,9 @@ describe class ObjectProxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ Local<Value>} describe return value\\
+\textit{Return value} & \textbf{Local<Value>} The value the object has.\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{behavior} & Returns the value that was set for the object.\\
 \hline
 \end{longtable} \pagebreak
  \section{setProxy}
@@ -79,7 +79,7 @@ describe class ObjectProxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ Local<Object>} describe return value\\
+\textit{Return value} & \textbf{Local<Object>} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
@@ -93,9 +93,8 @@ describe class ObjectProxy here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} describe return value\\
+\textit{Return value} & \textbf{bool} Whether or not the represented object is of a primitive type or not.\\
   \hline
- \textit{behavior} & describe beahviour \\
+  \textit{behavior} & Returns \textit{true} if the represented object's type is primitive, \textit{false} if not.\\
 \hline
 \end{longtable} \pagebreak
- 

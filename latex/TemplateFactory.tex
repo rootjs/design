@@ -1,5 +1,6 @@
 \chapter{TemplateFactory}
-describe class TemplateFactory here
+Creates javascript function templates from a given ROOT class using TClassRef. Methods and static members are set during creation through use of ROOT reflections and the proxy factories. 
+The created templates are kept in a cache to avoid unnecessary creation of already existing templates
 \section{createTemplate}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -7,11 +8,11 @@ describe class TemplateFactory here
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{clazz: TClassRef}\\
+\textit{Parameters} & \textit{clazz: TClassRef} the class for which a template is to be created \\
 \hline
-\textit{Return value} & \textbf{ Local<FunctionTemplate>} describe return value\\
+\textit{Return value} & \textbf{ Local<FunctionTemplate>} the created template\\
   \hline
- \textit{behavior} & describe beahviour \\
+ \textit{Behavior} & Creates such a template. The following sequence diagram illustrates this process \\
 \hline
 \end{longtable} \pagebreak
  
