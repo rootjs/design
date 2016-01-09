@@ -56,13 +56,15 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{address: void*, function: TFunction, scope: TClassRef}\\
+	\textit{Parameters} & \textit{address: void*} the memory address of the proxied function\\
+		& \textit{function: TFunction} the function's reflection object\\
+		& \textit{scope: TClassRef} the class that the function belogs to\\
 	\hline
 
-	\textit{Return value} & \textbf{ <<constructor>>} describe return value\\
+	\textit{Return value} & \textbf{ <<constructor>>} the created \texttt{FunctionProxy}\\
 	\hline
 
-	\textit{behavior} & describe beahviour \\
+	\textit{behavior} & Creates the \texttt{FunctionProxy}.\\
 	\hline
 
 \end{longtable} \pagebreak
