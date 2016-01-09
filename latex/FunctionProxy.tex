@@ -11,13 +11,15 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{method: TFunction*}\\
+	\textit{Parameters} &  \textit{method: TFunction*}: pointer to the ROOT function for which a proxy 
+							is to be created\\
 	\hline
 
-	\textit{Return value} & \textbf{ CallFunc*} describe return value\\
+	\textit{Return value} & \textbf{CallFunc*} a pointer to the CallFunc object provied by kling\\
 	\hline
 
-	\textit{behavior} & describe beahviour \\
+	\textit{behavior} & gets a pointer to a CallFunc object, which encapsulates the provided TFunction 
+			in storage (CallFunc is made available by cling)  to which is used during this class' instanciation\\
 	\hline
 
 \end{longtable} \pagebreak

@@ -8,9 +8,9 @@ class & namespace exposure
 
 end title
 
-participant "<u>instance:NodeApplication</u>" as instance
+participant "<u>instance:NodeHandler</u>" as instance
 participant "<u>rootJS:Persistent<Object></u>" as rootJS
-participant "<u>:TemplateFactory</u>" as TemplateFactory
+participant "TemplateFactory" as TemplateFactory
 participant "<u>clazz:TClassRef</u>" as clazz
 participant "<u>prototype:Local<FunctionTemplate></u>" as prototype
 
@@ -23,7 +23,7 @@ end note
 [-> instance: exposeClass(clazz)
 activate instance
 
-instance -> TemplateFactory : createTemplate(clazz)
+instance -> TemplateFactory : <u>createTemplate(clazz)</u>
 activate TemplateFactory
 
 create prototype
