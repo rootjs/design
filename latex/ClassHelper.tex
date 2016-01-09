@@ -1,251 +1,293 @@
 \chapter{ClassHelper}
 describe class ClassHelper here
-\section{IsNamespace}
+\section{isNamespace}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsNamespace(scope: TCppScope)}\\
+\textit{Name} & \texttt{ClassHelper::isNamespace(scope: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope}\\
-\hline
-\textit{Return value} & \textbf{ bool} Returns a boolean which checks if the scope represents a namespace.\\
-  \hline
- \textit{behavior} & Checks if scope represents a namespace. \\
-\hline
-\end{longtable} \pagebreak
- \section{IsAbstract}
-\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{ClassHelper::IsAbstract(klass: TCppType)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{klass: TCppType}\\
+\textit{Parameters} & \textit{scope: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
- \textit{behavior} & Checks if klass is an abstract class, and hence can be instantiated or not. \\
+ \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsEnum}
+ \section{isAbstract}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsEnum(typename: string)}\\
+\textit{Name} & \texttt{ClassHelper::isAbstract(clazz: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{typename: string}\\
+\textit{Parameters} & \textit{clazz: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
- \textit{behavior} & Checks if string represents a enum. \\
+ \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsStruct}
+ \section{isEnum}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsStruct(typename: string)}\\
+\textit{Name} & \texttt{ClassHelper::isEnum(typeName: string)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{typename: string}\\
+\textit{Parameters} & \textit{typeName: string}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
- \textit{behavior} & Checks if string is a struct datatype. \\
+ \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetFinalName}
+ \section{isStruct}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetFinalName(klass: TCppType)}\\
+\textit{Name} & \texttt{ClassHelper::isStruct(typeName: string)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{klass: TCppType}\\
+\textit{Parameters} & \textit{typeName: string}\\
+\hline
+\textit{Return value} & \textbf{ bool} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{getFinalName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::getFinalName(clazz: TClassRef)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{clazz: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ string} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetScopedFinalName}
+ \section{getScopedFinalName}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetScopedFinalName(klass: TCppType)}\\
+\textit{Name} & \texttt{ClassHelper::getScopedFinalName(clazz: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{klass: TCppType}\\
+\textit{Parameters} & \textit{clazz: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ string} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetNumBases}
+ \section{getNumBases}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetNumBases(klass: TCppType)}\\
+\textit{Name} & \texttt{ClassHelper::getNumBases(clazz: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{klass: TCppType}\\
+\textit{Parameters} & \textit{clazz: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ TCppIndex} describe return value\\
+\textit{Return value} & \textbf{ long} describe return value\\
   \hline
- \textit{behavior} & Returns the number of base classes this class contains. \\
+ \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetBaseName}
+ \section{getBaseName}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetBaseName(klass: TCppType, ibase: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::getBaseName(clazz: TClassRef, ibase: long)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{klass: TCppType, ibase: TCppIndex}\\
+\textit{Parameters} & \textit{clazz: TClassRef, ibase: long}\\
 \hline
 \textit{Return value} & \textbf{ string} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsSubtype}
+ \section{isSubtype}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsSubtype(derived: TCppType, base: TCppType)}\\
+\textit{Name} & \texttt{ClassHelper::isSubtype(derived: TClassRef, base: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{derived: TCppType, base: TCppType}\\
+\textit{Parameters} & \textit{derived: TClassRef, base: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetNumDatamembers}
+ \section{getNumMethods}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetNumDatamembers(scope: TCppScope)}\\
+\textit{Name} & \texttt{ClassHelper::getNumMethods(scope: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope}\\
+\textit{Parameters} & \textit{scope: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ TCppIndex} describe return value\\
+\textit{Return value} & \textbf{ long} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetDatamemberName}
+ \section{getNumDatamembers}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetDatamemberName(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::getNumDatamembers(scope: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{scope: TClassRef}\\
+\hline
+\textit{Return value} & \textbf{ long} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{getDatamemberName}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::getDatamemberName(scope: TClassRef, idata: long)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
 \textit{Return value} & \textbf{ string} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetDatamemberType}
+ \section{getDatamemberType}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetDatamemberType(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::getDatamemberType(scope: TClassRef, idata: long)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
 \textit{Return value} & \textbf{ string} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetDatamemberOffset}
+ \section{getDatamemberOffset}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetDatamemberOffset(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::getDatamemberOffset(scope: TClassRef, idata: long)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
-\textit{Return value} & \textbf{ ptrdiff} describe return value\\
+\textit{Return value} & \textbf{ long} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{GetDatamemberIndex}
+ \section{getDatamemberIndex}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::GetDatamemberIndex(scope: TCppScope, name: string)}\\
+\textit{Name} & \texttt{ClassHelper::getDatamemberIndex(scope: TClassRef, name: string)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, name: string}\\
+\textit{Parameters} & \textit{scope: TClassRef, name: string}\\
 \hline
-\textit{Return value} & \textbf{ TCppIndex} describe return value\\
+\textit{Return value} & \textbf{ long} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsPublicData}
+ \section{getDimensionSize}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsPublicData(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::getDimensionSize(TClassRef scope, long idata, int dimension)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{TClassRef scope, long idata, int dimension}\\
+\hline
+\textit{Return value} & \textbf{ int} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{isPublicData}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::isPublicData(scope: TClassRef, idata: long)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsStaticData}
+ \section{isStaticData}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsStaticData(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::isStaticData(scope: TClassRef, idata: long)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsConstData}
+ \section{isConstData}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsConstData(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::isConstData(scope: TClassRef, idata: long)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
  \textit{behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
- \section{IsEnumData}
+ \section{isEnumData}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::IsEnumData(scope: TCppScope, idata: TCppIndex)}\\
+\textit{Name} & \texttt{ClassHelper::isEnumData(scope: TClassRef, idata: long)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{scope: TCppScope, idata: TCppIndex}\\
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
+\hline
+\textit{Return value} & \textbf{ bool} describe return value\\
+  \hline
+ \textit{behavior} & describe beahviour \\
+\hline
+\end{longtable} \pagebreak
+ \section{isStructData}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{ClassHelper::isStructData(scope: TClassRef, idata: long)}\\
+\hline
+ \textit{Visibility} & public\\
+\hline
+\textit{Parameters} & \textit{scope: TClassRef, idata: long}\\
 \hline
 \textit{Return value} & \textbf{ bool} describe return value\\
   \hline
@@ -255,25 +297,11 @@ describe class ClassHelper here
  \section{resolveAddress}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
-\textit{Name} & \texttt{ClassHelper::resolveAddress(staticMember: TDataMember, clazz: TClassRef)}\\
+\textit{Name} & \texttt{ClassHelper::resolveAddress(member: TDataMember, clazz: TClassRef)}\\
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{staticMember: TDataMember, clazz: TClassRef}\\
-\hline
-\textit{Return value} & \textbf{ void*} describe return value\\
-  \hline
- \textit{behavior} & describe beahviour \\
-\hline
-\end{longtable} \pagebreak
- \section{resolveAddress}
-\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{ClassHelper::resolveAddress(staticMember: TDataMember, clazz: TClassRef)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{staticMember: TDataMember, clazz: TClassRef}\\
+\textit{Parameters} & \textit{member: TDataMember, clazz: TClassRef}\\
 \hline
 \textit{Return value} & \textbf{ void*} describe return value\\
   \hline

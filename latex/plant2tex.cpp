@@ -73,13 +73,16 @@ void processclass(queue<string> &q) {
 
     klass newklass;
     string cur = q.front();
-    newklass.name = regex_replace(cur, regex("class|\\{|abstract"), "");
+    newklass.name = regex_replace(cur, regex("class|\\{|abstract|(<<(.*)>>)"), "");
     newklass.name.erase(std::remove(newklass.name.begin(), newklass.name.end(), ' '), newklass.name.end());
     q.pop();
     cur = q.front();
 
     while (cur.compare("}")) {
         cur = q.front();
+        cur = regex_replace(cur, regex("_"),"\\textunderscore");
+        cur = regex_replace(cur, regex("&"),"\\&");
+        
         if (regex_match(cur.c_str(), regex("\\s*(\\{(static|abstract)\\})?\\s*((\\+|\\#))(.*)\\((.*)\\)(.*)"))) {
             method newmeth;
 
@@ -111,7 +114,8 @@ void processclass(queue<string> &q) {
     }
 
     ofstream outfile;
-    string filename = newklass.name.append(".tex");
+    string filename = newklass.name; 
+    filename.append(".tex");
     outfile.open(filename);
     cout << "\\input{./latex/"<<filename << "}"<< endl;
     outfile << "\\chapter{" << newklass.name << "}\n";
