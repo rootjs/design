@@ -1,5 +1,5 @@
 \chapter{FunctionProxyFactory}
-The \textit{FunctionProxyFactory} 
+The \textit{FunctionProxyFactory} creates \textit{FunctionProxy} objects. It differentiates between ROOT functions that can be overloaded and those that can't be.
 \section{createFunctionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -8,11 +8,11 @@ The \textit{FunctionProxyFactory}
  \textit{Visibility} & public\\
 \hline
 \textit{Parameters} & \textit{function: TFunction} The ROOT function to be proxied. \\ 
-& \textit{scope: TClassRef}\\
+& \textit{scope: TClassRef} The scope of the function.\\
 \hline
-\textit{Return value} & \textbf{ProxyFunction} the proxied function\\
+\textit{Return value} & \textbf{FunctionProxy} the proxied function\\
   \hline
- \textit{Behavior} & Creates \textit{FunctionProxy} objects with \textit{TFunction} function and \textit{TClassRef} scope.\\
+ \textit{Behavior} & A simple method to create \textit{FunctionProxy} objects with for a given function in a given scope. This is used if there is no overloading or a \textit{TFunction} is given directly.\\
 \hline
 \end{longtable} \pagebreak
  \section{fromArgs}
@@ -22,10 +22,10 @@ The \textit{FunctionProxyFactory}
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{name: string, scope: TClassRef, args: FunctionCallbackInfo} The name of the function, its scope and the arguments it takes.\\
+\textit{Parameters} & \textit{name: string} The name of the ROOT function \\ & \textit{scope: TClassRef} The reference to the holding class that is searched for the function \\ &\textit{args: FunctionCallbackInfo} The arguments read from the \textit{CallbackHandler}\\
 \hline
-\textit{Return value} & \textbf{FunctionProxy} describe return value\\
+\textit{Return value} & \textbf{FunctionProxy} The proxied ROOT function\\
   \hline
- \textit{Behavior} & This method is called from the \textit{createFunctionProxy} method to deal with overloaded functions, since JavaScript doesn't support it.\\
+ \textit{Behavior} & This method is used to deal with overloaded functions, since JavaScript doesn't support it. It searches the given scope for a function with the given names and arguments and throws an exception if nothing is found.\\
 \hline
 \end{longtable} \pagebreak
