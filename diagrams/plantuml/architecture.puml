@@ -129,7 +129,6 @@ class NodeApplication {
 
 /' Javascript Prototypes '/
 class TemplateFactory {
-  {static} -cache: map<string, Persistent<FunctionTemplate>>
   --
   -TemplateFactory() <<constructor>>
   {static} +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
@@ -191,6 +190,7 @@ class FunctionProxy {
 
 /' Encapsulation of ROOT objects and primitives '/
 class ObjectProxyFactory {
+  {static} -cache: map<string, Persistent<FunctionTemplate>>
   --
   -ObjectProxyFactory() <<constructor>>
   {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
