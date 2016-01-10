@@ -1,0 +1,13 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class TemplateFactory {
+  {static} -cache: map<string, Persistent<FunctionTemplate>>
+  --
+  -TemplateFactory() <<constructor>>
+  {static} +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
+}
+
+@enduml

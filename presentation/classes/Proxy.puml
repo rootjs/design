@@ -1,0 +1,24 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+abstract class Proxy {
+    #address: void*
+    #type: TObject
+    #scope: TClassRef
+    --
+    #Proxy(address: void*, type: TObject, scope: TClassRef) <<constructor>>
+    {abstract} +setAddress(address: void*)
+    +getAddress(): void*
+    +getType(): TObject
+    +getScope(): TClassRef
+
+    +isGlobal(): bool
+
+    {abstract} +isTemplate(): bool
+    {abstract} +isConst(): bool
+    {abstract} +isStatic(): bool
+}
+
+@enduml

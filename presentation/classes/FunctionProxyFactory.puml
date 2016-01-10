@@ -1,0 +1,12 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class FunctionProxyFactory {
+  -FunctionProxyFactory() <<constructor>>
+  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): FunctionProxy
+  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): FunctionProxy
+}
+
+@enduml

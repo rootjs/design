@@ -1,0 +1,29 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class FunctionProxy {
+  {static} -functions: map<TFunction*, CallFunc*>
+  --
+  {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
+
+  {static} -callConstructor(method: TFunction*, type: TClassRef, args: void*): void*
+  {static} -callDestructor(type: TClassRef, self: void*): void
+
+  {static} -callObject(method: TFunction*, self: void*, args: void*, resType: TClassRef): void*
+  {static} <T> -callPrimitive(TFunction* method, void* self, void* args): T
+
+  {static} +getCallFunc(method: TFunction*): CallFunc*
+  {static} +getMethodsFromName(scope: TClassRef, name: string): vector<TFunction*>
+
+  +FunctionProxy(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
+  +getType(): TFunction
+
+  +validateArgs(args: FunctionCallbackInfo): ObjectProxy[]
+  +call(args: ObjectProxy[]): ObjectProxy
+
+}
+
+
+@enduml
