@@ -98,7 +98,7 @@ class CallbackHandler {
 
 class NodeHandler {
   {static} -initialized: bool
-  rootJS: Persistent<Object>
+  - rootJS: Persistent<Object>
   --
   - NodeHandler() <<constructor>>
 
