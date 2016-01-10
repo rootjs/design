@@ -1,0 +1,24 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class NodeHandler {
+  {static} -initialized: bool
+  - rootJS: Persistent<Object>
+  --
+  - NodeHandler() <<constructor>>
+
+  {static} +initialize(exports: Local<Object>, module: Local<Object>)
+
+  -exposeROOT()
+  -exposeGlobalFunctions()
+  -exposeGlobals()
+  -exposeMacros()
+  -exposeClasses()
+  -exposeClass(clazz: TClassRef)
+
+  +getExports(): Local<Object>
+}
+
+@enduml

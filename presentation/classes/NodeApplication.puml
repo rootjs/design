@@ -1,0 +1,15 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class NodeApplication {
+ --
+ {static} -Exit(args: void*)
+
+ +NodeApplication(acn: char*, argc: int*, argv: char**) <<constructor>>
+ -initROOTGlobals()
+ -initROOTMessageCallback()
+}
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing falsec
+
+class ObjectProxyFactory {
+  --
+  -ObjectProxyFactory() <<constructor>>
+  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
+}
+
+@enduml

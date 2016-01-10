@@ -1,0 +1,11 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class StructProxy {
+--
++StructProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+}
+
+@enduml
