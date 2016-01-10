@@ -7,7 +7,7 @@ There are the following implementations of \textit{ObjectProxy}:
 \item \textbf{ArrayProxy} Maps C++ arrays to JavaScript arrays, we cannot enlarge C++ arrays, so we will throw an Exception on overflows
 \item \textbf{PointerProxy} Maps C++ pointers to JavaScript objects
 \item \textbf{NumberProxy} Uses a C++ template to map all C++ numbers to JavaScript Numbers
-\item \textbf{StringProxy} Maps C++ strings and cstrings to JavaScript strings
+\item \textbf{StringProxy} Maps C++ strings and c-strings to JavaScript strings
 \item \textbf{BooleanProxy} Maps C++ root boolean to Javascript boolean
 \end{itemize}
 The \textit{ObjectProxyFactory} decides which \textit{ObjectProxy} needs to be instantiated.
