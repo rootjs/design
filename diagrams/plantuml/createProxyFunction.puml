@@ -1,0 +1,14 @@
+@staruml
+
+title: createProxyFunction
+[-> FunctionProxyFactory
+activate FunctionProxyFactory
+FunctionProxyFactory -> FunctionProxy: getCallFunc()
+activate FunctionProxy
+FunctionProxy -> cling
+ref over cling: cling internals
+cling -> FunctionProxy: <<pointer to ROOT function>>
+FunctionProxy -> FunctionProxyFactory:
+ProxyFunction Factory ->]: <<pointer to ROOT function>>
+
+@enduml
