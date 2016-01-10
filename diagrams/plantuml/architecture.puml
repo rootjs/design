@@ -97,8 +97,13 @@ class CallbackHandler {
 }
 
 class NodeHandler {
-  -rootJS: Persistent<Object>
+  {static} -initialized: bool
+  - rootJS: Persistent<Object>
   --
+  - NodeHandler() <<constructor>>
+
+  {static} +initialize(exports: Local<Object>, module: Local<Object>)
+
   -exposeROOT()
   -exposeGlobalFunctions()
   -exposeGlobals()
@@ -156,7 +161,7 @@ abstract class Proxy {
 /' Encapsulation of ROOT functions '/
 class FunctionProxyFactory {
   -FunctionProxyFactory() <<constructor>>
-  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): ProxyFunciton
+  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): FunctionProxy
   {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): FunctionProxy
 }
 
