@@ -1,12 +1,21 @@
 @startuml
 
 skinparam classAttributeIconSize 0
-skinparam shadowing falsec
+skinparam shadowing false
 
-class ObjectProxyFactory {
+class ObjectProxy {
+  #proxy: Persistent<Object>
   --
-  -ObjectProxyFactory() <<constructor>>
-  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
+  +ObjectProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+  +getType(): TDataMember
+
+  {abstract} +set(value: ObjectProxy)
+  {abstract} +get(): Local<Value>
+
+  {abstract} +setProxy(proxy: Local<Object>)
+  {abstract} +getProxy(): Local<Object>
+
+  {abstract} +isPrimitive(): bool
 }
 
 @enduml

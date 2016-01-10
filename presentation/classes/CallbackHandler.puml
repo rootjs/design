@@ -5,7 +5,6 @@ skinparam shadowing false
 
 class CallbackHandler {
   {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
-  {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
 
   {static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
   {static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
@@ -15,7 +14,6 @@ class CallbackHandler {
   {static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
   {static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
 
-  ' -CallbackHandler() <<constructor>>
 }
 
 
