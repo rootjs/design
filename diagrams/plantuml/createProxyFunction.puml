@@ -1,4 +1,4 @@
-@staruml
+@startuml
 
 title: createProxyFunction
 [-> FunctionProxyFactory
