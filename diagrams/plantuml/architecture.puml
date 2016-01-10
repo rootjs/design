@@ -97,8 +97,11 @@ class CallbackHandler {
 }
 
 class NodeHandler {
-  -rootJS: Persistent<Object>
+  {static} -initialized: bool
+  rootJS: Persistent<Object>
   --
+  {static} +initialize(exports: Local<Object>, module: Local<Object>)
+
   -exposeROOT()
   -exposeGlobalFunctions()
   -exposeGlobals()

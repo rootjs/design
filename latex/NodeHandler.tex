@@ -1,5 +1,28 @@
 \chapter{NodeHandler}
-describe class NodeHandler here
+The \textit{NodeHandler} is the main entry point, when you require RootJS by using
+\begin{verbatim}
+// JavaScript: Load ROOT bindings in JavaScript
+var root = require(rootJS.node);
+
+// C++: Expose the initialize method as the main entry point
+NODE_MODULE(rootJS, initialize)
+\end{verbatim}
+after running the initialize method ROOT is fully initialized and all features are exposed to JavaScript.
+\section{initialize}
+\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
+ \hline
+\textit{Name} & \texttt{NodeHandler::initialize(exports: Local<Object>, module: Local<Object>)}\\
+\hline
+ \textit{Visibility} & public static\\
+\hline
+\textit{Parameters} & \textit{exports: Local<Object>, module: Local<Object>} parameters passed by NodeJS\\
+\hline
+\textit{Return value} & \textit{none} The features will be exported by passing them to the exports parameter \\
+  \hline
+ \textit{Behavior} & This will create an instance of \textit{NodeApplication} and store it in gApplication, to ensure all ROOT functionallity that relies on gAppllication will work.
+ Further this will run \textit{getExports} to retrive the features to be exported to JavaScript which will then be put into the exports object which has been passed to this method \\
+\hlin
+\end{longtable} 
 \section{getExports}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -9,9 +32,9 @@ describe class NodeHandler here
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ Local<Object>} describe return value\\
+\textit{Return value} & \textbf{ Local<Object>} features to be exported \\
   \hline
- \textit{Behavior} & describe beahviour \\
+ \textit{Behavior} & This method will run multiple private methods to collect global function, global variables, macros and classes.
+ All these items will be stored in a v8 object which will be passed to RootJS via the initialize method. \\
 \hline
 \end{longtable} \pagebreak
- 
