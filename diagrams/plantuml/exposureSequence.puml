@@ -5,7 +5,7 @@
 
 title rootJS exposure sequence
 
-participant "<u>rootJS:NodeApplication</u>" as rootJS
+participant "<u>rootJS:NodeHandler</u>" as rootJS
 
 /'
 participant "<u>gROOT:TROOT</u>" as gROOT
