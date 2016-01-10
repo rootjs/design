@@ -9,6 +9,6 @@ FunctionProxy -> cling
 ref over cling: cling internals
 cling -> FunctionProxy: <<pointer to ROOT function>>
 FunctionProxy -> FunctionProxyFactory:
-ProxyFunctionFactory ->]: <<pointer to ROOT function>>
+FunctionProxyFactory ->]: <<pointer to ROOT function>>
 
 @enduml
