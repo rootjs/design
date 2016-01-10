@@ -7,7 +7,7 @@ title rootJS initialization sequence
 
 actor "Client Application" as Client
 participant "NodeHandler" as NodeHandler
-participant "<u>gApplication:NodeHandler</u>" as NodeApplicationInstance
+participant "<u>gApplication:NodeApplication</u>" as NodeApplicationInstance
 participant "<u>gHandler:NodeHandler</u>" as NodeHandlerInstance
 participant "<u>:Node</u>" as V8
 

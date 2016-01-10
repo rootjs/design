@@ -1,10 +1,13 @@
 \chapter{Proxy}
-The \textit{Proxy} class is an abstract class which acts as an intermediary between Node.js and ROOT. Both the 
-\textit{ObjectProxy} and \textit{FunctionProxy} inherit the \textit{Proxy} class. Both of them require the object's or 
-function's \textit{void*} address to access the original ROOT object. The \textit{TObject} type is more accurately 
-specified in each class which inherits \textit{Proxy}. The \textit{TClassRef} scope is used to access \textit{TClass} 
-and the necessary information about the class. The \textit{Proxy} class holds the data, which both 
-\textit{ObjectProxy} and \textit{FunctionProxy} require.
+The \textit{Proxy} class is an abstract class which acts as an intermediary between Node.js and ROOT. Both the
+\textit{ObjectProxy} and \textit{FunctionProxy} inherit the \textit{Proxy} class. Both of them require the object's or
+function's \textit{void*} address to access the original ROOT object. The \textit{TObject} type is more accurately
+specified in each class which inherits \textit{Proxy}. The \textit{TClassRef} scope is used to access \textit{TClass}
+and the necessary information about the class. The \textit{Proxy} class holds the data, which both
+\textit{ObjectProxy} and \textit{FunctionProxy} require.\\
+
+Node allows us to set a getter and a setter method by calling \textit{v8::ObjectTemplate::SetAccessor}, so whenever a value is assigned to a property, encapsulated by the bindings, a setter will be called.
+This setter will retrive the \textit{Proxy}, which has been stored in an internal field which is bound to the JavaScript object. The \textit{Proxy} is used to write the new data to the specific memory address, after making sure the property is writable.
 
 \section{Proxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -50,7 +53,7 @@ and the necessary information about the class. The \textit{Proxy} class holds th
   \hline
  \textit{Behavior} & Gets the current address of the proxied ROOT object. \\
 \hline
-\end{longtable} 
+\end{longtable}
  \section{getType}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -88,11 +91,11 @@ and the necessary information about the class. The \textit{Proxy} class holds th
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{bool} True if the Proxy is global \\
+\textit{Return value} & \textbf{bool} True if the proxied object is global \\
   \hline
- \textit{Behavior} & Checks if the Proxy is global and hence visible throughout the program. \\
+ \textit{Behavior} & Checks if a global element (not an object member or a static class member) is proxied. \\
 \hline
-\end{longtable} 
+\end{longtable}
  \section{isTemplate}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -116,9 +119,9 @@ and the necessary information about the class. The \textit{Proxy} class holds th
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{bool} True if the Proxy is a constant \\
+\textit{Return value} & \textbf{bool} True if the proxied value is a constant \\
   \hline
- \textit{Behavior} & Checks if the Proxy is a constant. \\
+ \textit{Behavior} & Checks if the proxied value is a constant. \\
 \hline
 \end{longtable} \pagebreak
  \section{isStatic}
@@ -130,8 +133,8 @@ and the necessary information about the class. The \textit{Proxy} class holds th
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{bool} True if the Proxy is static \\
+\textit{Return value} & \textbf{bool} True if the proxied value is static \\
   \hline
- \textit{Behavior} & Checks if the Proxy is static. \\
+ \textit{Behavior} & Checks if the proxied value is static. \\
 \hline
 \end{longtable} \pagebreak

@@ -17,24 +17,16 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Gets invoked whenever a non static constructor function of an encapsulated ROOT class was called.\\
+ \textit{Behavior} &
+ \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then beeing passed as a parameter when the callback is being called.}\\
+
+ & This method gets invoked whenever a constructor function of an encapsulated ROOT class is being called.
+ This method should decide which constructor should be invoked, by checking constructor overloads.
+
+ This constructor needs to be called and the resultuing object needs to be forwarded to the ProxyObjectFactory in order to Proxy the results.\\
 \hline
 \end{longtable}
- \section{staticCtorCallback}
-\begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
-\textit{Name} & \texttt{CallbackHandler::staticCtorCallback(args: FunctionCallbackInfo<Value>)}\\
-\hline
- \textit{Visibility} & public\\
-\hline
-\textit{Parameters} & \textit{args: FunctionCallbackInfo<Value>} information about the context\\
-\hline
-\textit{Return value} & \textbf{none}\\
-  \hline
- \textit{Behavior} & Gets invoked whenever a static constructor of an encapsulated ROOT class was called.\\
-\hline
-\end{longtable}\pagebreak
- \section{memberGetterCallback}
+\section{memberGetterCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
 \textit{Name} & \texttt{CallbackHandler::memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)}\\
@@ -45,7 +37,9 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Gets invoked whenever an encapsulated (class) member was requested.\\
+ \textit{Behavior} & Gets invoked whenever an encapsulated (class) member was requested. The function will not be mapped to a JavaScript function, but to a getter that is being invoked whenever a variable is requested.
+
+ Therefore we do not need to provide the ability to use callbacks here, they could not be passed. In addition to that, it should not take long to read a variable. \\
 \hline
 \end{longtable}
  \section{memberSetterCallback}
@@ -59,7 +53,9 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Gets invoked whenever an encapsulated (class) member is attempted to be set.\\
+ \textit{Behavior} & Gets invoked whenever an encapsulated (class) member is attempted to be set. The function will not be mapped to a JavaScript function but to a setter that is being invoked whenever a variable is saved using the \"=\" operator.
+
+ Therefore we do not need to provide the ability to use callbacks here, they could not be passed. In addition to that, it should not take long to write to a variable. \\
 \hline
 \end{longtable}
  \section{memberFunctionCallback}
@@ -73,7 +69,10 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Gets invoked whenever an non-static (class) function was called.\\
+ \textit{Behavior} & \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then beeing passed as a parameter when the callback is being called.}\\
+
+ & This method gets invoked whenever a method is called. First a method with the correct signature is selected.
+ The selected method will be called and the result will be send trough the ProxyObjectFactory. \\
 \hline
 \end{longtable} \pagebreak
  \section{staticGetterCallback}
@@ -87,7 +86,9 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} &  Gets invoked whenever an encapsulated static object was requested.\\
+ \textit{Behavior} &  Gets invoked whenever an encapsulated static property was requested. The function will not be mapped to a JavaScript function, but to a getter that is being invoked whenever a variable is requested.
+
+ Therefore we do not need to provide the ability to use callbacks here, they could not be passed. In addition to that, it should not take long to read a variable. \\
 \hline
 \end{longtable}
  \section{staticSetterCallback}
@@ -101,9 +102,11 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Gets invoked whenever an encapsulated static object is attempted to be set.\\
+ \textit{Behavior} & Gets invoked whenever an encapsulated static property is attempted to be set. The function will not be mapped to a JavaScript function but to a setter that is being invoked whenever a variable is saved using the \"=\" operator.
+
+ Therefore we do not need to provide the ability to use callbacks here, they could not be passed. In addition to that, it should not take long to write to a variable. \\
 \hline
-\end{longtable} 
+\end{longtable} \pagebreak
  \section{staticFunctionCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -115,6 +118,9 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Gets invoked whenever a static function was called.\\
+ \textit{Behavior} & \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then beeing passed as a parameter when the callback is being called.}\\
+
+ & This method gets invoked whenever a static method is called. First a method with the correct signature is selected.
+ The selected method will be called and the result will be send trough the ProxyObjectFactory. \\
 \hline
 \end{longtable} \pagebreak
