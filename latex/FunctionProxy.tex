@@ -19,7 +19,7 @@
 	\hline
 
 	\textit{Behavior} & gets a pointer to a CallFunc object, which encapsulates the provided TFunction 
-			in storage (CallFunc is made available by cling)  to which is used during this class' instanciation\\
+			in storage (CallFunc is made available by cling)  to which is used during this class' instantiation\\
 	\hline
 
 \end{longtable} \pagebreak
@@ -41,7 +41,7 @@
 	\textit{Return value} & \textbf{vector<TFunction*>} all methods that match the specified name\\
 	\hline
 
-	\textit{Behavior} & Gets a reference to a class and a method name string. It returnes all methods of the class with the specified name. This is needed since JavaScript does not support method overloading.\\
+	\textit{Behavior} & Gets a reference to a class and a method name string. It returns all methods of the class with the specified name. This is needed since JavaScript does not support method overloading.\\
 	\hline
 
 \end{longtable} \pagebreak
@@ -61,7 +61,7 @@
 		& \textit{scope: TClassRef} the class that the function belogs to\\
 	\hline
 
-	\textit{Return value} & \textbf{ <<constructor>>} the created \texttt{FunctionProxy}\\
+	\textit{Return value} & \textbf{<<constructor>>} the created \texttt{FunctionProxy}\\
 	\hline
 
 	\textit{Behavior} & Creates the \texttt{FunctionProxy}.\\
@@ -82,7 +82,7 @@
 	\textit{Parameters} & \textit{none}\\
 	\hline
 
-	\textit{Return value} & \textbf{ TFunction} the TFunction object in the proxy \\
+	\textit{Return value} & \textbf{TFunction} the TFunction object in the proxy \\
 	\hline
 
 	\textit{Behavior} & returns the TFunction object this proxy wraps. 
@@ -104,10 +104,10 @@
 	\textit{Parameters} & \textit{args: FunctionCallbackInfo} information about the context of the call, including the  number and values of arguments \\
 	\hline
 
-	\textit{Return value} & \textbf{ ObjectProxy[]} array of the arguments as proxies\\
+	\textit{Return value} & \textbf{ObjectProxy[]} array of the arguments as proxies\\
 	\hline
 
-	\textit{Behavior} & checks whether the functiion is being called with the proper arguments and wraps them in proxies so they can be used by the call method \\
+	\textit{Behavior} & checks whether the function is being called with the proper arguments and wraps them in proxies so they can be used by the call method \\
 	\hline
 
 \end{longtable} \pagebreak
