@@ -1,5 +1,11 @@
 \chapter{CallbackHandler}
 The CallbackHandler class gets invoked whenever an encapsulated ROOT function or object is accessed.
+The callback functions follow one general pattern, when called from a nodeJS program \textit{CallbackInfo} is provided.
+In the initialization phase we can save \textit{InternalField}s which are belonging to these \textit{CallbackInfo}s.
+The internal fields are therefore filled with information about the associated ROOT functionality.
+The callback function uses this information to determine what to do exactly.
+
+An inheritant of Proxy will be used to access the data or call the function / constructor and generate a nodeJS representation of the value to be returned.
 \section{ctorCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -13,7 +19,7 @@ The CallbackHandler class gets invoked whenever an encapsulated ROOT function or
   \hline
  \textit{Behavior} & Gets invoked whenever a non static constructor function of an encapsulated ROOT class was called.\\
 \hline
-\end{longtable} \pagebreak
+\end{longtable}
  \section{staticCtorCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -27,7 +33,7 @@ The CallbackHandler class gets invoked whenever an encapsulated ROOT function or
   \hline
  \textit{Behavior} & Gets invoked whenever a static constructor of an encapsulated ROOT class was called.\\
 \hline
-\end{longtable} \pagebreak
+\end{longtable}\pagebreak
  \section{memberGetterCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -41,7 +47,7 @@ The CallbackHandler class gets invoked whenever an encapsulated ROOT function or
   \hline
  \textit{Behavior} & Gets invoked whenever an encapsulated (class) member was requested.\\
 \hline
-\end{longtable} \pagebreak
+\end{longtable}
  \section{memberSetterCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -55,7 +61,7 @@ The CallbackHandler class gets invoked whenever an encapsulated ROOT function or
   \hline
  \textit{Behavior} & Gets invoked whenever an encapsulated (class) member is attempted to be set.\\
 \hline
-\end{longtable} \pagebreak
+\end{longtable}
  \section{memberFunctionCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -83,7 +89,7 @@ The CallbackHandler class gets invoked whenever an encapsulated ROOT function or
   \hline
  \textit{Behavior} &  Gets invoked whenever an encapsulated static object was requested.\\
 \hline
-\end{longtable} \pagebreak
+\end{longtable}
  \section{staticSetterCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -97,7 +103,7 @@ The CallbackHandler class gets invoked whenever an encapsulated ROOT function or
   \hline
  \textit{Behavior} & Gets invoked whenever an encapsulated static object is attempted to be set.\\
 \hline
-\end{longtable} \pagebreak
+\end{longtable} 
  \section{staticFunctionCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
