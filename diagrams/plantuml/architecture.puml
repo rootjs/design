@@ -159,7 +159,7 @@ abstract class Proxy {
 /' Encapsulation of ROOT functions '/
 class FunctionProxyFactory {
   -FunctionProxyFactory() <<constructor>>
-  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): ProxyFunciton
+  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): ProxyFunction
   {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): FunctionProxy
 }
 

@@ -1,5 +1,5 @@
 \chapter{FunctionProxyFactory}
-describe class FunctionProxyFactory here
+The \textit{FunctionProxyFactory} creates \textit{FunctionProxy} instances with \textit{TFunction} function and \textit{TClassRef} scope. It encapsulates ROOT functions recursively for use in Javascript. 
 \section{createFunctionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -7,16 +7,17 @@ describe class FunctionProxyFactory here
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{function: TFunction, scope: TClassRef}\\
+\textit{Parameters} & \textit{function: TFunction} \\ 
+& \textit{scope: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ ProxyFunciton} describe return value\\
+\textit{Return value} & \textbf{ProxyFunction} describe return value\\
   \hline
  \textit{Behavior} & describe beahviour \\
 \hline
 \end{longtable} \pagebreak
  \section{fromArgs}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
- \hline
+ \hline	
 \textit{Name} & \texttt{FunctionProxyFactory::fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo)}\\
 \hline
  \textit{Visibility} & public\\
