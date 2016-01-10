@@ -6,54 +6,57 @@
 title rootJS initialization sequence
 
 actor "Client Application" as Client
-participant "NodeApplication" as NodeApp
-participant "<u>instance:NodeApplication</u>" as Instance
+participant "NodeHandler" as NodeHandler
+participant "<u>gApplication:NodeHandler</u>" as NodeApplicationInstance
+participant "<u>gHandler:NodeHandler</u>" as NodeHandlerInstance
 participant "<u>:Node</u>" as V8
 
 activate Client
 Client -> V8: require(rootJS.node)
 
 activate V8
-V8 ->> NodeApp : <u>Initialize(exports, module)</u>
+V8 ->> NodeHandler : <u>Initialize(exports, module)</u>
 deactivate V8
 
-activate NodeApp
+activate NodeHandler
 
 /' set exit hook '/
-NodeApp -> V8 : AtExit(Exit)
+NodeHandler -> V8 : AtExit(Exit)
 activate V8
-V8 --> NodeApp
+V8 --> NodeHandler
 deactivate V8
 
-/' instance creation '/
-NodeApp -> NodeApp : <u>Instance()</u>
-activate NodeApp
+/' NodeApplication instance creation '/
 alt not initialized
-  create Instance
-  NodeApp --> Instance : <<create>>
+  create NodeApplicationInstance
+  NodeHandler --> NodeApplicationInstance : <<create>>
 end
-NodeApp --> NodeApp : instance
-deactivate NodeApp
 
 /' init ROOT environment '/
-NodeApp -> Instance : initROOTGlobals()
-activate Instance
-Instance --> NodeApp
-deactivate Instance
+NodeHandler -> NodeApplicationInstance : initROOTGlobals()
+activate NodeApplicationInstance
+NodeApplicationInstance --> NodeHandler
+deactivate NodeApplicationInstance
 
-NodeApp -> Instance : initROOTMessageCallback()
-activate Instance
-Instance --> NodeApp
-deactivate Instance
+NodeHandler -> NodeApplicationInstance : initROOTMessageCallback()
+activate NodeApplicationInstance
+NodeApplicationInstance --> NodeHandler
+deactivate NodeApplicationInstance
+
+/' NodeHandler instance creation '/
+alt not initialized
+  create NodeHandlerInstance
+  NodeHandler --> NodeHandlerInstance : <<create>>
+end
 
 /' Exposure of ROOT'/
-NodeApp -> Instance : exposeROOT()
-activate Instance
-Instance --> NodeApp
-deactivate Instance
+NodeHandler -> NodeHandlerInstance : exposeROOT()
+activate NodeHandlerInstance
+NodeHandlerInstance --> NodeHandler
+deactivate NodeHandlerInstance
 
-NodeApp --> Client: exports
-deactivate NodeApp
+NodeHandler --> Client: exports
+deactivate NodeHandler
 
 deactivate Client
 @enduml

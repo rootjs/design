@@ -1,5 +1,5 @@
 \chapter{Proxy}
-The \textit{Proxy} class is an abstract class which acts as an intermediary between Node.js and ROOT. Both the \textit{ObjectProxy} and \textit{FunctionProxy} inherit the \textit{Proxy} class, since both of them require the object's or function's \textit{void*} address, \textit{TObject} type and \textit{TClassRef} scope. The \textit{Proxy} class holds the data, which both \textit{ObjectProxy} and \textit{FunctionProxy} require. The \textit{Proxy} class uses the Proxy design pattern.
+The \textit{Proxy} class is an abstract class which acts as an intermediary between Node.js and ROOT. Both the \textit{ObjectProxy} and \textit{FunctionProxy} inherit the \textit{Proxy} class. Both of them require the object's or function's \textit{void*} address to access the original ROOT object. The \textit{TObject} type is more accurately specified in each class which inherits \texit{Proxy}. The \textit{TClassRef} scope is used to access \textit{TClass} and the necessary information about the class. The \textit{Proxy} class holds the data, which both \textit{ObjectProxy} and \textit{FunctionProxy} require. The \textit{Proxy} class uses the Proxy design pattern.
 \section{Proxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -7,9 +7,9 @@ The \textit{Proxy} class is an abstract class which acts as an intermediary betw
 \hline
  \textit{Visibility} & protected\\
 \hline
-\textit{Parameters} & \textit{address: void*} The memory address of the Proxy \\
-& \textit{type: TObject}  The type identification which the ObjectProxy will have \\
-& \textit{scope: TClassRef} The class the Proxy belongs to \\
+\textit{Parameters} & \textit{address: void*} The memory address of the ROOT object \\
+& \textit{type: TObject}  The type of Object will be specified in the subclasses \\
+& \textit{scope: TClassRef} The reference of the TClass so that it can be accessed  \\
 \hline
 \textit{Return value} & \textbf{<<constructor>>} Returns a Proxy with the given parameters as a variables \\
   \hline
@@ -24,11 +24,11 @@ The \textit{Proxy} class is an abstract class which acts as an intermediary betw
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{address: void*} The address to which the Proxy should be set to \\
+\textit{Parameters} & \textit{address: void*} The address to which the proxied ROOT object should be set to \\
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & Sets the address of the Proxy. \\
+ \textit{Behavior} & Sets the address of the proxied ROOT object. \\
 \hline
 \end{longtable} \pagebreak
  \section{getAddress}
@@ -40,9 +40,9 @@ The \textit{Proxy} class is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{void*} The current address of the Proxy \\
+\textit{Return value} & \textbf{void*} The current address of the proxied ROOT object \\
   \hline
- \textit{Behavior} & Gets the current address of the Proxy. \\
+ \textit{Behavior} & Gets the current address of the proxied ROOT object. \\
 \hline
 \end{longtable} \pagebreak
  \section{getType}
@@ -54,9 +54,9 @@ The \textit{Proxy} class is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{TObject} The current type of the Proxy \\
+\textit{Return value} & \textbf{TObject} The current type of the proxied ROOT object \\
   \hline
- \textit{Behavior} & Gets the current type of the Proxy. \\
+ \textit{Behavior} & Gets the current type of the proxied ROOT object. \\
 \hline
 \end{longtable} \pagebreak
  \section{getScope}
@@ -68,9 +68,9 @@ The \textit{Proxy} class is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{TClassRef} The current scope of the Proxy \\
+\textit{Return value} & \textbf{TClassRef} The current scope of the proxied ROOT object \\
   \hline
- \textit{Behavior} & Gets the current scope of the Proxy. \\
+ \textit{Behavior} & Gets the current scope of the proxied ROOT object. \\
 \hline
 \end{longtable} \pagebreak
  \section{isGlobal}
