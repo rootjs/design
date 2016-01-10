@@ -1,5 +1,5 @@
 \chapter{FunctionProxyFactory}
-The \textit{FunctionProxyFactory} creates \textit{FunctionProxy} instances with \textit{TFunction} function and \textit{TClassRef} scope. It encapsulates ROOT functions recursively for use in Javascript. 
+The \textit{FunctionProxyFactory} 
 \section{createFunctionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -7,12 +7,12 @@ The \textit{FunctionProxyFactory} creates \textit{FunctionProxy} instances with 
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{function: TFunction} \\ 
+\textit{Parameters} & \textit{function: TFunction} The ROOT function to be proxied. \\ 
 & \textit{scope: TClassRef}\\
 \hline
-\textit{Return value} & \textbf{ProxyFunction} describe return value\\
+\textit{Return value} & \textbf{ProxyFunction} the proxied function\\
   \hline
- \textit{Behavior} & describe beahviour \\
+ \textit{Behavior} & Creates \textit{FunctionProxy} objects with \textit{TFunction} function and \textit{TClassRef} scope.\\
 \hline
 \end{longtable} \pagebreak
  \section{fromArgs}
@@ -22,11 +22,10 @@ The \textit{FunctionProxyFactory} creates \textit{FunctionProxy} instances with 
 \hline
  \textit{Visibility} & public\\
 \hline
-\textit{Parameters} & \textit{name: string, scope: TClassRef, args: FunctionCallbackInfo}\\
+\textit{Parameters} & \textit{name: string, scope: TClassRef, args: FunctionCallbackInfo} The name of the function, its scope and the arguments it takes.\\
 \hline
 \textit{Return value} & \textbf{ FunctionProxy} describe return value\\
   \hline
- \textit{Behavior} & describe beahviour \\
+ \textit{Behavior} & This method is called from the \textit{createFunctionProxy} method to deal with overloaded functions, since JavaScript doesn't support it.\\
 \hline
 \end{longtable} \pagebreak
- 
