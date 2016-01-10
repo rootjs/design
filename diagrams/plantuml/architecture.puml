@@ -83,7 +83,6 @@ PrimitiveProxy <|-- BooleanProxy
 /' Callback Handling '/
 class CallbackHandler {
   {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
-  {static} +staticCtorCallback(args: FunctionCallbackInfo<Value>)
 
   {static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
   {static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
