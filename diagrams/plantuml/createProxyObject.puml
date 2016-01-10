@@ -1,0 +1,80 @@
+@startuml
+
+!include ./config/diagramsConfig.puml
+!include ./config/sequenceConfig.puml
+
+title
+ProxyObject creation phase
+
+end title
+
+participant "ObjectProxyFactory" as ObjectProxyFactory
+participant "<u>objectProxy : ObjectProxy</u>" as objectProxy
+participant "<u>type : TDataMember</u>" as type
+participant "<u>method: TMethod</u>" as method
+participant "<u>exports: Local<Value></u>" as exports
+participant "*Proxy" as Proxy
+
+
+[-> ObjectProxyFactory: createObjectProxy(type, scope, holder)
+activate ObjectProxyFactory
+
+alt "type->Property() & kIsClass" case
+  ObjectProxyFactory -> objectProxy : ObjectProxy(type, scope)
+  activate objectProxy
+  objectProxy -> ObjectProxyFactory : objectProxy
+  deactivate objectProxy
+
+  ObjectProxyFactory -> objectProxy : get()
+  activate objectProxy
+  objectProxy -> ObjectProxyFactory : exports
+  deactivate objectProxy
+
+  ObjectProxyFactory -> type: getClass()
+  activate type
+  type -> ObjectProxyFactory: klass
+  deactivate type
+  loop "klass->GetListOfAllPublicMethods() : method"
+    ObjectProxyFactory -> method : GetName()
+    activate method
+    method -> ObjectProxyFactory : methodName
+    deactivate method
+    ObjectProxyFactory -> exports: Set(methodName, CallbackHandler::functionCallback)
+    activate exports
+    exports -> ObjectProxyFactory
+    deactivate exports
+  end
+
+  loop "klass->GetListOfAllPublicDataMembers : dataMember"
+    ObjectProxyFactory -> ObjectProxyFactory : createObjectProxy(dataMember, scope, holder)
+    activate ObjectProxyFactory
+    ObjectProxyFactory -> ObjectProxyFactory : objectProxy
+    deactivate ObjectProxyFactory
+    ObjectProxyFactory -> exports: Set(dataMemberName, objectProxy)
+    activate exports
+    exports -> ObjectProxyFactory
+    deactivate exports
+  end
+
+  ObjectProxyFactory -> objectProxy : setProxy(exports)
+  activate objectProxy
+  objectProxy -> ObjectProxyFactory
+  deactivate objectProxy
+else
+  ObjectProxyFactory -> Proxy : *Proxy(type, scope)
+  activate Proxy
+  Proxy -> ObjectProxyFactory: objectProxy
+  deactivate Proxy
+  note left
+    To select the right Proxy
+    (e.g. StringProxy, NumberProxy, ...)
+    we might use hashing or just a usual
+    map, this will be decided during
+    implementation
+  end note
+end
+
+ObjectProxyFactory -->[ : objectProxy
+deactivate ObjectProxyFactory
+
+@enduml
