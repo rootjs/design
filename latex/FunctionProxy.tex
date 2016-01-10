@@ -15,11 +15,10 @@
 							is to be created\\
 	\hline
 
-	\textit{Return value} & \textbf{CallFunc*} a pointer to the CallFunc object provied by kling\\
+	\textit{Return value} & \textbf{CallFunc*} a pointer to the CallFunc object provied by cling\\
 	\hline
 
-	\textit{Behavior} & gets a pointer to a CallFunc object, which encapsulates the provided TFunction 
-			in storage (CallFunc is made available by cling)  to which is used during this class' instantiation\\
+	\textit{Behavior} & Gets a pointer to a \textit{CallFunc} object, which encapsulates the provided ROOT function in memory.\\
 	\hline
 
 \end{longtable} \pagebreak
@@ -34,17 +33,18 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{scope: TClassRef} a reference to the class which is checked for methods with the specified name\\
-		& \textit{name: string} the name of the overloaded methods which shall be returned\\
+	\textit{Parameters} & \textit{scope: TClassRef} reference to the class which is checked for methods with the specified name\\
+		& \textit{name: string} name of the overloaded methods which shall be returned\\
 	\hline
 
-	\textit{Return value} & \textbf{vector<TFunction*>} all methods that match the specified name\\
+	\textit{Return value} & \textbf{vector<TFunction*>} methods that match the specified name\\
 	\hline
 
-	\textit{Behavior} & Gets a reference to a class and a method name string. It returns all methods of the class with the specified name. This is needed since JavaScript does not support method overloading.\\
+	\textit{Behavior} & Gets a reference to a class and a method name string. It returnes all methods of the class with the specified name. This is needed since JavaScript does not support method overloading.\\
 	\hline
 
-\end{longtable} \pagebreak
+\end{longtable}
+\pagebreak
 
 \section{FunctionProxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -56,18 +56,19 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{address: void*} the memory address of the proxied function\\
+	\textit{Parameters} & \textit{address: void*} memory address of the proxied function\\
 		& \textit{function: TFunction} the function's reflection object\\
 		& \textit{scope: TClassRef} the class that the function belogs to\\
 	\hline
 
-	\textit{Return value} & \textbf{<<constructor>>} the created \texttt{FunctionProxy}\\
+	\textit{Return value} & \textbf{<<constructor>>} the created \textit{FunctionProxy}\\
 	\hline
 
-	\textit{Behavior} & Creates the \texttt{FunctionProxy}.\\
+	\textit{Behavior} & Creates the \textit{FunctionProxy}.\\
 	\hline
 
-\end{longtable} \pagebreak
+\end{longtable}
+\pagebreak
 
 \section{getType}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -82,14 +83,14 @@
 	\textit{Parameters} & \textit{none}\\
 	\hline
 
-	\textit{Return value} & \textbf{TFunction} the TFunction object in the proxy \\
+	\textit{Return value} & \textbf{TFunction} the \textit{TFunction} object that contains the function's reflection data\\
 	\hline
 
-	\textit{Behavior} & returns the TFunction object this proxy wraps. 
-			It contains the meta data of its corresponding function \\
+	\textit{Behavior} & Returns the wrapped function's \textit{TFunction} object. It contains the meta data of its corresponding function.\\
 	\hline
 
-\end{longtable} \pagebreak
+\end{longtable}
+\pagebreak
 
 \section{validateArgs}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -101,16 +102,17 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{args: FunctionCallbackInfo} information about the context of the call, including the  number and values of arguments \\
+	\textit{Parameters} & \textit{args: FunctionCallbackInfo} information about the context of the call, including the number and values of arguments\\
 	\hline
 
 	\textit{Return value} & \textbf{ObjectProxy[]} array of the arguments as proxies\\
 	\hline
 
-	\textit{Behavior} & checks whether the function is being called with the proper arguments and wraps them in proxies so they can be used by the call method \\
+	\textit{Behavior} & Checks whether the function is being called with the proper arguments and wraps them in proxies so they can be used by the call method.\\
 	\hline
 
-\end{longtable} \pagebreak
+\end{longtable}
+\pagebreak
 
 \section{call}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -122,14 +124,14 @@
 	\textit{Visibility} & public\\
 	\hline
 
-	\textit{Parameters} & \textit{args: ObjectProxy[]} proxies containing arguments for the  method\\
+	\textit{Parameters} & \textit{args: ObjectProxy[]} proxies containing arguments for the method\\
 	\hline
 
-	\textit{Return value} & \textbf{ ObjectProxy} proxies containing the values returned by the called method\\
+	\textit{Return value} & \textbf{ObjectProxy} proxy for the object returned by the called method\\
 	\hline
 
-	\textit{Behavior} & calls the actual method in storage using cling.
-			The argument object proxies' contents are read and given to the called method  \\
+	\textit{Behavior} & Calls the actual method in memory using Cling. The argument object proxies' contents are read and given to the called method.\\
 	\hline
 
-\end{longtable} \pagebreak
+\end{longtable}
+\pagebreak

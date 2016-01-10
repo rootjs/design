@@ -10,10 +10,10 @@ The created templates are kept in a cache to avoid unnecessary creation of alrea
 \hline
 \textit{Parameters} & \textit{clazz: TClassRef} the class for which a template is to be created \\
 \hline
-\textit{Return value} & \textbf{ Local<FunctionTemplate>} the created template\\
+\textit{Return value} & \textbf{Local<FunctionTemplate>} the created template\\
   \hline
- \textit{Behavior} & gets the class from TClassRef and creates a new function template. 
-			then it iterates over all static members of the class and sets the
+ \textit{Behavior} & Gets the class from TClassRef and creates a new function template. 
+			Then it iterates over all static members of the class and sets the
 			corresponding members of the template to respective proxy objects.
 			It then iterates through the functions and also sets them.
 			For further reference consider the following sequence diagram.\\

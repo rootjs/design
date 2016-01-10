@@ -1,5 +1,5 @@
 \chapter{Proxy}
-The \textit{Proxy class} is an abstract class which acts as an intermediary between Node.js and ROOT. Both the \textit{ObjectProxy} and \textit{FunctionProxy} inherit the \textit{Proxy} class, since both of them require the object's or function's \textit{void*} address, \textit{TObject} type and \textit{TClassRef} scope. The \textit{Proxy} class holds the data, which both \textit{ObjectProxy} and \textit{FunctionProxy} require. The \textit{Proxy} class uses the Proxy design pattern.
+The \textit{Proxy} class is an abstract class which acts as an intermediary between Node.js and ROOT. Both the \textit{ObjectProxy} and \textit{FunctionProxy} inherit the \textit{Proxy} class, since both of them require the object's or function's \textit{void*} address, \textit{TObject} type and \textit{TClassRef} scope. The \textit{Proxy} class holds the data, which both \textit{ObjectProxy} and \textit{FunctionProxy} require. The \textit{Proxy} class uses the Proxy design pattern.
 \section{Proxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -11,7 +11,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 & \textit{type: TObject}  The type identification which the ObjectProxy will have \\
 & \textit{scope: TClassRef} The class the Proxy belongs to \\
 \hline
-\textit{Return value} & \textbf{ <<constructor>>} Returns a Proxy with the given parameters as a variables \\
+\textit{Return value} & \textbf{<<constructor>>} Returns a Proxy with the given parameters as a variables \\
   \hline
  \textit{Behavior} & The Proxy constructor will be inherited by both ObjectProxy and FunctionProxy.
  The created Proxy will have the parameters as variables. \\
@@ -40,7 +40,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ void*} The current address of the Proxy \\
+\textit{Return value} & \textbf{void*} The current address of the Proxy \\
   \hline
  \textit{Behavior} & Gets the current address of the Proxy. \\
 \hline
@@ -54,7 +54,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ TObject} The current type of the Proxy \\
+\textit{Return value} & \textbf{TObject} The current type of the Proxy \\
   \hline
  \textit{Behavior} & Gets the current type of the Proxy. \\
 \hline
@@ -68,7 +68,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ TClassRef} The current scope of the Proxy \\
+\textit{Return value} & \textbf{TClassRef} The current scope of the Proxy \\
   \hline
  \textit{Behavior} & Gets the current scope of the Proxy. \\
 \hline
@@ -82,7 +82,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} True if the Proxy is global \\
+\textit{Return value} & \textbf{bool} True if the Proxy is global \\
   \hline
  \textit{Behavior} & Checks if the Proxy is global and hence visible throughout the program. \\
 \hline
@@ -96,7 +96,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} True if the Proxy is a template \\
+\textit{Return value} & \textbf{bool} True if the Proxy is a template \\
   \hline
  \textit{Behavior} & Checks if the Proxy is a template, which allows using generic types. \\
 \hline
@@ -110,7 +110,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} True if the Proxy is a constant \\
+\textit{Return value} & \textbf{bool} True if the Proxy is a constant \\
   \hline
  \textit{Behavior} & Checks if the Proxy is a constant. \\
 \hline
@@ -124,7 +124,7 @@ The \textit{Proxy class} is an abstract class which acts as an intermediary betw
 \hline
 \textit{Parameters} & \textit{none}\\
 \hline
-\textit{Return value} & \textbf{ bool} True if the Proxy is static \\
+\textit{Return value} & \textbf{bool} True if the Proxy is static \\
   \hline
  \textit{Behavior} & Checks if the Proxy is static. \\
 \hline
