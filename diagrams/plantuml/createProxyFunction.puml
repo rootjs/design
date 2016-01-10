@@ -11,9 +11,11 @@ activate FunctionProxy
 FunctionProxy -> cling
 ref over cling: cling internals
 cling -> FunctionProxy: <<pointer to ROOT function>>
-deactivate FunctionProxy
+
 FunctionProxy -> FunctionProxyFactory:
-deactivate FunctionProxyFactory
+deactivate FunctionProxy
+
 FunctionProxyFactory ->[: <<pointer to ROOT function>>
+deactivate FunctionProxyFactory
 
 @enduml
