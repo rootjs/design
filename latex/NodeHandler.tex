@@ -7,7 +7,17 @@ var root = require(rootJS.node);
 // C++: Expose the initialize method as the main entry point
 NODE_MODULE(rootJS, initialize)
 \end{verbatim}
-after running the \textit{initialize} method ROOT is fully initialized and all features are exposed to JavaScript.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=18cm]{./latex/resources/initSequence.pdf}
+	\caption{initialization sequence}
+\end{figure}
+After running the \textit{initialize} method ROOT is fully initialized and all features are exposed to JavaScript.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{./latex/resources/exposureSequence.pdf}
+	\caption{class exposure sequence}
+\end{figure} \pagebreak
 \section{initialize}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -22,7 +32,7 @@ after running the \textit{initialize} method ROOT is fully initialized and all f
  \textit{Behavior} & This will create an instance of \textit{NodeApplication} and store it in gApplication, to ensure that all ROOT functionality that relies on gApplication will function properly.
  Further this will run \textit{getExports} to retrieve the features to be exported to JavaScript which will then be put into the exports object which has been passed to this method \\
 \hline
-\end{longtable} 
+\end{longtable}
 \section{getExports}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
