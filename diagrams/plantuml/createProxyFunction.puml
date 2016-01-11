@@ -1,4 +1,7 @@
-@staruml
+@startuml
+
+!include ./config/diagramsConfig.puml
+!include ./config/classConfig.puml
 
 title: createProxyFunction
 [-> FunctionProxyFactory
@@ -8,7 +11,11 @@ activate FunctionProxy
 FunctionProxy -> cling
 ref over cling: cling internals
 cling -> FunctionProxy: <<pointer to ROOT function>>
+
 FunctionProxy -> FunctionProxyFactory:
-ProxyFunction Factory ->]: <<pointer to ROOT function>>
+deactivate FunctionProxy
+
+FunctionProxyFactory ->[: <<pointer to ROOT function>>
+deactivate FunctionProxyFactory
 
 @enduml
