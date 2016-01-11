@@ -1,6 +1,6 @@
 \chapter{NodeApplication}
 ROOT uses TApplication to interface with the windowing system and event handlers.
-An insatnce of TApplication is usually stored in the global \textit{gApplication} variable.
+An instance of TApplication is usually stored in the global \textit{gApplication} variable.
 
 The main problem with using TApplication directly would be, that we could not hook into the \textit{InitializeGraphics} method.
 When having a graphical user interface we need to do a UI update frequently:
@@ -9,7 +9,7 @@ gSystem->ProcessEvents();
 \end{verbatim}
 To avoid having a lot of \textit{ProcessEvents} calls, we wait until \textit{InitializeGraphics} has been called at least once.
 
-Further NodeApplication is being used to set the application's name and initialize a custom message callback which can be used to retrive messages in JavaScript.
+Furthermore NodeApplication is being used to set the application's name and initialize a custom message callback which can be used to retrieve messages in JavaScript.
 
 \section{NodeApplication}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -20,7 +20,7 @@ Further NodeApplication is being used to set the application's name and initiali
 \hline
 \textit{Parameters} & \textit{acn: char*, argc: int*, argv: char**}\\
 \hline
-\textit{Return value} & \textbf{<<constructor>>} describe return value\\
+\textit{Return value} & \textbf{<<constructor>>} An instance of NodeApplication\\
   \hline
  \textit{Behavior} & Set's the application name and constructs a custom message handler \\
 \hline
