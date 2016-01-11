@@ -7,7 +7,7 @@ and the necessary information about the class. The \textit{Proxy} class holds th
 \textit{ObjectProxy} and \textit{FunctionProxy} require.\\
 
 Node allows us to set a getter and a setter method by calling \textit{v8::ObjectTemplate::SetAccessor}, so whenever a value is assigned to a property, encapsulated by the bindings, a setter will be called.
-This setter will retrive the \textit{Proxy}, which has been stored in an internal field which is bound to the JavaScript object. The \textit{Proxy} is used to write the new data to the specific memory address, after making sure the property is writable.
+This setter will retrieve the \textit{Proxy}, which has been stored in an internal field which is bound to the JavaScript object. The \textit{Proxy} is used to write the new data to the specific memory address, after making sure the property is writable.
 
 \section{Proxy}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}

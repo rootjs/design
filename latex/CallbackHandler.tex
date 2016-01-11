@@ -1,11 +1,11 @@
 \chapter{CallbackHandler}
 The CallbackHandler class gets invoked whenever an encapsulated ROOT function or object is accessed.
-The callback functions follow one general pattern, when called from a nodeJS program \textit{CallbackInfo} is provided.
+The callback functions follow one general pattern, when called from a Node.JS program \textit{CallbackInfo} is provided.
 In the initialization phase we can save \textit{InternalField}s which are belonging to these \textit{CallbackInfo}s.
 The internal fields are therefore filled with information about the associated ROOT functionality.
 The callback function uses this information to determine what to do exactly.
 
-An inheritant of Proxy will be used to access the data or call the function / constructor and generate a nodeJS representation of the value to be returned.
+An inheritor of Proxy will be used to access the data or call the function / constructor and generate a Node.JS representation of the value to be returned.
 \section{ctorCallback}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
  \hline
@@ -18,12 +18,12 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \textit{Return value} & \textbf{none}\\
   \hline
  \textit{Behavior} &
- \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then beeing passed as a parameter when the callback is being called.}\\
+ \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then being passed as a parameter when the callback is being called.}\\
 
  & This method gets invoked whenever a constructor function of an encapsulated ROOT class is being called.
  This method should decide which constructor should be invoked, by checking constructor overloads.
 
- This constructor needs to be called and the resultuing object needs to be forwarded to the ProxyObjectFactory in order to Proxy the results.\\
+ This constructor needs to be called and the resulting object needs to be forwarded to the ProxyObjectFactory in order to Proxy the results.\\
 \hline
 \end{longtable}
 \section{memberGetterCallback}
@@ -69,7 +69,7 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then beeing passed as a parameter when the callback is being called.}\\
+ \textit{Behavior} & \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then being passed as a parameter when the callback is being called.}\\
 
  & This method gets invoked whenever a method is called. First a method with the correct signature is selected.
  The selected method will be called and the result will be send trough the ProxyObjectFactory. \\
@@ -118,7 +118,7 @@ An inheritant of Proxy will be used to access the data or call the function / co
 \hline
 \textit{Return value} & \textbf{none}\\
   \hline
- \textit{Behavior} & \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then beeing passed as a parameter when the callback is being called.}\\
+ \textit{Behavior} & \textit{Whenever the last parameter passed via JavaScript is a JavaScript function, it will be handled as a callback. The following will be done in a new thread, the result is then being passed as a parameter when the callback is being called.}\\
 
  & This method gets invoked whenever a static method is called. First a method with the correct signature is selected.
  The selected method will be called and the result will be send trough the ProxyObjectFactory. \\

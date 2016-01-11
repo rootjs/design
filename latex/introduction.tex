@@ -5,7 +5,7 @@ This document describes the structure of RootJS, it will be used as a blueprint 
 The document contains descriptions to all public methods, so that the implementation can be split up. It contains all classes that need to be implemented, descriptions to all public methods and, listed in the UML diagram in the appendix, some private functions and properties that might be handy during implementation.
 
 \section{Overview}
-When using node moldues to extend the basic node API, one uses the \textit{require} statement, providing the name of the module.
+When using node modules to extend the basic node API, one uses the \textit{require} statement, providing the name of the module.
 \textit{require} returns a JavaScript object which is called exports, containing everything the node modules decides to include.
 
 In our case require will run the \textit{initialize} method which will crawl trough ROOT to find all globally accessible variables, functions and classes.
