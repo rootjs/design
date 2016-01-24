@@ -1,8 +1,8 @@
 \chapter{FunctionProxy}
-In order to make ROOT callables (i.e. functions and methods) dynamically accessible within the Node.js application, they need to be proxied. The \textit{FunctionProxy} provides such functionality, as well as acting as a static cache for commonly used \textit{FunctionProxy} objects.\\
+In order to make ROOT callable functions and methods dynamically accessible within the Node.js application, they need to be proxied. The \textit{FunctionProxy} provides such functionality, as well as acting as a static cache for commonly used \textit{FunctionProxy} objects.\\
 \\
-A \textit{FunctionProxy} instance holds a pointer to the callable's location in main memory, and reflection data, such as the callable's signature. It also provides functionality to validate parameters and encapsulate them within \textit{ObjectProxy} instances. The \textit{FunctionProxy::call} method can then be used to execute the callable using the \textit{ObjectProxy} instances as parameters. The return value is again encapsulated within an \textit{ObjectProxy} and returned to the caller.\\
-As JavaScript does not support overloading, but C++ does, the \textit{FunctionProxy} can be used to statically get all methods with a specified name. The \textit{FunctionProxy} also maintains a static cache which maps callables to their memory location. This is useful for creating new \textit{FunctionProxy instances}.\\
+A \textit{FunctionProxy} instance holds a pointer to the callable function's and method's location in main memory, and reflection data, such as the callable's signature. It also provides functionality to validate parameters and encapsulate them within \textit{ObjectProxy} instances. The \textit{FunctionProxy::call} method can then be used to execute the callable using the \textit{ObjectProxy} instances as parameters. The return value is again encapsulated within an \textit{ObjectProxy} and returned to the caller.\\
+As JavaScript does not support overloading, but C++ does, the \textit{FunctionProxy} can be used to statically get all methods with a specified name. The \textit{FunctionProxy} also maintains a static cache which maps functions and methods to their memory location. This is useful for creating new \textit{FunctionProxy instances}.\\
 
 \section{getCallFunc}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -18,7 +18,7 @@ As JavaScript does not support overloading, but C++ does, the \textit{FunctionPr
 							is to be created\\
 	\hline
 
-	\textit{Return value} & \textbf{CallFunc*} a pointer to the CallFunc object provied by cling\\
+	\textit{Return value} & \textbf{CallFunc*} a pointer to the CallFunc object provided by cling\\
 	\hline
 
 	\textit{Behavior} & Gets a pointer to a \textit{CallFunc} object, which encapsulates the provided ROOT function in memory.\\
