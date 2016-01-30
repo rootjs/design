@@ -1,5 +1,5 @@
 \chapter{TemplateFactory}
-Creates JavaScript function templates from a given ROOT class using \textit{TClassRef}. Methods and static members are set during creation through the use of ROOT reflections and the proxy factories.
+The \textit{TemplateFactory} creates JavaScript function templates from a given ROOT class using \textit{TClassRef}. Methods and static members are set during creation through the use of ROOT reflections and the proxy factories.
 
 \section{createTemplate}
 \begin{longtable}{p{3cm} @{\hskip 1cm} p{12cm}}
@@ -16,7 +16,7 @@ Creates JavaScript function templates from a given ROOT class using \textit{TCla
 			Then it iterates over all static members of the class and sets the
 			corresponding members of the template to respective proxy objects.
 			It then iterates through the functions and also sets them.
-			For further reference consider the following sequence diagram.\\
+			For further reference consider the sequence diagram on the following page (Figure 5.1).\\
 \hline
 \end{longtable} \pagebreak
 
