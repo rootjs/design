@@ -1,7 +1,7 @@
 \chapter{ObjectProxyFactory}
 The \textit{ObjectProxyFactory} creates \textit{ObjectProxy} instances with \textit{TDataMember} type, \textit{TClassRef} scope and \textit{ObjectProxy} holder. It encapsulates ROOT objects recursively for use in JavaScript.\\
 
-To handle cyclical references we need to maintain a cache of already generated \textit{ProxyObject}s, which will only be valid during object conversion. When an object is cached it will be used instead of creating a new one.
+To handle cyclical references a cache of already generated \textit{ProxyObject}s will be maintained, which will only be valid during object conversion. When an object is cached it will be used instead of creating a new one.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=18cm]{./latex/resources/createProxyObject.pdf}

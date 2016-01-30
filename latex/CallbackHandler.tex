@@ -1,7 +1,7 @@
 \chapter{CallbackHandler}
 The \textit{CallbackHandler} class gets invoked when an encapsulated ROOT function or object is accessed.
 The callback functions follow one general pattern, when called from a Node.js program \textit{CallbackInfo} is provided.
-In the initialization phase we can save \textit{InternalField}s which belong to these \textit{CallbackInfo}s.
+In the initialization phase the \textit{InternalField}s which belong to these \textit{CallbackInfo}s are saved.
 The internal fields are therefore filled with information about the associated ROOT functionality.
 The callback function uses this information to determine what to do exactly.
 
@@ -39,7 +39,7 @@ An inheritor of \textit{Proxy} will be used to access the data or call the funct
   \hline
  \textit{Behavior} & Gets invoked when an encapsulated (class) member was requested. The function will not be mapped to a JavaScript function, but to a getter that is being invoked whenever a variable is requested.
 
- Therefore we do not need to provide the ability to use callbacks here, as they could not be passed. In addition to that, it should not take long to read a variable. \\
+ Therefore the ability to use callbacks does not have to be provided here, as they could not be passed. In addition to that, it should not take long to read a variable. \\
 \hline
 \end{longtable}
  \section{memberSetterCallback}
@@ -55,7 +55,7 @@ An inheritor of \textit{Proxy} will be used to access the data or call the funct
   \hline
  \textit{Behavior} & Gets invoked when an encapsulated (class) member is attempted to be set. The function will not be mapped to a JavaScript function but to a setter that is being invoked when a variable is saved using the "=" operator.
 
- Therefore we do not need to provide the ability to use callbacks here, as they could not be passed. In addition to that, it should not take long to write to a variable. \\
+  Therefore the ability to use callbacks does not have to be provided here, as they could not be passed. In addition to that, it should not take long to read a variable. \\
 \hline
 \end{longtable}
  \section{memberFunctionCallback}
@@ -88,7 +88,7 @@ An inheritor of \textit{Proxy} will be used to access the data or call the funct
   \hline
  \textit{Behavior} &  Gets invoked when an encapsulated static property was requested. The function will not be mapped to a JavaScript function, but to a getter that is being invoked whenever a variable is requested.
 
- Therefore we do not need to provide the ability to use callbacks here, as they could not be passed. In addition to that, it should not take long to read a variable. \\
+ Therefore the ability to use callbacks does not have to be provided here, as they could not be passed. In addition to that, it should not take long to read a variable.\\
 \hline
 \end{longtable}
  \section{staticSetterCallback}
@@ -104,7 +104,7 @@ An inheritor of \textit{Proxy} will be used to access the data or call the funct
   \hline
  \textit{Behavior} & Gets invoked when an encapsulated static property is attempted to be set. The function will not be mapped to a JavaScript function but to a setter that is being invoked when a variable is saved using the \"=\" operator.
 
- Therefore we do not need to provide the ability to use callbacks here, as they could not be passed. In addition to that, it should not take long to write to a variable. \\
+ Therefore the ability to use callbacks does not have to be provided here, as they could not be passed. In addition to that, it should not take long to read a variable. \\
 \hline
 \end{longtable} \pagebreak
  \section{staticFunctionCallback}

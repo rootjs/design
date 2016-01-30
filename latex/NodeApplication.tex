@@ -2,12 +2,12 @@
 ROOT uses \textit{TApplication} to interface with the windowing system and event handlers.
 An instance of \textit{TApplication} is usually stored in the global \textit{gApplication} variable.
 
-The main problem with using \textit{TApplication} directly would be, that we could not hook into the \textit{InitializeGraphics} method.
-When having a graphical user interface we have update the UI frequently:
+The main problem with using \textit{TApplication} directly would be that the \textit{InitializeGraphics} method can not be hooked into.
+When having a graphical user interface the UI will have to updated frequently:
 \begin{verbatim}
 gSystem->ProcessEvents();
 \end{verbatim}
-To avoid having a lot of \textit{ProcessEvents} calls, we wait until \textit{InitializeGraphics} has been called at least once.
+To avoid having a lot of unnecessary \textit{ProcessEvents} calls, the UI will only start updating when \textit{InitializeGraphics} has been called at least once.
 
 Furthermore NodeApplication is being used to set the application's name and initialize a custom message callback which can be used to retrieve messages in JavaScript.
 

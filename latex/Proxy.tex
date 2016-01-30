@@ -6,7 +6,7 @@ specified in each class which inherits \textit{Proxy}. The \textit{TClassRef} sc
 and the necessary information about the class. The \textit{Proxy} class holds the data, which both
 \textit{ObjectProxy} and \textit{FunctionProxy} require.\\
 
-Node.js enables us to set a getter and a setter method by calling \textit{v8::ObjectTemplate::SetAccessor}, so when a value is assigned to a property, which is encapsulated by the bindings, a setter will be called.
+A getter and a setter method can be set by calling \textit{v8::ObjectTemplate::SetAccessor} with Node.js, so when a value is assigned to a property, which is encapsulated by the bindings, a setter will be called.
 This setter will retrieve the \textit{Proxy}, which has been stored in an internal field which is bound to the JavaScript object. The \textit{Proxy} is used to write the new data to the specific memory address, after making sure the property is writable.
 
 \section{Proxy}
