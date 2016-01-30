@@ -1,8 +1,8 @@
 \chapter{NodeApplication}
-ROOT uses TApplication to interface with the windowing system and event handlers.
-An instance of TApplication is usually stored in the global \textit{gApplication} variable.
+ROOT uses \textit{TApplication} to interface with the windowing system and event handlers.
+An instance of \textit{TApplication} is usually stored in the global \textit{gApplication} variable.
 
-The main problem with using TApplication directly would be, that we could not hook into the \textit{InitializeGraphics} method.
+The main problem with using \textit{TApplication} directly would be, that we could not hook into the \textit{InitializeGraphics} method.
 When having a graphical user interface we have update the UI frequently:
 \begin{verbatim}
 gSystem->ProcessEvents();
