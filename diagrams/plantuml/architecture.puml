@@ -102,22 +102,40 @@ Proxy ..> MetaInfo : uses
 
 /' Callback Handling '/
 class CallbackHandler {
-  {static} +ctorCallback(args: FunctionCallbackInfo<Value>)
+	{static} -globalObjectMap: map<string, ObjectProxy*>
+	{static} -staticObjectMap: map<string, ObjectProxy*>
+	{static} -globalFunctionMap: map<string, FunctionProxy*>
+	{static} -staticFunctionMap: map<string, FunctionProxy*>
+	--
+	{static} -getInfoArgs(beginIndex: int, endIndex: int, info: FunctionCallbackInfo<Value>): Local<Array>
+	{static} +registerGlobalObject(name: string, proxy: ObjectProxy*)
+	{static} +globalGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+	{static} +globalSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
 
-  {static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
-  {static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
-  {static} +memberFunctionCallback(args: FunctionCallbackInfo<Value>)
+	{static} +registerGlobalFunction(name: string, proxy: FunctionProxy*)
+	{static} +globalFunctionCallback(info: FunctionCallbackInfo<Value>)
 
-  {static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
-  {static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
-  {static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
+	{static} +registerStaticObject(name: string, proxy: ObjectProxy*)
+
+	{static} +registerStaticFunction(name: string, proxy: FunctionProxy*)
+	{static} +staticFunctionCallback(info: FunctionCallbackInfo<Value>)
+
+	{static} +ctorCallback(args: FunctionCallbackInfo<Value>)
+	{static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+	{static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+	{static} +memberFunctionCallback(info: FunctionCallbackInfo<Value>)
+
+	{static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+	{static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+	{static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
 
   ' -CallbackHandler() <<constructor>>
 }
 
 class NodeHandler {
   {static} -initialized: bool
-  - rootJS: Persistent<Object>
+	{static} -instance: NodeHandler*
+	-exports: Local<Object>
   --
   - NodeHandler() <<constructor>>
 
@@ -128,7 +146,6 @@ class NodeHandler {
   -exposeGlobals()
   -exposeMacros()
   -exposeClasses()
-  -exposeClass(clazz: TClassRef)
 
   +getExports(): Local<Object>
 }
@@ -136,32 +153,38 @@ class NodeHandler {
 
 /' Facade '/
 class NodeApplication {
- --
- {static} -Exit(args: void*)
-
- +NodeApplication(acn: char*, argc: int*, argv: char**) <<constructor>>
- -initROOTGlobals()
- -initROOTMessageCallback()
+	--
+	+NodeApplication(acn: char*, argc: int*, argv: char**) <<constructor>>
+	{static} +CreateNodeApplication(): Bool_t
+	{static} +InitROOTGlobals(): Bool_t
 }
 
 /' ----------------------------------------------------------------------- '/
 
 /' Javascript Prototypes '/
 class TemplateFactory {
-  --
-  -TemplateFactory() <<constructor>>
-  {static} +createTemplate(clazz: TClassRef): Local<FunctionTemplate>
+	{static} -classTemplates: map<string, Persistent<FunctionTemplate>>
+	{static} -structTemplates: map<string, Persistent<FunctionTemplate>>	
+	--
+	-TemplateFactory() <<constructor>>
+	{static} -classFromName(className: char*): TClass*
+	{static} +getInstance(clazz: TClass*): Local<Object>
+	{static} +getConstructor(clazz: TClass*): Local<Object>
+
+	{static} +createNamespaceTemplate(clazz: TClass*): Local<FunctionTemplate>
+	{static} +createEnumTemplate(clazz: TClass*): Local<FunctionTemplate>		
+	{static} +createClassTemplate(clazz: TClass*): Local<FunctionTemplate>
+	{static} +createStructTemplate(clazz: TClass*): Local<FunctionTemplate>
 }
 
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation '/
 abstract class Proxy {
-    #address: void*
-    #type: TObject
+    #type: MetaInfo*
     #scope: TClassRef
     --
-    #Proxy(address: void*, type: TObject, scope: TClassRef) <<constructor>>
+    #Proxy(type: MetaInfo, scope: TClassRef) <<constructor>>
     {abstract} +setAddress(address: void*)
     +getAddress(): void*
     +getType(): TObject
@@ -170,6 +193,7 @@ abstract class Proxy {
     +isGlobal(): bool
 
     {abstract} +isTemplate(): bool
+		{abstract} +isGlobal(): bool
     {abstract} +isConst(): bool
     {abstract} +isStatic(): bool
 }
@@ -178,13 +202,21 @@ abstract class Proxy {
 
 /' Encapsulation of ROOT functions '/
 class FunctionProxyFactory {
-  -FunctionProxyFactory() <<constructor>>
-  {static} +createFunctionProxy(function: TFunction, scope: TClassRef): FunctionProxy
-  {static} +fromArgs(name: string, scope: TClassRef, args: FunctionCallbackInfo): FunctionProxy
+	{static} -basicTypeMap: map<string, v8BasicTypes>
+	--
+	-FunctionProxyFactory() <<constructor>>
+	{static} +createFunctionProxy(function: TFunction*, scope: TClass*): FunctionProxy
+	{static} +fromArgs(name: string, scope: TClass*, args: FunctionCallbackInfo<Value>): FunctionProxy*
+	{static} -paramMatches(type: char*, object: Local<Value>): bool
+	{static} +createInstance(type: TClass*, args: Local<Array>): void*
 }
 
 class FunctionProxy {
   {static} -functions: map<TFunction*, CallFunc*>
+	-function: TFunction*
+	-argsReflection: TList*
+	{const} -returnType: char*
+	{static} -typeMap: map<string, mappedTypes>  
   --
   {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
 
@@ -197,12 +229,11 @@ class FunctionProxy {
   {static} +getCallFunc(method: TFunction*): CallFunc*
   {static} +getMethodsFromName(scope: TClassRef, name: string): vector<TFunction*>
 
-  +FunctionProxy(address: void*, function: TFunction, scope: TClassRef) <<constructor>>
+  +FunctionProxy(address: void*, mode: FunctionInfo function: TFunction, scope: TClassRef) <<constructor>>
   +getType(): TFunction
 
-  +validateArgs(args: FunctionCallbackInfo): ObjectProxy[]
-  +call(args: ObjectProxy[]): ObjectProxy
-
+  +validateArgs(args: FunctionCallbackInfo<Value): vector<ObjectProxy*>
+  +call(args: const FunctionCallBackInfo<value>): Local<Value>
 }
 
 /' ----------------------------------------------------------------------- '/
@@ -210,17 +241,27 @@ class FunctionProxy {
 /' Encapsulation of ROOT objects and primitives '/
 class ObjectProxyFactory {
   {static} -cache: map<string, Persistent<FunctionTemplate>>
+	{static} -proxyMap: map<string, ObjectProxy*>
   --
   -ObjectProxyFactory() <<constructor>>
-  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
+  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy*
+	{static} +createObjectProxy(object: TGlobal): ObjectProxy*
+	{static} +createObjectProxy(address: void*, type: TClassRef,proxy: Local<Object>): ObjectProxy*
+	{static} +createObjectProxy(address: void*, type: TClassRef): ObjectProxy*
+	{static} +determineProxy(type: MetaInfo, TClassRef): ObjectProxy*
+	{static} -getClassNameFromType(char*): string
+	{static} -traverseClass(TClassRef, ObjectProxy)
 }
 	
 class ObjectProxy {
   #proxy: Persistent<Object>
+	-currentMode: MetaInfo*
   --
-  +ObjectProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+  +ObjectProxy(type: MetaInfo, scope: TClassRef) <<constructor>>
   +getType(): TDataMember
-
+	+getTypeName(): char*
+	+getTypeInfo(): MetaInfo*
+	+getOffset(): Long_t
   {abstract} +set(value: ObjectProxy)
   {abstract} +get(): Local<Value>
 
@@ -232,17 +273,47 @@ class ObjectProxy {
 
 class BooleanProxy {
   --
-  +BooleanProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+  +BooleanProxy(type: MetaInfo, scope: TClassRef) <<constructor>>
+	{static} +isBoolean(type: string): bool
+	+get(): Local<Value>
+	+setValue(value: Local<Value>)
+	{static} +boolConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
 }
 
 class StringProxy {
+	-strType: StringType
   --
-  +StringProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+	-c_str(): char*
+  +StringProxy(type: MetaInfo, scope: TClassRef) <<constructor>>
+	{static} +isString(type: string): bool
+	+get(): Local<Value>
+	+setValue(value: Local<Value>)
+	{static} +charConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +stringConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +tStringConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
 }
 
 class NumberProxy {
   --
   +NumberProxy(type: TDataMember, scope: TClassRef) <<constructor>>
+	{static} +isNumber(type: string): bool
+	+get(): Local<Value>
+	+setValue(value: Local<Value>)
+
+	{static} +intConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +uintConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +shortConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +ushortConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +floatConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+
+	{static} +doubleConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +ldoubleConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +longConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +ulongConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +llongConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +ullongConstruct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +_int64Construct(info: MetaInfo, scope: TClassRef): ObjectProxy*
+	{static} +u_int64Construct(info: MetaInfo, scope: TClassRef): ObjectProxy*
 }
 
 class PrimitiveProxy {
