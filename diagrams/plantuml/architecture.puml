@@ -45,6 +45,18 @@ class NumberProxy
 class StringProxy
 class BooleanProxy
 
+/' Encapsulating the differences between TGlobals and TDataMembers '/
+
+class MetaInfo
+class GlobalInfo
+class MemberInfo
+class FunctionInfo
+class PointerInfo
+
+/' Class for Asynchrous wrappers '/
+class AsyncRunner
+
+
 /' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
 
 /' ----------------------------------------------------------------------- '/
@@ -77,6 +89,14 @@ ObjectProxy <|-- PrimitiveProxy
 PrimitiveProxy <|-- NumberProxy
 PrimitiveProxy <|-- StringProxy
 PrimitiveProxy <|-- BooleanProxy
+
+MetaInfo <|-- GlobalInfo
+MetaInfo <|-- MemberInfo
+MetaInfo <|-- FunctionInfo
+MetaInfo <|-- PointerInfo
+
+Proxy ..> MetaInfo : uses
+
 
 /' ----------------------------------------------------------------------- '/
 
@@ -194,7 +214,7 @@ class ObjectProxyFactory {
   -ObjectProxyFactory() <<constructor>>
   {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy
 }
-
+	
 class ObjectProxy {
   #proxy: Persistent<Object>
   --
@@ -255,5 +275,66 @@ class TemplateProxy {
 --
 +TemplateProxy(type: TDataMember, scope: TClassRef) <<constructor>>
 }
+
+class MetaInfo {
+  #baseAddress: void*
+  --
+  +MetaInfo(foo: TObject, baseAddress: void*) <<constructor>>
+  +isGlobal(): bool
+	+getOffset(): Long_t
+	+isConst(): bool
+	+isStatic(): bool
+	+getTypeName(): const char*
+	+getBaseAddress(): void*
+	+getAddress(): void*
+	+clone(): MetaInfo*
+}
+
+class MemberInfo {
+	{const} +currentObject: TDataMember
+	--
+	+MemberInfo(foo: TDataMember, baseAddress: void*) <<constructor>>
+	+isGlobal(): bool
+	+getOffset(): Long_t
+	+isConst(): bool
+	+isStatic(): bool
+	+getTypeName(): const char*
+	+clone(): MetaInfo*
+}
+
+class GlobalInfo {
+	{const} +currentObject: TGlobal
+	--
+	+GlobalInfo(type: TGlobal) <<constructor>>
+	+isGlobal(): bool
+	+getOffset(): Long_t
+	+isConst(): bool
+	+isStatic(): bool
+	+getTypeName(): const char*
+	+clone(): MetaInfo*
+}
+
+class FunctionInfo {
+	#func: TFunction*
+	--
+	+isGlobal(): bool
+	+getOffset(): Long_t
+	+isConst(): bool
+	+isStatic(): bool
+	+getTypeName(): const char*
+	+clone(): MetaInfo*
+}
+
+class PointerInfo {
+	{const} #typeName: char*
+	--
+	+isGlobal(): bool
+	+getOffset(): Long_t
+	+isConst(): bool
+	+isStatic(): bool
+	+getTypeName(): const char*
+	+clone(): MetaInfo*
+}
+
 
 @enduml
