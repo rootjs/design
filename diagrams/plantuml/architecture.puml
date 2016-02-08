@@ -215,7 +215,7 @@ class FunctionProxy {
   {static} -functions: map<TFunction*, CallFunc*>
 	-function: TFunction*
 	-argsReflection: TList*
-	{const} -returnType: char*
+	-returnType: char*
 	{static} -typeMap: map<string, mappedTypes>  
   --
   {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
@@ -282,9 +282,9 @@ class BooleanProxy {
 
 class StringProxy {
 	-strType: StringType
-  --
+	--
 	-c_str(): char*
-  +StringProxy(type: MetaInfo, scope: TClassRef) <<constructor>>
+	+StringProxy(type: MetaInfo, scope: TClassRef) <<constructor>>
 	{static} +isString(type: string): bool
 	+get(): Local<Value>
 	+setValue(value: Local<Value>)
@@ -362,7 +362,7 @@ class MetaInfo {
 }
 
 class MemberInfo {
-	{const} +currentObject: TDataMember
+	+currentObject: TDataMember
 	--
 	+MemberInfo(foo: TDataMember, baseAddress: void*) <<constructor>>
 	+isGlobal(): bool
@@ -374,7 +374,7 @@ class MemberInfo {
 }
 
 class GlobalInfo {
-	{const} +currentObject: TGlobal
+	+currentObject: TGlobal
 	--
 	+GlobalInfo(type: TGlobal) <<constructor>>
 	+isGlobal(): bool
@@ -397,7 +397,7 @@ class FunctionInfo {
 }
 
 class PointerInfo {
-	{const} #typeName: char*
+	#typeName: char*
 	--
 	+isGlobal(): bool
 	+getOffset(): Long_t
@@ -407,5 +407,16 @@ class PointerInfo {
 	+clone(): MetaInfo*
 }
 
+class AsyncRunner {
+	-func: AsyncRunner*
+	-param: void*
+	-callback: Local<Function>
+	-result: vector<Local<Value>>
+	--
+	+AsyncRunner(func: AsyncFunction*, param: void*, callback: Local<Function>) <<constructor>>
+	{static} +run()
+	{static} +uvRunner(req: uv_work_t*)
+	{static} +uvCallback(req: uv_work_t*, status: int)
+}
 
 @enduml
