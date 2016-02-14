@@ -56,6 +56,8 @@ class PointerInfo
 /' Class for Asynchrous wrappers '/
 class AsyncRunner
 
+class ClassExposer
+
 
 /' Interfacing with ROOT's reflection mechanism - i.e. Cling '/
 
@@ -104,49 +106,46 @@ Proxy ..> MetaInfo : uses
 class CallbackHandler {
 	{static} -globalObjectMap: map<string, ObjectProxy*>
 	{static} -staticObjectMap: map<string, ObjectProxy*>
-	{static} -globalFunctionMap: map<string, FunctionProxy*>
-	{static} -staticFunctionMap: map<string, FunctionProxy*>
+	{static} +CALLBACK_DATA_DELIMITER: string
 	--
-	{static} -getInfoArgs(beginIndex: int, endIndex: int, info: FunctionCallbackInfo<Value>): Local<Array>
 	{static} +registerGlobalObject(name: string, proxy: ObjectProxy*)
 	{static} +globalGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
 	{static} +globalSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
-
-	{static} +registerGlobalFunction(name: string, proxy: FunctionProxy*)
 	{static} +globalFunctionCallback(info: FunctionCallbackInfo<Value>)
-
 	{static} +registerStaticObject(name: string, proxy: ObjectProxy*)
-
-	{static} +registerStaticFunction(name: string, proxy: FunctionProxy*)
-	{static} +staticFunctionCallback(info: FunctionCallbackInfo<Value>)
-
+	{static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
+	{static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
+	{static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
 	{static} +ctorCallback(args: FunctionCallbackInfo<Value>)
 	{static} +memberGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
 	{static} +memberSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
 	{static} +memberFunctionCallback(info: FunctionCallbackInfo<Value>)
-
-	{static} +staticGetterCallback(property: Local<String>, info: PropertyCallbackInfo<Value>)
-	{static} +staticSetterCallback(property: Local<String>, value: Local<Value>, info: PropertyCallbackInfo<Value>)
-	{static} +staticFunctionCallback(args: FunctionCallbackInfo<Value>)
-
+	{static} +createFunctionCallbackData(functionName: string, scope: TClass*) : Local<Value>
+	{static} +createFunctionCallbackData(scope: TClass*) : Local<Value>
   ' -CallbackHandler() <<constructor>>
+	
+	{static} -getInfoArgs(beginIndex: int, endIndex: int, info: FunctionCallbackInfo<Value>): Local<Array>
+	{static} -resolveCallbackScope(data: Local<Value>, allowNull: bool): TClass*
+	{static} -resolveCallbackName(data: Local<Value>): string
+	{static} -toString(data: Local<Value>): string
+	{static} -asyncMemberCall(runner: AsyncRunner*, param: void*)
 }
 
 class NodeHandler {
   {static} -initialized: bool
 	{static} -instance: NodeHandler*
 	-exports: Local<Object>
+	-rootJS: Persistent<Object>
   --
-  - NodeHandler() <<constructor>>
-
-  {static} +initialize(exports: Local<Object>, module: Local<Object>)
-
+  -NodeHandler() <<constructor>>
+  
   -exposeROOT()
   -exposeGlobalFunctions()
   -exposeGlobals()
   -exposeMacros()
   -exposeClasses()
 
+	{static} +initialize(exports: Local<Object>, module: Local<Object>)
   +getExports(): Local<Object>
 }
 
@@ -167,14 +166,21 @@ class TemplateFactory {
 	{static} -structTemplates: map<string, Persistent<FunctionTemplate>>	
 	--
 	-TemplateFactory() <<constructor>>
-	{static} -classFromName(className: char*): TClass*
+	{static} -createInstantiableTemplate(clazz: TClass*, tmplt: Local<FunctionTemplate>)
+	{static} -isTemplateFunction(functionName: string): bool
+	{static} -isValid(clazz* TClass): bool
+
 	{static} +getInstance(clazz: TClass*): Local<Object>
 	{static} +getConstructor(clazz: TClass*): Local<Object>
 
-	{static} +createNamespaceTemplate(clazz: TClass*): Local<FunctionTemplate>
-	{static} +createEnumTemplate(clazz: TClass*): Local<FunctionTemplate>		
-	{static} +createClassTemplate(clazz: TClass*): Local<FunctionTemplate>
+	{static} +createNamespaceTemplate(clazz: TClass*): Local<ObjectTemplate>
+	{static} +createEnumTemplate(clazz: TClass*): Local<ObjectTemplate>		
+	{static} +createArrayTemplate(clazz: TClass*): Local<ObjectTemplate>	
+
 	{static} +createStructTemplate(clazz: TClass*): Local<FunctionTemplate>
+	{static} +createStructTemplate(clazz: TClass*): Local<FunctionTemplate>
+	{static} +createClassTemplate(clazz: TClass*): Local<FunctionTemplate>
+
 }
 
 /' ----------------------------------------------------------------------- '/
@@ -208,67 +214,82 @@ class FunctionProxyFactory {
 	{static} +createFunctionProxy(function: TFunction*, scope: TClass*): FunctionProxy
 	{static} +fromArgs(name: string, scope: TClass*, args: FunctionCallbackInfo<Value>): FunctionProxy*
 	{static} -paramMatches(type: char*, object: Local<Value>): bool
-	{static} +createInstance(type: TClass*, args: Local<Array>): void*
+	{static} +determineFunction(name: string, scope: TClass, args: Local<Array>): TFunction*
 }
 
 class FunctionProxy {
   {static} -functions: map<TFunction*, CallFunc*>
-	-function: TFunction*
-	-argsReflection: TList*
-	-returnType: char*
 	{static} -typeMap: map<string, mappedTypes>  
+
+	-facePtr: TInterpreter::CallIFacePtr_t
+	-function: TFunction*
+	-buf: vector<void*>
+	-address: void*
+	-selfAddress: void*
+
   --
-  {static} -processCall(method: TFunction*, args: void*, self: void*, result: void*): bool
+	{static} -argToChar(orginalArg: Local<Value>): char*
+	{static} -argToDouble(orginalArg: Local<Value>): double*
+	{static} -argToInt(orginalArg: Local<Value>): int*
+	{static} -argToBool(orginalArg: Local<Value>): bool*
+	{static} -argToTString(orginalArg: Local<Value>): TString*
+	{static} -getDoubleFromArg(originalArg: Local<Value>): double
 
-  {static} -callConstructor(method: TFunction*, type: TClassRef, args: void*): void*
-  {static} -callDestructor(type: TClassRef, self: void*): void
 
-  {static} -callObject(method: TFunction*, self: void*, args: void*, resType: TClassRef): void*
-  {static} <T> -callPrimitive(TFunction* method, void* self, void* args): T
-
-  {static} +getCallFunc(method: TFunction*): CallFunc*
   {static} +getMethodsFromName(scope: TClassRef, name: string): vector<TFunction*>
-
   +FunctionProxy(address: void*, mode: FunctionInfo function: TFunction, scope: TClassRef) <<constructor>>
-  +getType(): TFunction
-
-  +validateArgs(args: FunctionCallbackInfo<Value): vector<ObjectProxy*>
-  +call(args: const FunctionCallBackInfo<value>): Local<Value>
+	+clone(): FunctionProxy*
+	{static} +getCallFunc(method: TFunction*): CallFunc*
+	+prepareCall(args: Local<Array>)
+	+call(isConstructorCall: bool): ObjectProxy*
+	+setSelfAddress(addr: void*)
+	+isConst(): bool
+	+isGlobal(): bool
+	+isStatic(): bool
+	+isTemplate(): bool
 }
 
 /' ----------------------------------------------------------------------- '/
 
 /' Encapsulation of ROOT objects and primitives '/
 class ObjectProxyFactory {
-  {static} -cache: map<string, Persistent<FunctionTemplate>>
-	{static} -proxyMap: map<string, ObjectProxy*>
+	{static} -primitiveProxyMap: map<string, ObjectProxy*>
   --
   -ObjectProxyFactory() <<constructor>>
-  {static} +createObjectProxy(type: TDataMember, scope: TClassRef, holder: ObjectProxy): ObjectProxy*
-	{static} +createObjectProxy(object: TGlobal): ObjectProxy*
-	{static} +createObjectProxy(address: void*, type: TClassRef,proxy: Local<Object>): ObjectProxy*
-	{static} +createObjectProxy(address: void*, type: TClassRef): ObjectProxy*
-	{static} +determineProxy(type: MetaInfo, TClassRef): ObjectProxy*
-	{static} -getClassNameFromType(char*): string
-	{static} -traverseClass(TClassRef, ObjectProxy)
+
+	{static} +createObjectProxy(global: TGlobal): ObjectProxy*
+	{static} +createObjectProxy(info: MetaInfo, scope: TClass*): ObjectProxy*
+	{static} +createObjectProxy(address: void*, type: TClass,proxy: Local<Object>): ObjectProxy*
+	{static} +createPrimitiveProxy(info: MetaInfo, clazz: TClass*): ObjectProxy*
+	{static} +initializeProxyMap();
+
+	{static} -createPropertyMap(info: MetaInfo, clazz: TClass*): map<string,ObjectProxy*>*
+	{static} -getClass(typeName: string): TClass*
+	{static} -getEnumConstant(typeName: string): TEnumConstant*
 }
 	
 class ObjectProxy {
   #proxy: Persistent<Object>
-	-currentMode: MetaInfo*
+	-boundMallocs: vector<void*>
   --
   +ObjectProxy(type: MetaInfo, scope: TClassRef) <<constructor>>
-  +getType(): TDataMember
 	+getTypeName(): char*
-	+getTypeInfo(): MetaInfo*
 	+getOffset(): Long_t
-  {abstract} +set(value: ObjectProxy)
-  {abstract} +get(): Local<Value>
+  +set(value: ObjectProxy)
+  +get(): Local<Value>
+  +setProxy(proxy: Local<Object>)
+	+getProxy(): Local<Object>
+	+setValue(value: Local<Value>)
 
-  {abstract} +setProxy(proxy: Local<Object>)
-  {abstract} +getProxy(): Local<Object>
+  +isPrimitive(): bool
+  +isTemplate(): bool
+  +isGlobal(): bool
+  +isConst(): bool
+  +isStatic(): bool
 
-  {abstract} +isPrimitive(): bool
+	+registerMallocedSpace(void*)
+	+getWeakPersistent(): Persistent<Object>
+	{static} -weakCallback(data: WeakCallbackData<Object, ObjectProxy>)
 }
 
 class BooleanProxy {
@@ -295,6 +316,7 @@ class StringProxy {
 
 class NumberProxy {
   --
+	-castToDouble(void*): Double_t
   +NumberProxy(type: TDataMember, scope: TClassRef) <<constructor>>
 	{static} +isNumber(type: string): bool
 	+get(): Local<Value>
@@ -322,101 +344,93 @@ class PrimitiveProxy {
   +isPrimitive(): bool
 }
 
-class ArrayProxy {
-  --
-  +ArrayProxy(type: TDataMember, scope: TClassRef) <<constructor>>
-}
-
-class PointerProxy {
---
-+PointerProxy(type: TDataMember, scope: TClassRef) <<constructor>>
-}
-
-class StructProxy {
---
-+StructProxy(type: TDataMember, scope: TClassRef) <<constructor>>
-}
-
-class EnumProxy {
---
-+EnumProxy(type: TDataMember, scope: TClassRef) <<constructor>>
-}
-
-class TemplateProxy {
---
-+TemplateProxy(type: TDataMember, scope: TClassRef) <<constructor>>
-}
-
 class MetaInfo {
   #baseAddress: void*
   --
   +MetaInfo(foo: TObject, baseAddress: void*) <<constructor>>
-  +isGlobal(): bool
-	+getOffset(): Long_t
+	+GetOffset(): Long_t
+	+isGlobal(): bool
 	+isConst(): bool
 	+isStatic(): bool
-	+getTypeName(): const char*
+	+getTypeName(): char*
+	+getName(): char*
 	+getBaseAddress(): void*
 	+getAddress(): void*
 	+clone(): MetaInfo*
 }
 
 class MemberInfo {
-	+currentObject: TDataMember
+	+type: TDataMember
 	--
 	+MemberInfo(foo: TDataMember, baseAddress: void*) <<constructor>>
+	+GetOffset(): Long_t
 	+isGlobal(): bool
-	+getOffset(): Long_t
 	+isConst(): bool
 	+isStatic(): bool
-	+getTypeName(): const char*
+	+getTypeName(): char*
+	+getName(): char*
 	+clone(): MetaInfo*
 }
 
 class GlobalInfo {
-	+currentObject: TGlobal
+	+type: TGlobal
 	--
 	+GlobalInfo(type: TGlobal) <<constructor>>
+	+GetOffset(): Long_t
 	+isGlobal(): bool
-	+getOffset(): Long_t
 	+isConst(): bool
 	+isStatic(): bool
-	+getTypeName(): const char*
+	+getTypeName(): char*
+	+getName(): char*
 	+clone(): MetaInfo*
 }
 
 class FunctionInfo {
-	#func: TFunction*
+	-type: TFunction
+	-mIsGlobal: bool
 	--
+	+GetOffset(): Long_t
 	+isGlobal(): bool
-	+getOffset(): Long_t
 	+isConst(): bool
 	+isStatic(): bool
 	+getTypeName(): const char*
+	+getName(): char*
 	+clone(): MetaInfo*
 }
 
 class PointerInfo {
 	#typeName: char*
+	#ptrDepth: int
+	#ptr: void**
+	#ptrptr: void***
 	--
 	+isGlobal(): bool
 	+getOffset(): Long_t
 	+isConst(): bool
 	+isStatic(): bool
-	+getTypeName(): const char*
+	+getTypeName(): char*
+	+getName(): char*
 	+clone(): MetaInfo*
 }
 
 class AsyncRunner {
 	-func: AsyncRunner*
 	-param: void*
-	-callback: Local<Function>
-	-result: vector<Local<Value>>
+	-callback: Persistent<Function, CopyablePersistentTraits<Function>>
+	-result: vector<ObjectProxy>
 	--
-	+AsyncRunner(func: AsyncFunction*, param: void*, callback: Local<Function>) <<constructor>>
-	{static} +run()
+	+AsyncRunner(func: AsyncFunction*, param: void*, callback: Persistent<Function, CopyablePersistentTraits<Function>>) <<constructor>>
+	+run()
 	{static} +uvRunner(req: uv_work_t*)
 	{static} +uvCallback(req: uv_work_t*, status: int)
+	+setResult(result: vector<ObjectProxy>)
+}
+
+class ClassExposer {
+	--
+	-ClassExposer() <<constructor>>
+	{static} +expose(clazz: TClass*, object: Local<Object>)
+	{static} +splitClassName(name: string, vec: vector<string>): vector<string>
 }
 
 @enduml
