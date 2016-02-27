@@ -35,6 +35,7 @@ class ObjectProxyFactory
 class ObjectProxy
 
 class EnumConstProxy
+class PointerProxy
 class VoidPointerProxy
 
 abstract class PrimitiveProxy
@@ -80,6 +81,8 @@ Proxy <|-left- FunctionProxy
 FunctionProxyFactory .down.> FunctionProxy : creates
 ObjectProxyFactory .down.> ObjectProxy : creates
 
+ObjectProxy <|-- EnumProxy
+ObjectProxy <|-- PointerProxy
 ObjectProxy <|-- PrimitiveProxy
 PrimitiveProxy <|-- NumberProxy
 PrimitiveProxy <|-- StringProxy
